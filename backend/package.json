@@ -1,9 +1,11 @@
 {
-  "name": "api",
+  "name": "potty-pal",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon ./bin/www.js",
+    "start:test": "MONGODB_URL='mongodb://0.0.0.0/potty-pal-test' npm start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -34,5 +36,8 @@
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0"
+  },
+  "nodemonConfig": {
+    "ext": "js,hbs"
   }
 }
