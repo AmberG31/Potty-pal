@@ -6,14 +6,11 @@ beforeAll(async () => {
     useUnifiedTopology: true,
   });
 
-  afterAll(async () => {
-    await mongoose.connection.close(true);
-  });
+  const db = mongoose.connection;
+  db.on("error", console.error.bind(console, "MongoDB connection error:"));
+  db.on("open", function () {});
+});
 
-  beforeEach(async () => {
-    mongoose.connection.on(
-      "error",
-      console.error.bind(console, "MongoDB connection error:")
-    );
-  });
+afterAll(async () => {
+  await mongoose.connection.close(true);
 });
