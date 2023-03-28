@@ -1,7 +1,7 @@
 #### Install backend packages
 
 ```
-cd ../api
+cd ../backend
 npm install
 ```
 
