@@ -1,14 +1,26 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-mongoose.set("useFindAndModify", false);
+// mongoose.set("findOneAndUpdate", false);
 
-const ToiletSchema = new mongoose.Schema({
-  name: { type: string, unique: true },
-  accessible: { type: boolean },
-  babyChanging: { type: boolean };
-  price: { type: double },
-  addedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", immutable: true },
-}, { timestamps: true })
+const ToiletSchema = new mongoose.Schema(
+  {
+    name: { type: String, unique: true },
+    accessible: { type: Boolean },
+    babyChanging: { type: Boolean },
+    price: { type: mongoose.Decimal128 },
+    addedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      immutable: true,
+    },
+    address: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Address",
+    },
+    reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
+  },
+  { timestamps: true }
+);
 
 const Toilet = mongoose.model("Toilet", ToiletSchema);
 
