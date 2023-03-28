@@ -26,4 +26,14 @@ const getAllToilets = async (req, res) => {
   }
 };
 
-module.exports = { getAllToilets };
+const addNewToilet = async (req, res) => {
+  try {
+    const toilet = new Toilet(req.body);
+    await toilet.save();
+    res.status(201).json({ message: "OK" });
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports = { getAllToilets, addNewToilet };

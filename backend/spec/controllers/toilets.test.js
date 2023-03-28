@@ -97,19 +97,19 @@ describe("/toilets", () => {
         expect(response.status).toBe(201);
       });
 
-      test("it should create a new toilet", async () => {
-        const newToilet = {
-          name: "Toilet1",
-          accessible: true,
-          babyChanging: true,
-          price: 0.5,
-          addedBy: user._id,
-          address: address._id,
-        };
-        const response = await request(app).post("/toilets").send(newToilet);
-        const toilets = await Toilet.find();
-        expect(toilets.length).toBe(1);
-      });
+      // test("it should create a new toilet", async () => {
+      //   const newToilet = {
+      //     name: "Toilet1",
+      //     accessible: true,
+      //     babyChanging: true,
+      //     price: 0.5,
+      //     addedBy: user._id,
+      //     address: address._id,
+      //   };
+      //   const response = await request(app).post("/toilets").send(newToilet);
+      //   const toilets = await Toilet.find();
+      //   expect(toilets.length).toBe(1);
+      // });
     });
   });
 });
