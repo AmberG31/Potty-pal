@@ -2,6 +2,7 @@ const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
 const logger = require("morgan");
+const toiletRouter = require("./routes/toilets");
 
 // const postsRouter = require("./routes/posts");
 // const tokensRouter = require("./routes/tokens");
@@ -22,6 +23,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // app.use("/tokens", tokensRouter);
 // app.use("/users", usersRouter);
 // app.use("/images", tokenChecker, imagesRouter);
+app.use("/toilets", toiletRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
