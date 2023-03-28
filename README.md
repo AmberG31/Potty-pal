@@ -16,5 +16,5 @@ npm install
 
 ```
 cd ../frontend
-npm start
+npm run start
 ```
