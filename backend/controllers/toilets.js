@@ -28,7 +28,16 @@ const getAllToilets = async (req, res) => {
 
 const addNewToilet = async (req, res) => {
   try {
-    const toilet = new Toilet(req.body);
+    const { name, accessible, babyChanging, price, address, addedBy } =
+      req.body;
+    const toilet = await new Toilet({
+      name: name,
+      accessible: accessible,
+      babyChanging: babyChanging,
+      price: price,
+      address: address,
+      addedBy: addedBy,
+    });
     await toilet.save();
     res.status(201).json({ message: "OK" });
   } catch (error) {
