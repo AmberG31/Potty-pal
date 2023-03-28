@@ -3,6 +3,7 @@ const express = require("express");
 const path = require("path");
 const logger = require("morgan");
 
+const toiletRouter = require("./routes/toilets");
 // const postsRouter = require("./routes/posts");
 // const tokensRouter = require("./routes/tokens");
 // const usersRouter = require("./routes/users");
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 // route setup
+app.use("/toilets", toiletRouter);
 // app.use("/posts", tokenChecker, postsRouter);
 // app.use("/tokens", tokensRouter);
 // app.use("/users", usersRouter);
