@@ -2,6 +2,7 @@ const Toilet = require("../models/toilet");
 const Address = require("../models/address");
 const User = require("../models/user");
 const Review = require("../models/review");
+const generateToken = require("../models/tokenGenerator");
 
 const getAllToilets = async (req, res) => {
   try {
@@ -20,9 +21,11 @@ const getAllToilets = async (req, res) => {
           },
         },
       ]);
-    res.status(200).json({ message: "OK", toilets });
+    const token = await generateToken(req.userId);
+
+    res.status(200).json({ toilets, token });
   } catch (error) {
-    throw error;
+    res.status(500).json({ error_message: error.message });
   }
 };
 
@@ -39,9 +42,12 @@ const addNewToilet = async (req, res) => {
       addedBy: addedBy,
     });
     await toilet.save();
-    res.status(201).json({ message: "OK" });
+
+    // Generate a new token
+    const token = await generateToken(req.userId);
+    res.status(201).json({ message: "OK", token });
   } catch (error) {
-    throw error;
+    res.status(500).json({ error_message: error.message });
   }
 };
 
