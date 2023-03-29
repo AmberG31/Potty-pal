@@ -1,60 +1,37 @@
-import React, { useState, useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { redirect } from "react-router-dom";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const LoginForm = ({ navigate }) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const { setToken, setUser } = useContext(AuthContext);
+const LoginForm = () => {
+  const usernameRef = useRef();
+  const passwordRef = useRef();
+  const { tokenHandler } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const response = await fetch("/tokens", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username, password }),
-    });
-
-    const data = await response.json();
-
-    if (response.ok) {
-      window.localStorage.setItem("token", data.token);
-      setToken(data.token);
-      setUser(data.user);
+    try {
+      const response = await axios.post("/tokens", {
+        username: usernameRef.current.value,
+        password: passwordRef.current.value,
+      });
+      tokenHandler(response.data.token);
       navigate("/");
-    } else {
-      throw new Error(data.message);
+    } catch (error) {
+      console.log(error.response.data.message);
+      usernameRef.current.value = "";
+      passwordRef.current.value = "";
     }
-  };
-
-  const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
   };
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
         <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          name="username"
-          id="username"
-          onChange={handleUsernameChange}
-        />
+        <input type="text" id="username" ref={usernameRef} required />
         <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          onChange={handlePasswordChange}
-        />
+        <input type="password" id="password" ref={passwordRef} required />
         <button
           className="w-full rounded-lg bg-blue-600 p-2 text-sm font-bold text-white transition-all hover:bg-blue-500 disabled:bg-gray-500"
           type="submit"
