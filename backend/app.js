@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 // route setup
-app.use("/toilets", toiletRouter, tokenChecker);
+app.use("/toilets", tokenChecker, toiletRouter);
 app.use("/tokens", tokensRouter);
 app.use("/users", usersRouter);
 app.use("/toilets", toiletRouter);
