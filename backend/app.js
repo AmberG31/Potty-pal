@@ -22,7 +22,6 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/toilets", tokenChecker, toiletRouter);
 app.use("/tokens", tokensRouter);
 app.use("/users", usersRouter);
-app.use("/toilets", toiletRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
