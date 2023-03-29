@@ -1,3 +1,4 @@
+require("dotenv").config();
 require("../mongodb_helper");
 const request = require("supertest");
 const bcrypt = require("bcryptjs");
@@ -38,6 +39,7 @@ describe("/toilet/review", () => {
       author: user.id,
     });
     await toilet.save();
+    token = generateBackdatedToken(user.id);
   });
 
   beforeEach(async () => {
@@ -50,9 +52,6 @@ describe("/toilet/review", () => {
   });
 
   describe("POST, when token is present", () => {
-    beforeEach(() => {
-      token = generateBackdatedToken(user.id);
-    });
     test("responds with a 201", async () => {
       const response = await request(app)
         .post(`/toilets/${toilet.id}/review`)
@@ -80,7 +79,7 @@ describe("/toilet/review", () => {
         process.env.JWT_SECRET
       );
       const originalPayload = jwt.decode(token, process.env.JWT_SECRET);
-      expect(newPayload.iat > originalPayload.iat).toEqual(true);
+      expect(newPayload.exp > originalPayload.exp).toEqual(true);
     });
   });
 
