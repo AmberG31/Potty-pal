@@ -1,4 +1,3 @@
-const jwt = require("jsonwebtoken");
 const Toilet = require("../models/toilet");
 const Address = require("../models/address");
 const User = require("../models/user");
