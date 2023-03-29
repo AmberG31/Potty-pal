@@ -2,13 +2,16 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/user");
 const generateToken = require("../models/tokenGenerator");
 
+// allow user to login with email or password
 const login = async (req, res) => {
-  const { username, password } = req.body;
+  const { username, email, password } = req.body;
 
-  const user = await User.findOne({ username }).lean();
+  const user = await User.findOne({ $or: [{ email }, { username }] }).lean();
 
   if (!user) {
-    return res.status(401).json({ message: "No account with this username" });
+    return res
+      .status(401)
+      .json({ message: "No account with this username or email" });
   }
 
   const passwordIsMatch = bcrypt.compareSync(password, user.password);
