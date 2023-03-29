@@ -28,14 +28,13 @@ const createUser = async (req, res) => {
 
     res.status(201).json({ user, token });
   } catch (err) {
-    res.status(400).json({ error_message: err.message });
+    res.status(400).json({ message: err.message });
   }
 };
 
 // Returns the details for the logged in user
 const getUser = async (req, res) => {
   try {
-    const { userId } = req.params;
     const user = await User.findOne(
       { _id: req.userId },
       // Remove the password and __v from the user object so it's not sent to the client
@@ -44,7 +43,7 @@ const getUser = async (req, res) => {
     const token = generateToken(user._id);
     res.status(200).json({ user, token });
   } catch (err) {
-    res.status(400).json({ error_message: err.message });
+    res.status(400).json({ message: err.message });
   }
 };
 
