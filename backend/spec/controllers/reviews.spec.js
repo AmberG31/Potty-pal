@@ -105,4 +105,104 @@ describe("/toilet/review", () => {
       expect(response.body.token).toEqual(undefined);
     });
   });
+
+  describe("GET, when token is present", () => {
+    beforeEach(async () => {
+      const review1 = new Review({
+        clean: "3",
+        content: "No toilet paper",
+        toiletId: toilet.id,
+        author: user.id,
+      });
+      const review2 = new Review({
+        clean: "5",
+        content: "Spotless",
+        toiletId: toilet.id,
+        author: user.id,
+      });
+      await review1.save();
+      await review2.save();
+    });
+
+    afterEach(async () => {
+      await Review.deleteMany({});
+    });
+
+    test("returns every review for a toilet", async () => {
+      const response = await request(app)
+        .get(`/toilets/${toilet.id}/review`)
+        .query({ toiletId: toilet.id })
+        .set("Authorization", `Bearer ${token}`)
+        .send({ token });
+      const reviews = response.body.reviews.map((review) => review.clean);
+      expect(reviews).toEqual([3, 5]);
+    });
+
+    test("the response code is 200", async () => {
+      const response = await request(app)
+        .get(`/toilets/${toilet.id}/review`)
+        .query({ toiletId: toilet.id })
+        .set("Authorization", `Bearer ${token}`)
+        .send({ token });
+      expect(response.status).toEqual(200);
+    });
+
+    test("returns a new token", async () => {
+      const response = await request(app)
+        .get(`/toilets/${toilet.id}/review`)
+        .query({ toiletId: toilet.id })
+        .set("Authorization", `Bearer ${token}`)
+        .send({ token });
+      const newPayload = jwt.decode(
+        response.body.token,
+        process.env.JWT_SECRET
+      );
+      const originalPayload = jwt.decode(token, process.env.JWT_SECRET);
+      expect(newPayload.exp > originalPayload.exp).toEqual(true);
+    });
+  });
+
+  describe("GET, when token is missing", () => {
+    beforeEach(async () => {
+      const review1 = new Review({
+        clean: "3",
+        content: "No toilet paper",
+        toiletId: toilet.id,
+        author: user.id,
+      });
+      const review2 = new Review({
+        clean: "5",
+        content: "Spotless",
+        toiletId: toilet.id,
+        author: user.id,
+      });
+      await review1.save();
+      await review2.save();
+    });
+
+    afterEach(async () => {
+      await Review.deleteMany({});
+    });
+
+    afterAll(async () => {
+      await Toilet.deleteMany({});
+      await User.deleteMany({});
+      await Review.deleteMany({});
+    });
+
+    test("returns no reviews", async () => {
+      const response = await request(app).get(`/toilets/${toilet.id}/review`);
+      expect(response.body.reviews).toEqual(undefined);
+    });
+
+    test("the response code is 401", async () => {
+      const response = await request(app).get(`/toilets/${toilet.id}/review`);
+      expect(response.status).toEqual(401);
+    });
+
+    test("does not return a new token", async () => {
+      const response = await request(app).get(`/toilets/${toilet.id}/review`);
+      expect(response.body.token).toEqual(undefined);
+    });
+  });
 });
