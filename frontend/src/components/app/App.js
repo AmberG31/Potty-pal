@@ -1,18 +1,16 @@
-import React, { useContext } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import React from "react";
+import { Route, Routes } from "react-router-dom";
 
-import ToiletList from "../toiletList/ToiletList";
-import SignUpForm from "../signUpForm/SignUpForm";
-import LoginForm from "../loginForm/LoginForm";
-import { AuthContext } from "../../context/AuthContext";
+import Signup from "../../pages/SignUpPage";
+import LoginPage from "../../pages/LoginPage";
+import Home from "../../pages/Home";
 
 const App = () => {
-  const { token } = useContext(AuthContext);
   return (
     <Routes>
-      <Route path="/login" element={<LoginForm navigate={useNavigate()} />} />
-      <Route path="/signup" element={<SignUpForm navigate={useNavigate()} />} />
-      <Route path="/" element={<ToiletList />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/" element={<Home />} />
     </Routes>
   );
 };
