@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 
-mongoose.set("useFindAndModify", false);
+// mongoose.set("useFindAndModify", false);
 
 const ReviewSchema = new mongoose.Schema(
   {
-    clean: { type: integer },
-    content: { type: string },
+    clean: { type: Number },
+    content: { type: String },
     toiletId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Toilet",
