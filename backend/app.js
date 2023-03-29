@@ -6,11 +6,13 @@ const toiletRouter = require("./routes/toilets");
 const tokenChecker = require("./middleware/tokenChecker");
 const tokensRouter = require("./routes/tokens");
 const usersRouter = require("./routes/users");
+const cors = require("cors");
 
 const app = express();
 
 // setup for receiving JSON
 app.use(express.json());
+app.use(cors());
 
 app.use(logger("dev"));
 app.use(express.json());
