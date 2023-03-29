@@ -28,7 +28,7 @@ const createUser = async (req, res) => {
 
     res.status(201).json({ user, token });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(400).json({ error_message: err.message });
   }
 };
 
@@ -44,7 +44,7 @@ const getUser = async (req, res) => {
     const token = generateToken(user._id);
     res.status(200).json({ user, token });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(400).json({ error_message: err.message });
   }
 };
 
