@@ -1,13 +1,17 @@
 import React from "react";
 import { timeCalculator } from "../utils/timeCalculator";
 
-const Review = ({ _id, clean, content, author, createdAt, updatedAt }) => {
+const Review = ({ _id, clean, content, author, createdAt }) => {
   return (
-    <div className="flex items-center justify-between gap-6 p-4 px-8 border rounded-md">
+    <div
+      className="flex items-center justify-between gap-6 p-4 px-8 border rounded-md"
+      data-cy="review"
+    >
       <div className="flex gap-6 items-center">
         {/* Fake user image */}
         <div className="rounded-full border w-20 overflow-hidden">
           <img
+            data-cy="profilepic"
             src={`https://robohash.org/${_id}`}
             alt=""
             className="object-cover"
@@ -16,15 +20,21 @@ const Review = ({ _id, clean, content, author, createdAt, updatedAt }) => {
         {/* Contents */}
         <div>
           <div className="flex gap-3">
-            <span className="font-bold capitalize">{author.username}</span>
-            <span className="opacity-50">{timeCalculator(createdAt)}</span>
+            <span className="font-bold capitalize" data-cy="username">
+              {author.username}
+            </span>
+            <span className="opacity-50" data-cy="createdAt">
+              {timeCalculator(createdAt)}
+            </span>
           </div>
-          <div className="text-lg mt-2">{content}</div>
+          <div className="text-lg mt-2" data-cy="content">
+            {content}
+          </div>
         </div>
       </div>
       {/* Rating */}
       <div>
-        <p>cleanliness: {clean}</p>
+        <p data-cy="cleanliness">cleanliness: {clean}</p>
       </div>
     </div>
   );
