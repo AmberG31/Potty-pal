@@ -2,34 +2,7 @@ import React, { useState } from "react";
 import Review from "./Review";
 import AddReviewModal from "./AddReviewModal";
 
-const fakeReviews = [
-  {
-    _id: "1",
-    clean: 3,
-    content: "This is the 1st test review.",
-    author: {
-      _id: "1",
-      username: "terryhycheng",
-      email: "terryhycheng@gmail.com",
-    },
-    createdAt: "2023-03-28T13:35:02.576Z",
-    updatedAt: "2023-03-28T13:35:02.576Z",
-  },
-  {
-    _id: "2",
-    clean: 2,
-    content: "This is the 2nd test review.",
-    author: {
-      _id: "1",
-      username: "terryhycheng",
-      email: "terryhycheng@gmail.com",
-    },
-    createdAt: "2023-03-28T13:35:02.576Z",
-    updatedAt: "2023-03-28T13:35:02.576Z",
-  },
-];
-
-const ReviewList = () => {
+const ReviewList = ({ reviews }) => {
   const [isModal, setIsModal] = useState(false);
   return (
     <>
@@ -44,7 +17,7 @@ const ReviewList = () => {
         </button>
       </div>
       <div className="flex flex-col gap-4">
-        {fakeReviews.map((review) => (
+        {reviews.map((review) => (
           <Review key={review._id} {...review} />
         ))}
       </div>
