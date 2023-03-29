@@ -1,26 +1,40 @@
-import React, { useRef } from "react";
-
-const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDI0NGE4MmRmZDA3YmVhMTZmYWFjYTAiLCJpYXQiOjE2ODAxMDA2OTgsImV4cCI6MTY4MDEwNDI5OH0.us6-Y5KvQGWi_NfAEhLVj3cSZ3NOeHA901AJGj6Hg8c";
+import React, { useRef, useState } from "react";
 
 const AddReviewModal = ({ setIsModal }) => {
   const contentRef = useRef();
   const cleanlinessRef = useRef();
+  const [isInvalid, setIsInvalid] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const validInputChecker = ({ content, clean }) => {
+    const isValid = content !== "" && clean !== "";
+    if (!isValid) {
+      setMessage(
+        content === "" ? "Please write a review" : "Please select rating"
+      );
+      setIsInvalid(true);
+    }
+    return isValid;
+  };
 
   const submitHandler = async (event) => {
     event.preventDefault();
+    setIsInvalid(false);
     const body = {
       content: contentRef.current.value,
       clean: cleanlinessRef.current.value,
     };
+    if (!validInputChecker(body)) {
+      return;
+    }
     try {
-      const response = await fetch(
+      await fetch(
         `http://localhost:8080/toilets/64244d5a0a270cf092bc2890/review`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
           },
           body: JSON.stringify(body),
         }
@@ -50,7 +64,7 @@ const AddReviewModal = ({ setIsModal }) => {
         />
         <div>
           <h3 className="text-2xl font-bold my-2">Rating</h3>
-          <label htmlFor="cleanliness">Cleanliness:</label>
+          <label htmlFor="cleanliness">Cleanliness : </label>
           <select
             id="cleanliness"
             ref={cleanlinessRef}
@@ -58,7 +72,7 @@ const AddReviewModal = ({ setIsModal }) => {
             className="border p-1"
           >
             <option value="" disabled>
-              Please rate
+              Select rate
             </option>
             <option value="1">1</option>
             <option value="2">2</option>
@@ -71,6 +85,11 @@ const AddReviewModal = ({ setIsModal }) => {
             5-Exellent
           </p>
         </div>
+        {isInvalid && (
+          <p className="border-red-300 border bg-red-200 rounded-lg p-4 text-red-600">
+            {message}
+          </p>
+        )}
         <div className="flex flex-col gap-2">
           <button type="submit" className="border border-slate-500 p-2">
             Submit
