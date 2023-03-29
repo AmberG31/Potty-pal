@@ -6,10 +6,9 @@ const getAllReviews = async (req, res) => {
   try {
     const { toiletId } = req.params;
 
-    const reviews = await Review.find({ toiletId }).populate(
-      "User",
-      "username email"
-    );
+    const reviews = await Review.find({ toiletId }).populate([
+      { path: "author", model: "User", select: "username" },
+    ]);
 
     const token = await generateToken(req.userId);
 
@@ -21,12 +20,13 @@ const getAllReviews = async (req, res) => {
     const toiletReviews = reviews.map((review) => {
       return {
         id: review.id,
+        clean: review.clean,
         content: review.content,
         author: review.author,
         createdAt: review.createdAt,
       };
     });
-    return res.status(200).json({ toiletReviews, token });
+    return res.status(200).json({ reviews: toiletReviews, token });
   } catch (error) {
     return res.status(500).json({ error });
   }
@@ -46,7 +46,7 @@ const addReview = async (req, res) => {
     const review = new Review(req.body);
     // userId should come from middleweare but not from the body
     review.toiletId = toiletId;
-    review.author = req.body.userId;
+    review.author = req.userId;
     await review.save();
     return res.status(201).json({ message: "Successfully created", token });
   } catch (error) {
