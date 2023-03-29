@@ -1,7 +1,8 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { redirect } from "react-router-dom";
 
-const LoginForm = ({ redirect }) => {
+const LoginForm = ({ navigate }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { setToken, setUser } = useContext(AuthContext);
@@ -23,6 +24,7 @@ const LoginForm = ({ redirect }) => {
       window.localStorage.setItem("token", data.token);
       setToken(data.token);
       setUser(data.user);
+      navigate("/");
     } else {
       throw new Error(data.message);
     }
@@ -54,7 +56,7 @@ const LoginForm = ({ redirect }) => {
           onChange={handlePasswordChange}
         />
         <button
-          className="bg-blue-600 text-white hover:bg-blue-500 w-full rounded-lg p-2 text-sm font-bold transition-all disabled:bg-gray-500"
+          className="w-full rounded-lg bg-blue-600 p-2 text-sm font-bold text-white transition-all hover:bg-blue-500 disabled:bg-gray-500"
           type="submit"
         >
           Login
