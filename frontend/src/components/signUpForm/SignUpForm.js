@@ -1,7 +1,8 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { redirect } from "react-router-dom";
 
-const SignUpForm = ({ redirect }) => {
+const SignUpForm = ({ navigate }) => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -15,7 +16,7 @@ const SignUpForm = ({ redirect }) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ email, username, password }),
     });
 
     const data = await response.json();
@@ -24,24 +25,23 @@ const SignUpForm = ({ redirect }) => {
       window.localStorage.setItem("token", data.token);
       setToken(data.token);
       setUser(data.user);
+      navigate("/");
     } else {
+      navigate("/signup");
       throw new Error(data.message);
     }
   };
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
-    console.log(username);
   };
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
-    console.log(email);
   };
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
-    console.log(password);
   };
 
   return (
@@ -69,7 +69,7 @@ const SignUpForm = ({ redirect }) => {
           onChange={handlePasswordChange}
         />
         <button
-          className="bg-blue-600 text-white hover:bg-blue-500 w-full rounded-lg p-2 text-sm font-bold transition-all disabled:bg-gray-500"
+          className="w-full rounded-lg bg-blue-600 p-2 text-sm font-bold text-white transition-all hover:bg-blue-500 disabled:bg-gray-500"
           type="submit"
           id="submit-signup"
         >
