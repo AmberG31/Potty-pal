@@ -1,17 +1,36 @@
 import React, { useRef } from "react";
 
+const token =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDI0NGE4MmRmZDA3YmVhMTZmYWFjYTAiLCJpYXQiOjE2ODAxMDA2OTgsImV4cCI6MTY4MDEwNDI5OH0.us6-Y5KvQGWi_NfAEhLVj3cSZ3NOeHA901AJGj6Hg8c";
+
 const AddReviewModal = ({ setIsModal }) => {
   const contentRef = useRef();
   const cleanlinessRef = useRef();
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
-    console.log({
+    const body = {
       content: contentRef.current.value,
-      cleanliness: cleanlinessRef.current.value,
-    });
-    contentRef.current.value = "";
-    cleanlinessRef.current.value = "";
+      clean: cleanlinessRef.current.value,
+    };
+    try {
+      const response = await fetch(
+        `http://localhost:8080/toilets/64244d5a0a270cf092bc2890/review`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(body),
+        }
+      );
+      contentRef.current.value = "";
+      cleanlinessRef.current.value = "";
+      setIsModal(false);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (

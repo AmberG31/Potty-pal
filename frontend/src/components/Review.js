@@ -1,7 +1,7 @@
 import React from "react";
 import { timeCalculator } from "../utils/timeCalculator";
 
-const Review = ({ _id, clean, content, author, createdAt }) => {
+const Review = ({ clean, content, author, createdAt }) => {
   return (
     <div
       className="flex items-center justify-between gap-6 p-4 px-8 border rounded-md"
@@ -12,7 +12,7 @@ const Review = ({ _id, clean, content, author, createdAt }) => {
         <div className="rounded-full border w-20 overflow-hidden">
           <img
             data-cy="profilepic"
-            src={`https://robohash.org/${_id}`}
+            src={`https://robohash.org/${author.id}`}
             alt=""
             className="object-cover"
           />

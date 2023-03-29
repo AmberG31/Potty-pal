@@ -18,7 +18,7 @@ const ReviewList = ({ reviews }) => {
       </div>
       <div className="flex flex-col gap-4">
         {reviews.map((review) => (
-          <Review key={review._id} {...review} />
+          <Review key={review.id} {...review} />
         ))}
       </div>
     </>
