@@ -1,19 +1,19 @@
-import React from "react";
-import { BrowserRouter, Route, Routes, redirect } from "react-router-dom";
+import React, { useContext } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
 
 import ToiletList from "../toiletList/ToiletList";
 import SignUpForm from "../signUpForm/SignUpForm";
 import LoginForm from "../loginForm/LoginForm";
+import { AuthContext } from "../../context/AuthContext";
 
 const App = () => {
+  const { token } = useContext(AuthContext);
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/login" element={<LoginForm />} redirect={redirect} />
-        <Route path="/signup" element={<SignUpForm />} redirect={redirect} />
-        <Route path="/" element={<ToiletList />} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/login" element={<LoginForm navigate={useNavigate()} />} />
+      <Route path="/signup" element={<SignUpForm navigate={useNavigate()} />} />
+      <Route path="/" element={<ToiletList />} />
+    </Routes>
   );
 };
 
