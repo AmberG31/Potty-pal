@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+// import ToiletList from "../toiletList/ToiletList";
+
 const Home = () => {
   return (
     <div>
@@ -9,6 +11,7 @@ const Home = () => {
         <div className="border p-2 text-center my-3">Toilet page</div>
       </Link>
       <hr />
+      {/* <ToiletList /> */}
     </div>
   );
 };

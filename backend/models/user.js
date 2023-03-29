@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-mongoose.set("useFindAndModify", false);
+// mongoose.set("useFindAndModify", false);
 
 const UserSchema = new mongoose.Schema({
   username: { type: String, unique: true, required: true },

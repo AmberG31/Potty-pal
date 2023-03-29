@@ -3,8 +3,10 @@ const request = require("supertest");
 const app = require("../../app");
 const Review = require("../../models/review");
 const Toilet = require("../../models/toilet");
+const User = require("../../models/user");
 
 let toilet;
+let user;
 
 describe("/toilet/review", () => {
   beforeAll(async () => {
@@ -23,4 +25,6 @@ describe("/toilet/review", () => {
     await Toilet.deleteMany({});
     await Review.deleteMany({});
   });
+
+  it("should pass", async () => {});
 });

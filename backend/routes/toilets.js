@@ -1,14 +1,13 @@
 const express = require("express");
 
-const toiletRouter = express.Router();
+const router = express.Router();
 
+const { getAllToilets, addNewToilet } = require("../controllers/toilets");
 const { getAllReviews, addReview } = require("../controllers/reviewController");
 
-// http://localhost:8080/toilets/:toiletId/review
+router.get("/", getAllToilets);
+router.post("/", addNewToilet);
+router.get("/:toiletId/review", getAllReviews);
+router.post("/:toiletId/review", addReview);
 
-// http://localhost:8080/toilets/32/reviews
-
-toiletRouter.get("/:toiletId/review", getAllReviews);
-toiletRouter.post("/:toiletId/review", addReview);
-
-module.exports = toiletRouter;
+module.exports = router;

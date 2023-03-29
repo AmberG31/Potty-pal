@@ -3,11 +3,9 @@ const express = require("express");
 const path = require("path");
 const logger = require("morgan");
 const toiletRouter = require("./routes/toilets");
-
-// const postsRouter = require("./routes/posts");
-// const tokensRouter = require("./routes/tokens");
-// const usersRouter = require("./routes/users");
-// const imagesRouter = require("./routes/images");
+const tokenChecker = require("./middleware/tokenChecker");
+const tokensRouter = require("./routes/tokens");
+const usersRouter = require("./routes/users");
 
 const app = express();
 
@@ -19,10 +17,9 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 // route setup
-// app.use("/posts", tokenChecker, postsRouter);
-// app.use("/tokens", tokensRouter);
-// app.use("/users", usersRouter);
-// app.use("/images", tokenChecker, imagesRouter);
+app.use("/toilets", toiletRouter, tokenChecker);
+app.use("/tokens", tokensRouter);
+app.use("/users", usersRouter);
 app.use("/toilets", toiletRouter);
 
 // catch 404 and forward to error handler
