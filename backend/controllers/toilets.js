@@ -1,10 +1,6 @@
-const jwt = require("jsonwebtoken");
 const Toilet = require("../models/toilet");
 const Address = require("../models/address");
-const User = require("../models/user");
-const Review = require("../models/review");
 const generateToken = require("../models/tokenGenerator");
-const tokenChecker = require("../middleware/tokenChecker");
 
 const getAllToilets = async (req, res) => {
   try {
@@ -35,13 +31,14 @@ const getAllToilets = async (req, res) => {
 const addNewToilet = async (req, res) => {
   try {
     const { name, accessible, babyChanging, price, address } = req.body;
+    const addressRecord = await Address.create(address);
     const userId = req.userId;
     const toilet = await new Toilet({
       name,
       accessible,
       babyChanging,
       price,
-      address,
+      address: addressRecord.id,
       addedBy: userId,
     });
     toilet.addedBy = userId;
