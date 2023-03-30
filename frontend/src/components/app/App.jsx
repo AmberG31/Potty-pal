@@ -8,6 +8,7 @@ import ToiletPage from '../../pages/ToiletPage';
 import ModalList from '../ModalList';
 
 import { AuthContext } from '../../context/AuthContext';
+import MapPage from '../../pages/MapPage';
 
 function App() {
   const { token } = useContext(AuthContext);
@@ -23,6 +24,7 @@ function App() {
           path="/signup"
           element={token ? <Navigate to="/" /> : <Signup />}
         />
+        <Route path="/map" element={<MapPage />} />
         <Route path="/" element={token ? <Home /> : <Navigate to="/login" />} />
         <Route path="/toilets/:id" element={<ToiletPage />} />
       </Routes>
