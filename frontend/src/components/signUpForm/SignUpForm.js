@@ -32,9 +32,22 @@ const SignUpForm = () => {
     <div>
       <form onSubmit={handleSubmit}>
         <label htmlFor="email">Email</label>
-        <input type="email" name="email" id="email" ref={emailRef} required />
+        <input
+          type="email"
+          name="email"
+          id="email"
+          ref={emailRef}
+          autocomplete
+          required
+        />
         <label htmlFor="username">Username</label>
-        <input type="text" id="username" ref={usernameRef} required />
+        <input
+          type="text"
+          id="username"
+          ref={usernameRef}
+          autocomplete
+          required
+        />
         <label htmlFor="password">Password</label>
         <input type="password" id="password" ref={passwordRef} required />
         <button

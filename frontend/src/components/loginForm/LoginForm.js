@@ -29,9 +29,21 @@ const LoginForm = () => {
     <div>
       <form onSubmit={handleSubmit}>
         <label htmlFor="username">Username</label>
-        <input type="text" id="username" ref={usernameRef} required />
+        <input
+          type="text"
+          id="username"
+          ref={usernameRef}
+          autocomplete
+          required
+        />
         <label htmlFor="password">Password</label>
-        <input type="password" id="password" ref={passwordRef} required />
+        <input
+          type="password"
+          id="password"
+          ref={passwordRef}
+          autocomplete
+          required
+        />
         <button
           className="w-full rounded-lg bg-blue-600 p-2 text-sm font-bold text-white transition-all hover:bg-blue-500 disabled:bg-gray-500"
           type="submit"
