@@ -24,7 +24,7 @@ const getAllToilets = async (req, res) => {
       ]);
     const newToken = await generateToken(req.userId);
 
-    res.status(200).json({ toilets, newToken });
+    res.status(200).json({ toilets, token: newToken });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
