@@ -1,10 +1,12 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
+import { ModalContext } from "../context/ModalContext";
 
-const AddReviewModal = ({ setIsModal }) => {
+const AddReviewModal = ({ setIsModal, refresh, setRefresh }) => {
   const contentRef = useRef();
   const cleanlinessRef = useRef();
   const [isInvalid, setIsInvalid] = useState(false);
   const [message, setMessage] = useState("");
+  const { pushModal } = useContext(ModalContext);
 
   const validInputChecker = ({ content, clean }) => {
     const isValid = content !== "" && clean !== "";
@@ -28,7 +30,7 @@ const AddReviewModal = ({ setIsModal }) => {
       return;
     }
     try {
-      await fetch(
+      const response = await fetch(
         `http://localhost:8080/toilets/64244d5a0a270cf092bc2890/review`,
         {
           method: "POST",
@@ -39,6 +41,12 @@ const AddReviewModal = ({ setIsModal }) => {
           body: JSON.stringify(body),
         }
       );
+      const data = await response.json();
+      setRefresh(!refresh);
+      pushModal({
+        message: data.message,
+        type: "success",
+      });
       contentRef.current.value = "";
       cleanlinessRef.current.value = "";
       setIsModal(false);
@@ -50,20 +58,20 @@ const AddReviewModal = ({ setIsModal }) => {
   return (
     <div
       data-cy="reviewModal"
-      className="fixed top-0 left-0 bg-black bg-opacity-50 h-[100vh] w-full flex  justify-center items-center z-10"
+      className="fixed left-0 top-0 z-10 flex h-[100vh] w-full items-center  justify-center bg-black bg-opacity-50"
     >
       <form
         onSubmit={submitHandler}
-        className="flex flex-col gap-6 border-2 p-8 mx-2 bg-white w-full xl:w-[40vw] lg:min-h-[40vh] justify-between"
+        className="mx-2 flex w-full flex-col justify-between gap-6 border-2 bg-white p-8 lg:min-h-[40vh] xl:w-[40vw]"
       >
-        <h2 className="text-3xl font-bold my-2">Add a review</h2>
+        <h2 className="my-2 text-3xl font-bold">Add a review</h2>
         <textarea
           ref={contentRef}
-          className="border p-2 flex-1"
+          className="flex-1 border p-2"
           placeholder="leave a review"
         />
         <div>
-          <h3 className="text-2xl font-bold my-2">Rating</h3>
+          <h3 className="my-2 text-2xl font-bold">Rating</h3>
           <label htmlFor="cleanliness">Cleanliness : </label>
           <select
             id="cleanliness"
@@ -86,7 +94,7 @@ const AddReviewModal = ({ setIsModal }) => {
           </p>
         </div>
         {isInvalid && (
-          <p className="border-red-300 border bg-red-200 rounded-lg p-4 text-red-600">
+          <p className="rounded-lg border border-red-300 bg-red-100 p-4 text-red-600">
             {message}
           </p>
         )}
