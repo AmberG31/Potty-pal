@@ -33,13 +33,14 @@ const getAllToilets = async (req, res) => {
 const addNewToilet = async (req, res) => {
   try {
     const { name, accessible, babyChanging, price, address } = req.body;
+    const addressObj = await Address.create(address);
     const userId = req.userId;
     const toilet = await new Toilet({
       name,
       accessible,
       babyChanging,
       price,
-      address,
+      address: addressObj._id,
       addedBy: userId,
     });
     toilet.addedBy = userId;
