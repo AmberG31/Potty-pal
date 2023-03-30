@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Review from './Review';
+import Review, { reviewPropTypes } from './Review';
 
 function ReviewList({ reviews, setIsModal }) {
   return (
@@ -17,21 +17,16 @@ function ReviewList({ reviews, setIsModal }) {
       </div>
       <div className="flex flex-col gap-4">
         {!reviews.length && <p>No reviews for this toilet</p>}
-        {reviews.length !== 0 &&
-          reviews.map((review) => <Review key={review.id} {...review} />)}
+        {reviews.length !== 0
+          && reviews.map((review) => <Review key={review.id} {...review} />)}
       </div>
     </>
   );
 }
 
 ReviewList.propTypes = {
-  reviews: PropTypes.arrayOf({
-    clean: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired,
-    author: PropTypes.string.isRequired,
-    createdAt: PropTypes.string.isRequired,
-  }).isRequired,
-  setIsModal: PropTypes.func.isRequired,
+  reviews: PropTypes.arrayOf(PropTypes.shape(reviewPropTypes)).isRequired,
+  setIsModal: PropTypes.func.isRequired
 };
 
 export default ReviewList;

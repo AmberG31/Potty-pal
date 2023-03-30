@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
-const generateToken = require('../models/tokenGenerator');
+const tokenGenerator = require('../models/tokenGenerator');
 
 // allow user to login with email or password
 const login = async (req, res) => {
@@ -21,7 +21,8 @@ const login = async (req, res) => {
 
     delete user.password;
     delete user.__v;
-    const token = generateToken(user._id);
+
+    const token = tokenGenerator(user._id);
 
     res.status(200).json({ token, user, message: 'Login Successful' });
   } catch (error) {

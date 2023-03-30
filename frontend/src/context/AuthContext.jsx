@@ -22,7 +22,7 @@ function AuthContextProvider({ children }) {
   };
 
   const getUser = useCallback(async () => {
-    if (token === 'undefined') {
+    if (token === 'undefined' || token === 'null') {
       return;
     }
     try {

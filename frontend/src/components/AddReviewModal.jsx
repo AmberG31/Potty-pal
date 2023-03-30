@@ -1,12 +1,15 @@
 import React, { useContext, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 import { ModalContext } from '../context/ModalContext';
+import { AuthContext } from '../context/AuthContext';
 
 function AddReviewModal({ setIsModal, refresh, setRefresh }) {
   const contentRef = useRef();
   const cleanlinessRef = useRef();
   const [isInvalid, setIsInvalid] = useState(false);
   const [message, setMessage] = useState('');
+  const { token } = useContext(AuthContext);
   const { pushModal } = useContext(ModalContext);
 
   const validInputChecker = ({ content, clean }) => {
@@ -31,21 +34,19 @@ function AddReviewModal({ setIsModal, refresh, setRefresh }) {
       return;
     }
     try {
-      const response = await fetch(
-        `http://localhost:8080/toilets/64244d5a0a270cf092bc2890/review`,
+      const response = await axios.post(
+        'http://localhost:8080/toilets/64244d5a0a270cf092bc2890/review',
+        body,
         {
-          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
+            Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify(body),
         }
       );
-      const data = await response.json();
       setRefresh(!refresh);
       pushModal({
-        message: data.message,
+        message: response.data.message,
         type: 'success',
       });
       contentRef.current.value = '';
@@ -120,7 +121,7 @@ function AddReviewModal({ setIsModal, refresh, setRefresh }) {
 
 AddReviewModal.propTypes = {
   setIsModal: PropTypes.func.isRequired,
-  refresh: PropTypes.func.isRequired,
+  refresh: PropTypes.bool.isRequired,
   setRefresh: PropTypes.func.isRequired,
 };
 

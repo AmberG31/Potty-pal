@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
-module.exports = (userId) => {
-  jwt.sign(
+const tokenGenerator = (userId) => {
+  const token = jwt.sign(
     {
       userId,
       // Set the issued at time to the current time
@@ -17,4 +18,7 @@ module.exports = (userId) => {
     // Wrap in a template literal to ensure the value is read as a string
     `${process.env.JWT_SECRET}`
   );
+  return token;
 };
+
+module.exports = tokenGenerator;

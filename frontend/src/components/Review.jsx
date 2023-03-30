@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import timeCalculator from '../utils/timeCalculator';
@@ -15,7 +16,7 @@ function Review({
         <div className="w-20 overflow-hidden rounded-full border">
           <img
             data-cy="profilepic"
-            src={`https://robohash.org/${author.id}`}
+            src={`https://robohash.org/${author._id}`}
             alt=""
             className="object-cover"
           />
@@ -46,14 +47,17 @@ function Review({
   );
 }
 
-Review.propTypes = {
+export const reviewPropTypes = {
+  id: PropTypes.string.isRequired,
   clean: PropTypes.number.isRequired,
   content: PropTypes.string.isRequired,
-  author: PropTypes.objectOf({
-    id: PropTypes.string,
-    username: PropTypes.string,
+  author: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
   }).isRequired,
   createdAt: PropTypes.string.isRequired,
 };
+
+Review.propTypes = reviewPropTypes;
 
 export default Review;
