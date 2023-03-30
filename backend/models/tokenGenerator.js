@@ -1,6 +1,6 @@
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 
-module.exports = (userId) =>
+module.exports = (userId) => {
   jwt.sign(
     {
       userId,
@@ -17,3 +17,4 @@ module.exports = (userId) =>
     // Wrap in a template literal to ensure the value is read as a string
     `${process.env.JWT_SECRET}`
   );
+};

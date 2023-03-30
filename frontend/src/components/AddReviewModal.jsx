@@ -1,18 +1,19 @@
-import React, { useContext, useRef, useState } from "react";
-import { ModalContext } from "../context/ModalContext";
+import React, { useContext, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
+import { ModalContext } from '../context/ModalContext';
 
-const AddReviewModal = ({ setIsModal, refresh, setRefresh }) => {
+function AddReviewModal({ setIsModal, refresh, setRefresh }) {
   const contentRef = useRef();
   const cleanlinessRef = useRef();
   const [isInvalid, setIsInvalid] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const { pushModal } = useContext(ModalContext);
 
   const validInputChecker = ({ content, clean }) => {
-    const isValid = content !== "" && clean !== "";
+    const isValid = content !== '' && clean !== '';
     if (!isValid) {
       setMessage(
-        content === "" ? "Please write a review" : "Please select rating"
+        content === '' ? 'Please write a review' : 'Please select rating'
       );
       setIsInvalid(true);
     }
@@ -33,9 +34,9 @@ const AddReviewModal = ({ setIsModal, refresh, setRefresh }) => {
       const response = await fetch(
         `http://localhost:8080/toilets/64244d5a0a270cf092bc2890/review`,
         {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
           },
           body: JSON.stringify(body),
@@ -45,10 +46,10 @@ const AddReviewModal = ({ setIsModal, refresh, setRefresh }) => {
       setRefresh(!refresh);
       pushModal({
         message: data.message,
-        type: "success",
+        type: 'success',
       });
-      contentRef.current.value = "";
-      cleanlinessRef.current.value = "";
+      contentRef.current.value = '';
+      cleanlinessRef.current.value = '';
       setIsModal(false);
     } catch (error) {
       console.log(error.message);
@@ -72,22 +73,24 @@ const AddReviewModal = ({ setIsModal, refresh, setRefresh }) => {
         />
         <div>
           <h3 className="my-2 text-2xl font-bold">Rating</h3>
-          <label htmlFor="cleanliness">Cleanliness : </label>
-          <select
-            id="cleanliness"
-            ref={cleanlinessRef}
-            defaultValue=""
-            className="border p-1"
-          >
-            <option value="" disabled>
-              Select rate
-            </option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="4">5</option>
-          </select>
+          <label htmlFor="cleanliness">
+            Cleanliness :
+            <select
+              id="cleanliness"
+              ref={cleanlinessRef}
+              defaultValue=""
+              className="border p-1"
+            >
+              <option value="" disabled>
+                Select rate
+              </option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="4">5</option>
+            </select>
+          </label>
           <p className="mt-4 text-gray-400">
             Description of ratings: 1-Terrible, 2- Poor, 3-Average, 4-Very good,
             5-Exellent
@@ -113,6 +116,12 @@ const AddReviewModal = ({ setIsModal, refresh, setRefresh }) => {
       </form>
     </div>
   );
+}
+
+AddReviewModal.propTypes = {
+  setIsModal: PropTypes.func.isRequired,
+  refresh: PropTypes.func.isRequired,
+  setRefresh: PropTypes.func.isRequired,
 };
 
 export default AddReviewModal;

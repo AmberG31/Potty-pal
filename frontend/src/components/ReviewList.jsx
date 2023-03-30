@@ -1,12 +1,14 @@
-import React from "react";
-import Review from "./Review";
+import React from 'react';
+import PropTypes from 'prop-types';
+import Review from './Review';
 
-const ReviewList = ({ reviews, setIsModal }) => {
+function ReviewList({ reviews, setIsModal }) {
   return (
     <>
       <div className="my-6 flex justify-between">
         <h2 className="text-3xl font-bold">Reviews</h2>
         <button
+          type="button"
           className="border border-slate-500 p-2"
           onClick={() => setIsModal(true)}
         >
@@ -20,6 +22,16 @@ const ReviewList = ({ reviews, setIsModal }) => {
       </div>
     </>
   );
+}
+
+ReviewList.propTypes = {
+  reviews: PropTypes.arrayOf({
+    clean: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
+    createdAt: PropTypes.string.isRequired,
+  }).isRequired,
+  setIsModal: PropTypes.func.isRequired,
 };
 
 export default ReviewList;

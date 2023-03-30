@@ -1,7 +1,10 @@
-import React from "react";
-import { timeCalculator } from "../utils/timeCalculator";
+import React from 'react';
+import PropTypes from 'prop-types';
+import timeCalculator from '../utils/timeCalculator';
 
-const Review = ({ clean, content, author, createdAt }) => {
+function Review({
+  clean, content, author, createdAt,
+}) {
   return (
     <div
       className="flex items-center justify-between gap-6 rounded-md border p-4 px-8"
@@ -34,10 +37,23 @@ const Review = ({ clean, content, author, createdAt }) => {
       </div>
       {/* Rating */}
       <div>
-        <p data-cy="cleanliness">cleanliness: {clean}</p>
+        <p data-cy="cleanliness">
+          cleanliness:
+          {clean}
+        </p>
       </div>
     </div>
   );
+}
+
+Review.propTypes = {
+  clean: PropTypes.number.isRequired,
+  content: PropTypes.string.isRequired,
+  author: PropTypes.objectOf({
+    id: PropTypes.string,
+    username: PropTypes.string,
+  }).isRequired,
+  createdAt: PropTypes.string.isRequired,
 };
 
 export default Review;

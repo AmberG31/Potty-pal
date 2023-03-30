@@ -1,8 +1,9 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo } from 'react';
+import PropTypes from 'prop-types';
 
 export const ModalContext = React.createContext();
 
-const ModalContextProvider = ({ children }) => {
+function ModalContextProvider({ children }) {
   const [modals, setModals] = useState([]);
 
   const pushModal = (modal) => {
@@ -20,6 +21,9 @@ const ModalContextProvider = ({ children }) => {
   return (
     <ModalContext.Provider value={context}>{children}</ModalContext.Provider>
   );
+}
+ModalContextProvider.propTypes = {
+  children: PropTypes.element.isRequired,
 };
 
 export default ModalContextProvider;

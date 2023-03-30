@@ -1,36 +1,38 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-import ReviewList from "../components/ReviewList.js";
-import AddReviewModal from "../components/AddReviewModal";
+import ReviewList from '../components/ReviewList';
+import AddReviewModal from '../components/AddReviewModal';
+import { AuthContext } from '../context/AuthContext';
 
-const ToiletPage = () => {
+function ToiletPage() {
   const [reviews, setReviews] = useState([]);
   const [isModal, setIsModal] = useState(false);
   const [refresh, setRefresh] = useState(false);
-
-  useEffect(() => {
-    fetchData();
-  }, [refresh]);
+  const { token } = useContext(AuthContext);
 
   const fetchData = async () => {
     try {
       // fetch data from API
-      const response = await fetch(
-        `http://localhost:8080/toilets/64244d5a0a270cf092bc2890/review`,
+      const response = await axios.get(
+        'http://localhost:8080/toilets/64244d5a0a270cf092bc2890/review',
         {
           headers: {
-            Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
+            Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
-      const data = await response.json();
       // assign state
-      setReviews(data.reviews);
+      setReviews(response.data.reviews);
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    fetchData();
+  }, [refresh]);
 
   return (
     <>
@@ -51,6 +53,6 @@ const ToiletPage = () => {
       </div>
     </>
   );
-};
+}
 
 export default ToiletPage;

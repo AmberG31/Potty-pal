@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
-import { ModalContext } from "../context/ModalContext";
-import Modal from "./Modal";
+import React, { useContext } from 'react';
+import { ModalContext } from '../context/ModalContext';
+import Modal from './Modal';
 
-const ModalList = () => {
+function ModalList() {
   const { modals, removeModal } = useContext(ModalContext);
 
   return (
@@ -19,6 +19,6 @@ const ModalList = () => {
       ))}
     </div>
   );
-};
+}
 
 export default ModalList;
