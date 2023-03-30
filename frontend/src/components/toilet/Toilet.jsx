@@ -43,7 +43,10 @@ function Toilet({ toilet }) {
           </div>
           <div className="flex gap-x-2">
             <p className="font-semibold">Price: </p>
-            <p className="">£{toilet.price.$numberDecimal}</p>
+            <p className="">
+              £
+              {toilet.price.$numberDecimal}
+            </p>
           </div>
         </div>
         <div className="ml-auto flex items-center" id="more-info-button">
