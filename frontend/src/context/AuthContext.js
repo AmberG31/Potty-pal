@@ -1,42 +1,51 @@
-import React, { useState, useEffect, createContext, useMemo } from "react";
+import React, {
+  useState,
+  useEffect,
+  createContext,
+  useMemo,
+  useCallback,
+} from "react";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export const AuthContext = createContext();
 
 const AuthContextProvider = ({ children }) => {
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState(window.localStorage.getItem("token"));
   const [user, setUser] = useState({});
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const storedToken = window.localStorage.getItem("token");
+  const tokenHandler = (token) => {
+    window.localStorage.setItem("token", token);
+    setToken(token);
+  };
 
-    const getUser = async () => {
-      const response = await fetch("/users", {
+  const getUser = useCallback(async () => {
+    if (token === "undefined") {
+      return;
+    }
+    try {
+      const response = await axios.get("/users", {
         headers: {
-          Authorization: `Bearer ${storedToken}`,
+          Authorization: `Bearer ${token}`,
         },
       });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        window.localStorage.setItem("token", data.token);
-        setToken(data.token);
-        setUser(data.user);
-      } else {
-        setToken(null);
-      }
-    };
-
-    if (storedToken) {
-      getUser();
+      tokenHandler(response.data.token);
+      setUser(response.data.user);
+    } catch (error) {
+      console.log(error.response.data.message);
+      tokenHandler(undefined);
+      setUser(undefined);
+      navigate("/login");
     }
-  }, []);
+  }, [navigate, token]);
 
-  const context = useMemo(
-    () => ({ token, setToken, user, setUser }),
-    [token, user]
-  );
+  useEffect(() => {
+    getUser();
+  }, [getUser]);
+
+  const context = useMemo(() => ({ token, user, tokenHandler }), [token, user]);
 
   return (
     <AuthContext.Provider value={context}>{children}</AuthContext.Provider>

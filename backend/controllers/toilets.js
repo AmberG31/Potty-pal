@@ -7,7 +7,6 @@ const tokenChecker = require("../middleware/tokenChecker");
 
 const getAllToilets = async (req, res) => {
   try {
-    const userId = req.userId;
     const toilets = await Toilet.find()
       .sort({ createdAt: -1 })
       .populate([
@@ -27,7 +26,7 @@ const getAllToilets = async (req, res) => {
 
     res.status(200).json({ toilets, newToken });
   } catch (error) {
-    res.status(500).json({ error_message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -50,7 +49,7 @@ const addNewToilet = async (req, res) => {
     const token = await generateToken(userId);
     res.status(201).json({ toilet, token });
   } catch (error) {
-    res.status(500).json({ error_message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
