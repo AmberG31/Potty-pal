@@ -22,59 +22,107 @@ const generateBackdatedToken = (userId) =>
 const dropUsers = async () => {
   const collection = mongoose.connection.collections.users;
   try {
-    await collection.drop();
+    await collection.drop({});
   } catch (error) {
     if (error.message === "ns not found") return;
     if (error.message.includes("a background operation is currently running"))
       return;
-    console.log(error.message);
   }
 };
+
 describe("/users", () => {
-  beforeEach(async () => {
-    await User.deleteMany({});
-  });
+  let users;
+  let newUser;
+  let token;
+
+  // beforeEach(async () => {
+  //   await User.deleteMany({});
+  // });
 
   afterAll(async () => {
+    await User.deleteMany({});
     await dropUsers();
   });
+
   describe("POST", () => {
-    test("a user is created", async () => {
-      await request(app).post("/users").send({
-        email: "scarlett@email.com",
-        password: "1234",
-        username: "scarlett",
-      });
-      let users = await User.find();
-      let newUser = users[users.length - 1];
-      expect(newUser.email).toEqual("scarlett@email.com");
+    beforeAll(async () => {
+      await User.deleteMany({});
     });
 
-    test("does not create a user", async () => {
-      await request(app).post("/users").send({ email: "skye@email.com" });
-      let users = await User.find();
-      expect(users.length).toEqual(0);
+    describe("does not create a new user", () => {
+      test("when a username is not provided", async () => {
+        const response = await request(app)
+          .post("/users")
+          .send({ email: "skye@email.com", password: "1234" });
+        users = await User.find();
+        expect(response.status).toEqual(400);
+      });
+      test("when a name is not provided", async () => {
+        const response = await request(app)
+          .post("/users")
+          .send({ email: "skye@email.com", password: "1234" });
+        users = await User.find();
+        expect(response.status).toEqual(400);
+      });
+      test("when a username is not provided", async () => {
+        const response = await request(app)
+          .post("/users")
+          .send({ email: "skye@email.com", password: "1234" });
+        users = await User.find();
+        expect(response.status).toEqual(400);
+      });
+    });
+    test("does not create a user when a username and password are not provided", async () => {
+      const response = await request(app)
+        .post("/users")
+        .send({ email: "skye@email.com" });
+      expect(response.status).toEqual(400);
+    });
+
+    describe("When all the fields are provided", () => {
+      afterEach(async () => {
+        await User.deleteMany();
+      });
+
+      test("returns a 201 status code", async () => {
+        const response = await request(app).post("/users").send({
+          email: "scarlett@email.com",
+          password: "1234",
+          username: "scarlett",
+        });
+        token = generateBackdatedToken(response.body.user._id);
+        expect(response.status).toEqual(201);
+      });
+
+      test("returns a new token", async () => {
+        const response = await request(app).post("/users").send({
+          email: "scarlett@email.com",
+          password: "1234",
+          username: "scarlett",
+        });
+        expect(response.body.token).toBeDefined();
+      });
+
+      test("a new user is created", async () => {
+        const response = await request(app).post("/users").send({
+          email: "scarlett@email.com",
+          password: "1234",
+          username: "scarlett",
+        });
+        users = await User.find();
+        expect(users.length).toEqual(1);
+      });
     });
   });
 
   describe("GET", () => {
-    beforeEach(async () => {
-      user = new User({
-      email: "scarlett@email.com",
-      password: "1234",
-      username: "scarlett"
-    })
-    await user.save(); 
-    process.env.JWT_SECRET = "mytestsecret"
-    token = generateBackdatedToken(user.id)
-    });
-
-    test("get logged in Users", async () => {
+    test("get details for logged in user", async () => {
       const response = await request(app)
         .get("/users")
-        .set("Authorization", `Bearer ${ token }`)
+        .set("Authorization", `Bearer ${token}`)
         .send({ token });
-      expect(response.status).toBe(200)
+      console.log(token);
+      expect(response.status).toBe(200);
     });
 
     // test('returns error if no token provided', async () => {
