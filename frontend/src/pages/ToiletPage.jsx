@@ -16,7 +16,7 @@ function ToiletPage() {
     try {
       // fetch data from API
       const response = await axios.get(
-        'http://localhost:8080/toilets/64244d5a0a270cf092bc2890/review',
+        '/toilets/64244d5a0a270cf092bc2890/review',
         {
           headers: {
             Authorization: `Bearer ${token}`,

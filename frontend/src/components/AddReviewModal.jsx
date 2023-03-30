@@ -35,7 +35,7 @@ function AddReviewModal({ setIsModal, refresh, setRefresh }) {
     }
     try {
       const response = await axios.post(
-        'http://localhost:8080/toilets/64244d5a0a270cf092bc2890/review',
+        '/toilets/64244d5a0a270cf092bc2890/review',
         body,
         {
           headers: {
