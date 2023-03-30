@@ -33,7 +33,7 @@ const LoginForm = () => {
           type="text"
           id="username"
           ref={usernameRef}
-          autocomplete
+          autocomplete="username"
           required
         />
         <label htmlFor="password">Password</label>
@@ -41,7 +41,7 @@ const LoginForm = () => {
           type="password"
           id="password"
           ref={passwordRef}
-          autocomplete
+          autocomplete="current-password"
           required
         />
         <button
