@@ -58,19 +58,35 @@ describe("/users", () => {
   });
 
   describe("GET", () => {
-    let user = new User({
+    beforeEach(async () => {
+      user = new User({
       email: "scarlett@email.com",
       password: "1234",
       username: "scarlett"
+    })
+    await user.save(); 
+    process.env.JWT_SECRET = "mytestsecret"
+    token = generateBackdatedToken(user.id)
     });
-    test("get logged in Users"),async () => {
-      const response = await request(app).get("/users")
-      .set("Authorization", `Bearer ${token}`);
-      .send({
-        email: "scarlett@email.com",
-        password: "1234",
-        username: "scarlett",
-      });
-    }
+
+    test("get logged in Users", async () => {
+      const response = await request(app)
+        .get("/users")
+        .set("Authorization", `Bearer ${ token }`)
+        .send({ token });
+      expect(response.status).toBe(200)
+    });
+
+    // test('returns error if no token provided', async () => {
+    //   user = User({
+    //     email: "scarlett@email.com",
+    //     password: "1243",
+    //     username: "scar"
+    //   })
+    //   const response = await request(app)
+    //   .get("/users")
+    //   .set("Authorization", `Bearer `)
+    //   expect(response.status).toBe(401)
+    // });
   });
 });
