@@ -45,7 +45,6 @@ const addNewToilet = async (req, res) => {
 
 const getToiletById = async (req, res) => {
   try {
-    console.log(req.params.id);
     const toilet = await Toilet.findById(req.params.id)
       .populate([
         { path: "address", model: "Address" },
