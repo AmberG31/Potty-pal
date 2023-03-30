@@ -1,6 +1,5 @@
 import axios from 'axios';
 import React, { useRef, useContext } from 'react';
-import PropTypes from 'prop-types';
 import { AuthContext } from '../../context/AuthContext';
 
 function AddToilet() {
@@ -150,9 +149,5 @@ function AddToilet() {
     </div>
   );
 }
-
-AddToilet.propTypes = {
-  setRefresh: PropTypes.func.isRequired,
-};
 
 export default AddToilet;
