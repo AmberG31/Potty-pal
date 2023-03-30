@@ -23,9 +23,9 @@ const login = async (req, res) => {
     delete user.__v;
     const token = generateToken(user._id);
 
-    return res.status(201).json({ token, user, message: "Login Successful" });
+    return res.status(200).json({ token, user, message: "Login Successful" });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(401).json({ message: error.message });
   }
 };
 

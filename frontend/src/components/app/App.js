@@ -1,15 +1,17 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
-import ToiletList from "../toiletList/ToiletList";
+import Signup from "../../pages/SignUpPage";
+import LoginPage from "../../pages/LoginPage";
+import Home from "../../pages/Home";
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<ToiletList />} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/" element={<Home />} />
+    </Routes>
   );
 };
 
