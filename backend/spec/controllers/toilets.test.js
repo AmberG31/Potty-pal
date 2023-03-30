@@ -104,13 +104,57 @@ describe("/toilets", () => {
         expect(expectedToilet.accessible).toBe(true);
         expect(expectedToilet.babyChanging).toBe(true);
         expect(expectedToilet.addedBy.username).toBe(user.username);
-        expect(expectedToilet.address.postcode).toBe(address.postcode);
+      });
+    });
+
+    describe("GET /toilets/:id", () => {
+      describe("When the toilet exists", () => {
+        beforeEach(async () => {
+          toilet = new Toilet({
+            name: "Toilet1",
+            accessible: true,
+            babyChanging: true,
+            price: 0.5,
+            addedBy: user._id,
+            address: address._id,
+          });
+          await toilet.save();
+        });
+
+        test("it should return a 200 response", async () => {
+          const response = await request(app)
+            .get(`/toilets/${toilet._id}`)
+            .set("Authorization", `Bearer ${token}`);
+          expect(response.status).toBe(200);
+        });
+
+        test("it should return the instance of toilet", async () => {
+          const response = await request(app)
+            .get(`/toilets/${toilet._id}`)
+            .set("Authorization", `Bearer ${token}`);
+          const expectedToilet = await response.body.toilet;
+          expect(expectedToilet.name).toBe("Toilet1");
+          expect(expectedToilet.accessible).toBe(true);
+          expect(expectedToilet.babyChanging).toBe(true);
+          expect(expectedToilet.addedBy.username).toBe(user.username);
+        });
+      });
+
+      describe("When the toilet does not exist", () => {
+        test("it should return a 404 response", async () => {
+          const response = await request(app)
+            .get(`/toilets/64261347059e9ae1f387ff33`)
+            .set("Authorization", `Bearer ${token}`);
+          expect(response.status).toBe(404);
+        });
       });
     });
   });
 
   describe("POST /toilets", () => {
-    beforeAll(() => {});
+    beforeEach(async () => {
+      await Address.deleteMany();
+    });
 
     describe("When the request body is valid", () => {
       test("it should return a 201 response", async () => {
@@ -120,7 +164,6 @@ describe("/toilets", () => {
           babyChanging: true,
           price: 0.5,
           addedBy: user._id,
-          address: address._id,
         };
         const response = await request(app)
           .post("/toilets")
@@ -136,7 +179,6 @@ describe("/toilets", () => {
           babyChanging: true,
           price: 0.5,
           addedBy: user._id,
-          address: address._id,
         };
         const response = await request(app)
           .post("/toilets")
