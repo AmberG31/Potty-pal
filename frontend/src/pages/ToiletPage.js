@@ -2,13 +2,16 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import ReviewList from "../components/ReviewList.js";
+import AddReviewModal from "../components/AddReviewModal";
 
 const ToiletPage = () => {
   const [reviews, setReviews] = useState([]);
+  const [isModal, setIsModal] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [refresh]);
 
   const fetchData = async () => {
     try {
@@ -30,14 +33,23 @@ const ToiletPage = () => {
   };
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold my-6">Toilet Page</h1>
-      <Link to="/">
-        <div className="border p-2 text-center my-3">Home page</div>
-      </Link>
-      <hr />
-      <ReviewList reviews={reviews} />
-    </div>
+    <>
+      {isModal && (
+        <AddReviewModal
+          setIsModal={setIsModal}
+          refresh={refresh}
+          setRefresh={setRefresh}
+        />
+      )}
+      <div>
+        <h1 className="my-6 text-3xl font-bold">Toilet Page</h1>
+        <Link to="/">
+          <div className="my-3 border p-2 text-center">Home page</div>
+        </Link>
+        <hr />
+        <ReviewList reviews={reviews} setIsModal={setIsModal} />
+      </div>
+    </>
   );
 };
 
