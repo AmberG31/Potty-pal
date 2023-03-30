@@ -7,7 +7,7 @@ import { AuthContext } from '../context/AuthContext';
 import ToiletList from '../components/toiletList/ToiletList';
 import AddToilet from '../components/addToilet/AddToilet';
 
-const Home = () => {
+function Home() {
   const [toilets, setToilets] = useState([]);
   const { token, tokenHandler } = useContext(AuthContext);
   const [refresh, setRefresh] = useState(false);
@@ -32,7 +32,7 @@ const Home = () => {
         setToilets(response.data.toilets);
       }
     } catch (error) {
-      throw new Error('Error: ' + error.message);
+      throw new Error(`Error: ${error.message}`);
     }
   }, [token, tokenHandler, navigate]);
 
@@ -47,6 +47,6 @@ const Home = () => {
       <AddToilet setRefresh={setRefresh} />
     </>
   );
-};
+}
 
 export default Home;
