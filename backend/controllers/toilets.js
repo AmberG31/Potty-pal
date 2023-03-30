@@ -3,6 +3,7 @@ const Address = require("../models/address");
 const User = require("../models/user");
 const Review = require("../models/review");
 const generateToken = require("../models/tokenGenerator");
+const tokenChecker = require("../middleware/tokenChecker");
 
 const getAllToilets = async (req, res) => {
   try {
@@ -10,44 +11,45 @@ const getAllToilets = async (req, res) => {
       .sort({ createdAt: -1 })
       .populate([
         { path: "address", model: "Address" },
-        { path: "addedBy", model: "User" },
+        { path: "addedBy", model: "User", select: "username" },
         {
           path: "reviews",
           model: "Review",
           populate: {
             path: "user",
             model: "User",
-            select: "name",
+            select: "username",
           },
         },
       ]);
-    const token = await generateToken(req.userId);
+    const newToken = await generateToken(req.userId);
 
-    res.status(200).json({ toilets, token });
+    res.status(200).json({ toilets, newToken });
   } catch (error) {
-    res.status(500).json({ error_message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
 const addNewToilet = async (req, res) => {
   try {
-    const { name, accessible, babyChanging, price, address, addedBy } =
-      req.body;
+    const { name, accessible, babyChanging, price, address } = req.body;
+    const userId = req.userId;
     const toilet = await new Toilet({
-      name: name,
-      accessible: accessible,
-      babyChanging: babyChanging,
-      price: price,
-      address: address,
-      addedBy: addedBy,
+      name,
+      accessible,
+      babyChanging,
+      price,
+      address,
+      addedBy: userId,
     });
+    toilet.addedBy = userId;
     await toilet.save();
 
     // Generate a new token
-    const token = await generateToken(req.userId);
-    res.status(201).json({ message: "OK", token });
+    const token = await generateToken(userId);
+    res.status(201).json({ toilet, token });
   } catch (error) {
-    res.status(500).json({ error_message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
