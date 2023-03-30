@@ -6,9 +6,9 @@ const getAllReviews = async (req, res) => {
   try {
     const { toiletId } = req.params;
 
-    const reviews = await Review.find({ toiletId }).populate([
-      { path: "author", model: "User", select: "username" },
-    ]);
+    const reviews = await Review.find({ toiletId })
+      .sort([["createdAt", -1]])
+      .populate([{ path: "author", model: "User", select: "username" }]);
 
     const token = await generateToken(req.userId);
 
