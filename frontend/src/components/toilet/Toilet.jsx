@@ -1,12 +1,13 @@
-import React from "react";
+import React from 'react';
+import PropTypes from 'prop-types';
 import {
   ArrowRightCircleIcon,
   CheckCircleIcon,
   XCircleIcon,
-} from "@heroicons/react/24/solid";
-import { Link } from "react-router-dom";
+} from '@heroicons/react/24/solid';
+import { Link } from 'react-router-dom';
 
-const Toilet = ({ toilet }) => {
+function Toilet({ toilet }) {
   return (
     <>
       {/* All of the toilet information should be rendered here */}
@@ -42,7 +43,7 @@ const Toilet = ({ toilet }) => {
           </div>
           <div className="flex gap-x-2">
             <p className="font-semibold">Price: </p>
-            <p className="">£ {toilet.price.$numberDecimal}</p>
+            <p className="">£{toilet.price.$numberDecimal}</p>
           </div>
         </div>
         <div className="ml-auto flex items-center" id="more-info-button">
@@ -53,6 +54,33 @@ const Toilet = ({ toilet }) => {
       </div>
     </>
   );
-};
+}
+
+export const toiletPropTypes = PropTypes.shape({
+  _id: PropTypes.string,
+  name: PropTypes.string,
+  accessible: PropTypes.bool,
+  babyChanging: PropTypes.bool,
+  price: PropTypes.shape({
+    $numberDecimal: PropTypes.string,
+  }),
+  addedBy: PropTypes.shape({
+    _id: PropTypes.string,
+    username: PropTypes.string,
+  }),
+  address: PropTypes.shape({
+    _id: PropTypes.string,
+    address: PropTypes.string,
+    city: PropTypes.string,
+    postcode: PropTypes.string,
+    __v: PropTypes.number,
+  }),
+  reviews: PropTypes.arrayOf(PropTypes.shape({})),
+  createdAt: PropTypes.string,
+  updatedAt: PropTypes.string,
+  __v: PropTypes.number,
+});
+
+Toilet.propTypes = { toilet: toiletPropTypes.isRequired };
 
 export default Toilet;

@@ -1,11 +1,11 @@
-import axios from "axios";
-import React, { useContext, useState, useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import axios from 'axios';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from '../context/AuthContext';
 
-import ToiletList from "../components/toiletList/ToiletList";
-import AddToilet from "../components/addToilet/AddToilet";
+import ToiletList from '../components/toiletList/ToiletList';
+import AddToilet from '../components/addToilet/AddToilet';
 
 const Home = () => {
   const [toilets, setToilets] = useState([]);
@@ -14,25 +14,25 @@ const Home = () => {
   const navigate = useNavigate();
 
   const getToilets = useCallback(async () => {
-    if (token === "undefined") {
-      navigate("/login");
+    if (token === undefined || token === null) {
+      navigate('/login');
       return;
     }
     try {
-      const response = await axios.get("/toilets", {
+      const response = await axios.get('/toilets', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
       if (response.status !== 200) {
-        throw new Error("Failed to fetch toilets");
+        throw new Error('Failed to fetch toilets');
       } else {
         tokenHandler(response.data.token);
         setToilets(response.data.toilets);
       }
     } catch (error) {
-      throw new Error("Error: " + error.message);
+      throw new Error('Error: ' + error.message);
     }
   }, [token, tokenHandler, navigate]);
 

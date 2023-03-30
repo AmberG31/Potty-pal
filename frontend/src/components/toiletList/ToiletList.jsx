@@ -1,7 +1,8 @@
-import React from "react";
-import Toilet from "../toilet/Toilet";
+import React from 'react';
+import PropTypes from 'prop-types';
+import Toilet, { toiletPropTypes } from '../toilet/Toilet';
 
-const ToiletList = ({ toilets }) => {
+function ToiletList({ toilets }) {
   return (
     <div className="">
       <div id="toilet-list" className="flex flex-col gap-y-6">
@@ -11,6 +12,10 @@ const ToiletList = ({ toilets }) => {
       </div>
     </div>
   );
+}
+
+ToiletList.propTypes = {
+  toilets: PropTypes.arrayOf(toiletPropTypes).isRequired,
 };
 
 export default ToiletList;
