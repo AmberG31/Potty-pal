@@ -1,24 +1,21 @@
-const Toilet = require("../models/toilet");
-const Address = require("../models/address");
-const User = require("../models/user");
-const Review = require("../models/review");
-const generateToken = require("../models/tokenGenerator");
-const tokenChecker = require("../middleware/tokenChecker");
+const Toilet = require('../models/toilet');
+const Address = require('../models/address');
+const generateToken = require('../models/tokenGenerator');
 
 const getAllToilets = async (req, res) => {
   try {
     const toilets = await Toilet.find()
       .sort({ createdAt: -1 })
       .populate([
-        { path: "address", model: "Address" },
-        { path: "addedBy", model: "User", select: "username" },
+        { path: 'address', model: 'Address' },
+        { path: 'addedBy', model: 'User', select: 'username' },
         {
-          path: "reviews",
-          model: "Review",
+          path: 'reviews',
+          model: 'Review',
           populate: {
-            path: "user",
-            model: "User",
-            select: "username",
+            path: 'user',
+            model: 'User',
+            select: 'username',
           },
         },
       ]);
@@ -33,13 +30,14 @@ const getAllToilets = async (req, res) => {
 const addNewToilet = async (req, res) => {
   try {
     const { name, accessible, babyChanging, price, address } = req.body;
-    const userId = req.userId;
+    const addressRecord = await Address.create(address);
+    const { userId } = req;
     const toilet = await new Toilet({
       name,
       accessible,
       babyChanging,
       price,
-      address,
+      address: addressRecord.id,
       addedBy: userId,
     });
     toilet.addedBy = userId;

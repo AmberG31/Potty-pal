@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 // mongoose.set("useFindAndModify", false);
 
@@ -8,6 +8,6 @@ const AddressSchema = new mongoose.Schema({
   postcode: { type: String },
 });
 
-const Address = mongoose.model("Address", AddressSchema);
+const Address = mongoose.model('Address', AddressSchema);
 
 module.exports = Address;

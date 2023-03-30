@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 // mongoose.set("findOneAndUpdate", false);
 
@@ -10,18 +10,18 @@ const ToiletSchema = new mongoose.Schema(
     price: { type: mongoose.Decimal128 },
     addedBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       immutable: true,
     },
     address: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Address",
+      ref: 'Address',
     },
-    reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
+    reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }],
   },
   { timestamps: true }
 );
 
-const Toilet = mongoose.model("Toilet", ToiletSchema);
+const Toilet = mongoose.model('Toilet', ToiletSchema);
 
 module.exports = Toilet;
