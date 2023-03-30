@@ -5,7 +5,6 @@ import { AuthContext } from "../../context/AuthContext";
 
 const AddToilet = ({ setRefresh }) => {
   const nameInputRef = useRef();
-  const cleanlinessInputRef = useRef();
   const babyChangingInputRef = useRef();
   const accessibleInputRef = useRef();
   const priceInputRef = useRef();
@@ -26,7 +25,6 @@ const AddToilet = ({ setRefresh }) => {
 
     const data = {
       name: nameInputRef.current.value,
-      cleanliness: cleanlinessInputRef.current.value,
       babyChanging: babyChangingInputRef.current.value,
       accessible: accessibleInputRef.current.value,
       price: parseFloat(priceInputRef.current.value),
@@ -44,7 +42,6 @@ const AddToilet = ({ setRefresh }) => {
     } else {
       tokenHandler(response.data.token);
       nameInputRef.current.value = "";
-      cleanlinessInputRef.current.value = "";
       babyChangingInputRef.current.value = "";
       accessibleInputRef.current.value = "";
       priceInputRef.current.value = "";
@@ -68,29 +65,6 @@ const AddToilet = ({ setRefresh }) => {
               ref={nameInputRef}
               className="rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
             />
-
-            <label className="font-semibold" htmlFor="cleanliness">
-              Cleanliness
-            </label>
-            <div className="flex items-center">
-              {[1, 2, 3, 4, 5].map((number) => (
-                <label
-                  key={number}
-                  className="mx-2 flex items-center"
-                  htmlFor={`cleanliness-${number}`}
-                >
-                  <input
-                    type="radio"
-                    id={`cleanliness-${number}`}
-                    name="cleanliness"
-                    value={number}
-                    ref={cleanlinessInputRef}
-                  />
-                  <span className="mx-2">{number}</span>
-                </label>
-              ))}
-            </div>
-
             <label className="font-semibold" htmlFor="babyChanging">
               Baby Changing
             </label>
