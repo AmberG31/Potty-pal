@@ -4,12 +4,12 @@ import { timeCalculator } from "../utils/timeCalculator";
 const Review = ({ clean, content, author, createdAt }) => {
   return (
     <div
-      className="flex items-center justify-between gap-6 p-4 px-8 border rounded-md"
+      className="flex items-center justify-between gap-6 rounded-md border p-4 px-8"
       data-cy="review"
     >
-      <div className="flex gap-6 items-center">
+      <div className="flex items-center gap-6">
         {/* Fake user image */}
-        <div className="rounded-full border w-20 overflow-hidden">
+        <div className="w-20 overflow-hidden rounded-full border">
           <img
             data-cy="profilepic"
             src={`https://robohash.org/${author.id}`}
@@ -23,11 +23,11 @@ const Review = ({ clean, content, author, createdAt }) => {
             <span className="font-bold capitalize" data-cy="username">
               {author.username}
             </span>
-            <span className="opacity-50" data-cy="createdAt">
+            <span className="-z-10 opacity-50" data-cy="createdAt">
               {timeCalculator(createdAt)}
             </span>
           </div>
-          <div className="text-lg mt-2" data-cy="content">
+          <div className="mt-2 text-lg" data-cy="content">
             {content}
           </div>
         </div>
