@@ -22,7 +22,8 @@ const AuthContextProvider = ({ children }) => {
   };
 
   const getUser = useCallback(async () => {
-    if (token === "undefined") {
+    if (token === undefined || token === null) {
+      window.localStorage.clear("token");
       return;
     }
     try {
