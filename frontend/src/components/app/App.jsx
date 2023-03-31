@@ -5,7 +5,7 @@ import Signup from '../../pages/SignUpPage';
 import LoginPage from '../../pages/LoginPage';
 import Home from '../../pages/Home';
 import ToiletPage from '../../pages/ToiletPage';
-import ModalList from '../ModalList';
+import ModalList from '../modalList/ModalList';
 
 import { AuthContext } from '../../context/AuthContext';
 import ImageUploader from '../ImageUploader';

@@ -1,5 +1,5 @@
 import React from 'react';
-import ReviewList from '../../src/components/ReviewList';
+import ReviewList from '../../src/components/reviewList/ReviewList';
 
 describe('<ReviewList />', () => {
   beforeEach(() => {

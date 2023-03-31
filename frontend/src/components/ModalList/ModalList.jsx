@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { ModalContext } from '../context/ModalContext';
-import Modal from './Modal';
+import { ModalContext } from '../../context/ModalContext';
+import Modal from '../modal/Modal';
 
 function ModalList() {
   const { modals, removeModal } = useContext(ModalContext);
