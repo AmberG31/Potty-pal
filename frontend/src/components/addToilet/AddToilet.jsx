@@ -1,8 +1,10 @@
 import axios from 'axios';
-import React, { useRef, useContext } from 'react';
+import React, { useRef, useContext, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
+import ImageUploader from '../imageUploader/ImageUploader';
 
 function AddToilet() {
+  const [images, setImages] = useState([]);
   const nameInputRef = useRef(null);
   const babyChangingRef = useRef(null);
   const accessibleRef = useRef(null);
@@ -32,6 +34,7 @@ function AddToilet() {
         city: cityInputRef.current.value,
         postcode: postcodeInputRef.current.value,
       },
+      photos: images
     };
 
     const response = await axios.post('/toilets', data, config);
@@ -47,6 +50,7 @@ function AddToilet() {
       streetAddressInputRef.current.value = '';
       cityInputRef.current.value = '';
       postcodeInputRef.current.value = '';
+      setImages([]);
     }
   };
 
@@ -166,6 +170,7 @@ function AddToilet() {
                 />
               </label>
             </div>
+            <ImageUploader images={images} setImages={setImages} />
           </div>
           <button
             className="mt-4 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
