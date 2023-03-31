@@ -1,5 +1,5 @@
 import React from 'react';
-import Modal from '../../src/components/Modal';
+import Modal from '../../src/components/modal/Modal';
 
 describe('Modal', () => {
   it('Renders a success modal on the screen', () => {
