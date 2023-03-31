@@ -17,7 +17,7 @@ const getAllToilets = async (req, res) => {
 
 const addNewToilet = async (req, res) => {
   try {
-    const { name, accessible, babyChanging, price, address } = req.body;
+    const { name, accessible, babyChanging, price, address, photos } = req.body;
     const addressRecord = await Address.create(address);
     const { userId } = req;
     const toilet = await new Toilet({
@@ -27,6 +27,7 @@ const addNewToilet = async (req, res) => {
       price,
       address: addressRecord.id,
       addedBy: userId,
+      photos,
     });
     toilet.addedBy = userId;
     await toilet.save();
