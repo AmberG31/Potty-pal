@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 
-import ReviewList from '../components/ReviewList';
-import AddReviewModal from '../components/AddReviewModal';
+import ReviewList from '../components/reviewList/ReviewList';
+import AddReviewModal from '../components/addReview/AddReviewModal';
 import { AuthContext } from '../context/AuthContext';
 
 function ToiletPage() {
@@ -16,14 +16,11 @@ function ToiletPage() {
   const fetchData = async () => {
     try {
       // fetch data from API
-      const response = await axios.get(
-        `/toilets/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+      const response = await axios.get(`/toilets/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-      );
+      });
       // assign state
       setToiletData(response.data.toilet);
     } catch (error) {
@@ -51,7 +48,10 @@ function ToiletPage() {
           <div className="my-3 border p-2 text-center">Home page</div>
         </Link>
         <hr />
-        <ReviewList reviews={toiletData?.reviews || []} setIsModal={setIsModal} />
+        <ReviewList
+          reviews={toiletData?.reviews || []}
+          setIsModal={setIsModal}
+        />
       </div>
     </>
   );
