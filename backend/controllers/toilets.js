@@ -1,10 +1,6 @@
-const mongoose = require('mongoose');
 const Toilet = require('../models/toilet');
 const Address = require('../models/address');
-const User = require('../models/user');
-const Review = require('../models/review');
 const generateToken = require('../models/tokenGenerator');
-const tokenChecker = require('../middleware/tokenChecker');
 
 const getAllToilets = async (req, res) => {
   try {
@@ -53,7 +49,7 @@ const getToiletById = async (req, res) => {
           path: 'reviews',
           model: 'Review',
           populate: {
-            path: 'user',
+            path: 'author',
             model: 'User',
             select: 'username',
           },
