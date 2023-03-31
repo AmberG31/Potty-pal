@@ -19,13 +19,18 @@ describe("/tokens", () => {
 
   afterEach(async () => {
     await User.deleteMany();
+    token = undefined;
+    user = undefined;
   });
 
   afterAll(async () => {
     await User.deleteMany();
-    token = undefined;
-    user = undefined;
   });
+  // afterAll(async () => {
+  //   await User.deleteMany();
+  //   token = undefined;
+  //   user = undefined;
+  // });
 
   describe("a user logs in with username and password", () => {
     test("a 200 status code is returned", async () => {

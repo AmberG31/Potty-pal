@@ -19,16 +19,16 @@ const generateBackdatedToken = (userId) =>
     `${process.env.JWT_SECRET}`
   );
 
-const dropUsers = async () => {
-  const collection = mongoose.connection.collections.users;
-  try {
-    await collection.drop({});
-  } catch (error) {
-    if (error.message === "ns not found") return;
-    if (error.message.includes("a background operation is currently running"))
-      return;
-  }
-};
+// const dropUsers = async () => {
+//   const collection = mongoose.connection.collections.users;
+//   try {
+//     await collection.drop({});
+//   } catch (error) {
+//     if (error.message === "ns not found") return;
+//     if (error.message.includes("a background operation is currently running"))
+//       return;
+//   }
+// };
 
 describe("/users", () => {
   let users;
@@ -40,13 +40,12 @@ describe("/users", () => {
   // });
 
   afterAll(async () => {
-    await User.deleteMany({});
-    await dropUsers();
+    await User.deleteMany();
   });
 
   describe("POST", () => {
     beforeAll(async () => {
-      await User.deleteMany({});
+      await User.deleteMany();
     });
 
     describe("does not create a new user", () => {
@@ -101,14 +100,6 @@ describe("/users", () => {
           username: "scarlett",
         });
         expect(response.body.token).toBeDefined();
-      });
-
-      test("a new user is created", async () => {
-        const response = await request(app).post("/users").send({
-          email: "scarlett@email.com",
-          password: "1234",
-          username: "scarlett",
-        });
         users = await User.find();
         expect(users.length).toEqual(1);
       });
@@ -117,12 +108,19 @@ describe("/users", () => {
 
   describe("GET", () => {
     test("get details for logged in user", async () => {
-      const response = await request(app)
+      const response1 = await request(app).post("/users").send({
+        email: "scarlett@email.com",
+        password: "1234",
+        username: "scarlett",
+      });
+      token = response1.body.token;
+
+      let response2 = await request(app)
         .get("/users")
         .set("Authorization", `Bearer ${token}`)
         .send({ token });
-      console.log(token);
-      expect(response.status).toBe(200);
+      // console.log(token);
+      expect(response2.status).toBe(200);
     });
 
     // test('returns error if no token provided', async () => {
