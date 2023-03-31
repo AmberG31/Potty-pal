@@ -34,7 +34,7 @@ function AddToilet() {
         city: cityInputRef.current.value,
         postcode: postcodeInputRef.current.value,
       },
-      photos: images
+      photos: images.map(({ image }) => image)
     };
 
     const response = await axios.post('/toilets', data, config);
@@ -52,6 +52,12 @@ function AddToilet() {
       postcodeInputRef.current.value = '';
       setImages([]);
     }
+  };
+
+  const fileSizeCalculator = () => {
+    let total = 0;
+    images.forEach((file) => { total += ((file.size / 1024) / 1024); });
+    return total;
   };
 
   // !TODO: Centre the form so it doesn't look so ugly
@@ -170,12 +176,17 @@ function AddToilet() {
                 />
               </label>
             </div>
-            <ImageUploader images={images} setImages={setImages} />
+            <ImageUploader
+              images={images}
+              setImages={setImages}
+              fileSizeCalculator={fileSizeCalculator}
+            />
           </div>
           <button
-            className="mt-4 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+            className="mt-4 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 disabled:bg-gray-300"
             type="submit"
             value="Submit"
+            disabled={fileSizeCalculator() > 5}
           >
             Submit
           </button>
