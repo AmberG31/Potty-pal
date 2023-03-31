@@ -1,18 +1,20 @@
 import axios from 'axios';
-import React, {
-  useContext, useState, useEffect, useCallback,
-} from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import ToiletList from '../components/toiletList/ToiletList';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { AuthContext } from '../context/AuthContext';
+
+import ToiletList from '../components/toiletList/ToiletList';
+import AddToilet from '../components/addToilet/AddToilet';
 
 function Home() {
   const [toilets, setToilets] = useState([]);
   const { token, tokenHandler } = useContext(AuthContext);
+  const [refresh, setRefresh] = useState(false);
   const navigate = useNavigate();
 
   const getToilets = useCallback(async () => {
-    if (token === 'undefined' || token === null) {
+    if (token === undefined || token === null) {
       navigate('/login');
       return;
     }
@@ -26,28 +28,24 @@ function Home() {
       if (response.status !== 200) {
         throw new Error('Failed to fetch toilets');
       } else {
-        tokenHandler(response.data.newToken);
+        tokenHandler(response.data.token);
         setToilets(response.data.toilets);
       }
     } catch (error) {
-      console.log(error);
+      throw new Error(`Error: ${error.message}`);
     }
-  }, [navigate, token, tokenHandler]);
+  }, [token, tokenHandler, navigate]);
 
   useEffect(() => {
     getToilets();
-  }, [getToilets]);
+  }, [getToilets, refresh]);
 
   return (
-    <div>
-      <h1 className="my-6 text-3xl font-bold">Home</h1>
-      <Link to="/toilet/1">
-        <div className="my-3 border p-2 text-center">Toilet page</div>
-      </Link>
-      <hr />
-      {/* <ToiletList /> */}
+    <>
+      <h1>Home page</h1>
       <ToiletList toilets={toilets} />
-    </div>
+      <AddToilet setRefresh={setRefresh} />
+    </>
   );
 }
 

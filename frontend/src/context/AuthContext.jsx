@@ -6,7 +6,6 @@ import React, {
   useCallback,
 } from 'react';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 export const AuthContext = createContext();
@@ -14,7 +13,6 @@ export const AuthContext = createContext();
 function AuthContextProvider({ children }) {
   const [token, setToken] = useState(window.localStorage.getItem('token'));
   const [user, setUser] = useState({});
-  const navigate = useNavigate();
 
   const tokenHandler = (tokenInput) => {
     window.localStorage.setItem('token', tokenInput);
@@ -22,7 +20,8 @@ function AuthContextProvider({ children }) {
   };
 
   const getUser = useCallback(async () => {
-    if (token === 'undefined' || token === 'null') {
+    if (token === undefined || token === null) {
+      window.localStorage.clear('token');
       return;
     }
     try {
@@ -35,11 +34,10 @@ function AuthContextProvider({ children }) {
       setUser(response.data.user);
     } catch (error) {
       console.log(error.response.data.message);
-      tokenHandler(undefined);
+      window.localStorage.clear('token');
       setUser(undefined);
-      navigate('/login');
     }
-  }, [navigate, token]);
+  }, [token]);
 
   useEffect(() => {
     getUser();

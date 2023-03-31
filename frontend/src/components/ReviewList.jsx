@@ -18,7 +18,7 @@ function ReviewList({ reviews, setIsModal }) {
       <div className="flex flex-col gap-4">
         {!reviews.length && <p>No reviews for this toilet</p>}
         {reviews.length !== 0
-          && reviews.map((review) => <Review key={review.id} {...review} />)}
+          && reviews.map((review) => <Review key={review._id} {...review} />)}
       </div>
     </>
   );

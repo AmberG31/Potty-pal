@@ -48,7 +48,7 @@ function Review({
 }
 
 export const reviewPropTypes = {
-  id: PropTypes.string.isRequired,
+  _id: PropTypes.string.isRequired,
   clean: PropTypes.number.isRequired,
   content: PropTypes.string.isRequired,
   author: PropTypes.shape({

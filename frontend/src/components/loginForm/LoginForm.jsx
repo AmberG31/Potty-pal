@@ -30,11 +30,23 @@ function LoginForm() {
       <form onSubmit={handleSubmit}>
         <label htmlFor="username">
           Username
-          <input type="text" id="username" ref={usernameRef} required />
+          <input
+            type="text"
+            id="username"
+            ref={usernameRef}
+            autoComplete="username"
+            required
+          />
         </label>
         <label htmlFor="password">
           Password
-          <input type="password" id="password" ref={passwordRef} required />
+          <input
+            type="password"
+            id="password"
+            ref={passwordRef}
+            autoComplete="current-password"
+            required
+          />
         </label>
         <button
           className="w-full rounded-lg bg-blue-600 p-2 text-sm font-bold text-white transition-all hover:bg-blue-500 disabled:bg-gray-500"
