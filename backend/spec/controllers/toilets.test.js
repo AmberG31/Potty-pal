@@ -31,7 +31,7 @@ const generateBackdatedToken = (userId) => {
 };
 
 describe('/toilets', () => {
-  beforeAll(async () => {
+  beforeEach(async () => {
     user = new User({
       username: 'test',
       email: 'test@test.com',
@@ -46,14 +46,18 @@ describe('/toilets', () => {
       postcode: 'te5 5te',
     });
     await address.save();
+
+    await Toilet.deleteMany();
   });
 
-  beforeEach(async () => {
-    await Toilet.deleteMany();
+  afterEach(async () => {
+    await User.deleteMany();
+    await Address.deleteMany();
   });
 
   afterAll(async () => {
     await User.deleteMany();
+    await Toilet.deleteMany();
     await Address.deleteMany();
   });
 
@@ -100,7 +104,7 @@ describe('/toilets', () => {
         const response = await request(app)
           .get('/toilets')
           .set('Authorization', `Bearer ${token}`);
-        const expectedToilet = await response.body.toilets[0];
+        const expectedToilet = response.body.toilets[0];
         expect(expectedToilet.name).toBe('Toilet1');
         expect(expectedToilet.accessible).toBe(true);
         expect(expectedToilet.babyChanging).toBe(true);
@@ -166,6 +170,7 @@ describe('/toilets', () => {
           price: 0.5,
           addedBy: user._id,
         };
+        console.log(token);
         const response = await request(app)
           .post('/toilets')
           .set('Authorization', `Bearer ${token}`)
