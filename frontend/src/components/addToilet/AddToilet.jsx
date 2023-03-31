@@ -1,11 +1,11 @@
 import axios from 'axios';
-import React, { useRef, useContext, useState } from 'react';
+import React, { useRef, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 
 function AddToilet() {
   const nameInputRef = useRef(null);
-  const [babyChanging, setBabyChanging] = useState(false);
-  const [accessible, setAccessible] = useState(false);
+  const babyChangingRef = useRef(null);
+  const accessibleRef = useRef(null);
   const priceInputRef = useRef(null);
   const streetAddressInputRef = useRef(null);
   const cityInputRef = useRef(null);
@@ -24,8 +24,8 @@ function AddToilet() {
 
     const data = {
       name: nameInputRef.current.value,
-      babyChanging,
-      accessible,
+      babyChanging: babyChangingRef.current.checked,
+      accessible: accessibleRef.current.checked,
       price: parseFloat(priceInputRef.current.value),
       address: {
         address: streetAddressInputRef.current.value,
@@ -41,8 +41,8 @@ function AddToilet() {
     } else {
       tokenHandler(response.data.token);
       nameInputRef.current.value = '';
-      setBabyChanging(false);
-      setAccessible(false);
+      babyChangingRef.current.value = '';
+      accessibleRef.current.value = '';
       priceInputRef.current.value = '';
       streetAddressInputRef.current.value = '';
       cityInputRef.current.value = '';
@@ -54,7 +54,6 @@ function AddToilet() {
 
   return (
     <div className="items-center justify-center py-4">
-      {console.log(`default state ${babyChanging}`)}
       <div className="rounded-md bg-gray-100 px-4 py-6 shadow-md">
         <p className="mb-4 text-2xl font-bold">Add New Toilet</p>
         <form onSubmit={handleSubmit} data-cy="form">
@@ -66,6 +65,7 @@ function AddToilet() {
                   type="text"
                   id="name"
                   ref={nameInputRef}
+                  required
                   className="mt-1 w-full rounded-md border-gray-300 px-3 py-2 shadow-sm focus:border-blue-300 focus:text-gray-900 focus:ring focus:ring-blue-200 focus:ring-opacity-50 sm:w-1/2"
                 />
               </label>
@@ -80,8 +80,7 @@ function AddToilet() {
                   value=""
                   id="babyChanging"
                   className="peer sr-only"
-                  checked={babyChanging}
-                  onChange={(e) => setBabyChanging(e.target.checked)}
+                  ref={babyChangingRef}
                 />
                 <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800" />
                 <span className="text-md ml-3 font-semibold text-gray-900 dark:text-gray-300">
@@ -99,8 +98,7 @@ function AddToilet() {
                   value=""
                   id="accessible"
                   className="peer sr-only"
-                  checked={accessible}
-                  onChange={(e) => setAccessible(e.target.checked)}
+                  ref={accessibleRef}
                 />
                 <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800" />
                 <span className="text-md ml-3 font-semibold text-gray-900 dark:text-gray-300">
@@ -139,6 +137,7 @@ function AddToilet() {
                   type="text"
                   id="streetAddress"
                   ref={streetAddressInputRef}
+                  required
                   className="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 sm:w-1/2"
                 />
               </label>
@@ -150,6 +149,7 @@ function AddToilet() {
                   type="text"
                   id="city"
                   ref={cityInputRef}
+                  required
                   className="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 sm:w-1/2"
                 />
               </label>
@@ -161,6 +161,7 @@ function AddToilet() {
                   type="text"
                   id="postcode"
                   ref={postcodeInputRef}
+                  required
                   className="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 sm:w-1/2"
                 />
               </label>
