@@ -8,12 +8,11 @@ const {
   getToiletById,
 } = require('../controllers/toilets');
 
-const { getAllReviews, addReview } = require('../controllers/review');
+const { addReview } = require('../controllers/review');
 
-router.get('/:id', getToiletById);
 router.get('/', getAllToilets);
 router.post('/', addNewToilet);
-router.get('/:toiletId/review', getAllReviews);
-router.post('/:toiletId/review', addReview);
+router.get('/:id', getToiletById);
+router.post('/:id/review', addReview);
 
 module.exports = router;

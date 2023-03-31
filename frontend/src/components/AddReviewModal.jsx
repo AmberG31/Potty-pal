@@ -4,7 +4,7 @@ import axios from 'axios';
 import { ModalContext } from '../context/ModalContext';
 import { AuthContext } from '../context/AuthContext';
 
-function AddReviewModal({ setIsModal, refresh, setRefresh }) {
+function AddReviewModal({ setIsModal, refresh, setRefresh, toiletId }) {
   const contentRef = useRef();
   const cleanlinessRef = useRef();
   const [isInvalid, setIsInvalid] = useState(false);
@@ -35,7 +35,7 @@ function AddReviewModal({ setIsModal, refresh, setRefresh }) {
     }
     try {
       const response = await axios.post(
-        '/toilets/64244d5a0a270cf092bc2890/review',
+        `/toilets/${toiletId}/review`,
         body,
         {
           headers: {
@@ -89,7 +89,7 @@ function AddReviewModal({ setIsModal, refresh, setRefresh }) {
               <option value="2">2</option>
               <option value="3">3</option>
               <option value="4">4</option>
-              <option value="4">5</option>
+              <option value="5">5</option>
             </select>
           </label>
           <p className="mt-4 text-gray-400">
@@ -123,6 +123,7 @@ AddReviewModal.propTypes = {
   setIsModal: PropTypes.func.isRequired,
   refresh: PropTypes.bool.isRequired,
   setRefresh: PropTypes.func.isRequired,
+  toiletId: PropTypes.string.isRequired,
 };
 
 export default AddReviewModal;

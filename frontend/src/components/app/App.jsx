@@ -24,7 +24,7 @@ function App() {
           element={token ? <Navigate to="/" /> : <Signup />}
         />
         <Route path="/" element={token ? <Home /> : <Navigate to="/login" />} />
-        <Route path="/toilet/:id" element={<ToiletPage />} />
+        <Route path="/toilets/:id" element={<ToiletPage />} />
       </Routes>
     </main>
   );
