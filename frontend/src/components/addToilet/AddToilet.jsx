@@ -1,4 +1,5 @@
 import axios from 'axios';
+// import React, { useRef } from 'react';
 import React, { useRef, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 
@@ -21,60 +22,32 @@ function AddToilet() {
         'Content-Type': 'application/json',
       },
     };
-    
-    async function convertAddressToGeolocation({address, city, postcode}) {
+
+    const convertAddressToGeolocation = async ({ address, city, postcode }) => {
       const nominatimEndpoint = 'https://nominatim.openstreetmap.org/search?';
+      const fetchingURL = `${nominatimEndpoint}street=${address}&city=${city}&postcode=${postcode}&format=json`;
+      const response = await axios.get(fetchingURL);
+      const { lat, lon } = response.data[0];
+      return [lat, lon];
+    };
 
-      //  https://nominatim.openstreetmap.org/search?city=terry&format=json
-
-      // address = "18 New Street" => "18_new_street"
-
-      const convertToCorrectAddress = (string) => {
-        return string
-      }
-
-      const fetchingURL = `${nominatimEndpoint}street=${address}&city=${city}&postcode=${postcode}`
-
-      // city
-      // street
-      // postcode
-
-      // const query = `q=${encodeURIComponent(address)}&format=json&limit=1`;
-    
-      // try {
-      //   const response = await fetch(`${nominatimEndpoint}?${query}`);
-      //   const data = await response.json();
-    
-      //   if (data.length > 0) {
-      //     const { lat, lon } = data[0];
-      //     const geolocation = { type: 'Point', coordinates: [lon, lat] };
-    
-      //     // create a new Address document using the schema
-      //     const newAddress = new Address({ geolocation });
-      //     await newAddress.save();
-    
-      //     return geolocation;
-      //   } else {
-      //     throw new Error('No results found');
-      //   }
-      // } catch (error) {
-      //   console.error(error);
-      //   throw new Error('Failed to convert address to geolocation');
-      // }
-    }
+    const address = {
+      address: streetAddressInputRef.current.value,
+      city: cityInputRef.current.value,
+      postcode: postcodeInputRef.current.value,
+      geolocation: await convertAddressToGeolocation({
+        address: streetAddressInputRef.current.value,
+        city: cityInputRef.current.value,
+        postcode: postcodeInputRef.current.value,
+      }),
+    };
 
     const data = {
       name: nameInputRef.current.value,
       babyChanging: babyChangingInputRef.current.value,
       accessible: accessibleInputRef.current.value,
       price: parseFloat(priceInputRef.current.value),
-      address: {
-        address: streetAddressInputRef.current.value,
-        city: cityInputRef.current.value,
-        postcode: postcodeInputRef.current.value,
-      },
-      geolocation:{ convertAddressToGeolocation(address)
-      }
+      address,
     };
 
     const response = await axios.post('/toilets', data, config);
