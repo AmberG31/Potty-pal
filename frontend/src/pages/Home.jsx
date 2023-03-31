@@ -14,7 +14,7 @@ function Home() {
   const navigate = useNavigate();
 
   const getToilets = useCallback(async () => {
-    if (token === undefined || token === null) {
+    if (token === 'undefined' || token === null) {
       navigate('/login');
       return;
     }
