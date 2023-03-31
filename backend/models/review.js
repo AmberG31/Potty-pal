@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 // mongoose.set("useFindAndModify", false);
 
@@ -8,18 +8,18 @@ const ReviewSchema = new mongoose.Schema(
     content: { type: String },
     toiletId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Toilet",
+      ref: 'Toilet',
       required: true,
     },
-    reviewAuthor: {
+    author: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       immutable: true,
     },
   },
   { timestamps: true }
 );
 
-const Review = mongoose.model("Review", ReviewSchema);
+const Review = mongoose.model('Review', ReviewSchema);
 
 module.exports = Review;

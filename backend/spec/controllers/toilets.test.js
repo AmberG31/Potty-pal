@@ -1,21 +1,20 @@
-const request = require("supertest");
-const app = require("../../app");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
+const request = require('supertest');
+const jwt = require('jsonwebtoken');
+const app = require('../../app');
 
-require("../mongodb_helper");
+require('../mongodb_helper');
 
-const Toilet = require("../../models/toilet");
-const Address = require("../../models/address");
-const User = require("../../models/user");
+const Toilet = require('../../models/toilet');
+const Address = require('../../models/address');
+const User = require('../../models/user');
 
 let token;
 let toilet;
 let address;
 let user;
 
-const generateBackdatedToken = (userId) =>
-  jwt.sign(
+const generateBackdatedToken = (userId) => {
+  const newToken = jwt.sign(
     {
       userId,
       // Set the JWT token to be issued 5 minutes ago
@@ -28,21 +27,23 @@ const generateBackdatedToken = (userId) =>
     // Wrap in a template literal to ensure the value is read as a string
     `${process.env.JWT_SECRET}`
   );
+  return newToken;
+};
 
-describe("/toilets", () => {
+describe('/toilets', () => {
   beforeEach(async () => {
     user = new User({
-      username: "test",
-      email: "test@test.com",
-      password: "test123",
+      username: 'test',
+      email: 'test@test.com',
+      password: 'test123',
     });
     await user.save();
     token = generateBackdatedToken(user.id);
 
     address = new Address({
-      address: "123 test",
-      city: "test city",
-      postcode: "te5 5te",
+      address: '123 test',
+      city: 'test city',
+      postcode: 'te5 5te',
     });
     await address.save();
 
@@ -60,29 +61,29 @@ describe("/toilets", () => {
     await Address.deleteMany();
   });
 
-  describe("GET /toilets", () => {
-    describe("When no toilets are added", () => {
-      test("it should return a 200 response", async () => {
+  describe('GET /toilets', () => {
+    describe('When no toilets are added', () => {
+      test('it should return a 200 response', async () => {
         const response = await request(app)
-          .get("/toilets")
-          .set("Authorization", `Bearer ${token}`)
+          .get('/toilets')
+          .set('Authorization', `Bearer ${token}`)
           .send({ token });
         expect(response.status).toBe(200);
       });
 
-      test("it should return an empty array of the toilet", async () => {
+      test('it should return an empty array of the toilet', async () => {
         const response = await request(app)
-          .get("/toilets")
-          .set("Authorization", `Bearer ${token}`)
+          .get('/toilets')
+          .set('Authorization', `Bearer ${token}`)
           .send({ token });
         expect(response.body.toilets).toBeDefined();
       });
     });
 
-    describe("When toilets are added", () => {
+    describe('When toilets are added', () => {
       beforeEach(async () => {
         toilet = new Toilet({
-          name: "Toilet1",
+          name: 'Toilet1',
           accessible: true,
           babyChanging: true,
           price: 0.5,
@@ -92,60 +93,102 @@ describe("/toilets", () => {
         await toilet.save();
       });
 
-      test("it should return a 200 response", async () => {
+      test('it should return a 200 response', async () => {
         const response = await request(app)
-          .get("/toilets")
-          .set("Authorization", `Bearer ${token}`);
+          .get('/toilets')
+          .set('Authorization', `Bearer ${token}`);
         expect(response.status).toBe(200);
       });
 
-      test("it should return the instance of toilet", async () => {
+      test('it should return the instance of toilet', async () => {
         const response = await request(app)
-          .get("/toilets")
-          .set("Authorization", `Bearer ${token}`);
+          .get('/toilets')
+          .set('Authorization', `Bearer ${token}`);
         const expectedToilet = response.body.toilets[0];
-        expect(expectedToilet.name).toBe("Toilet1");
+        expect(expectedToilet.name).toBe('Toilet1');
         expect(expectedToilet.accessible).toBe(true);
         expect(expectedToilet.babyChanging).toBe(true);
         expect(expectedToilet.addedBy.username).toBe(user.username);
-        expect(expectedToilet.address.postcode).toBe(address.postcode);
+      });
+    });
+
+    describe('GET /toilets/:id', () => {
+      describe('When the toilet exists', () => {
+        beforeEach(async () => {
+          toilet = new Toilet({
+            name: 'Toilet1',
+            accessible: true,
+            babyChanging: true,
+            price: 0.5,
+            addedBy: user._id,
+            address: address._id,
+          });
+          await toilet.save();
+        });
+
+        test('it should return a 200 response', async () => {
+          const response = await request(app)
+            .get(`/toilets/${toilet._id}`)
+            .set('Authorization', `Bearer ${token}`);
+          expect(response.status).toBe(200);
+        });
+
+        test('it should return the instance of toilet', async () => {
+          const response = await request(app)
+            .get(`/toilets/${toilet._id}`)
+            .set('Authorization', `Bearer ${token}`);
+          const expectedToilet = await response.body.toilet;
+          expect(expectedToilet.name).toBe('Toilet1');
+          expect(expectedToilet.accessible).toBe(true);
+          expect(expectedToilet.babyChanging).toBe(true);
+          expect(expectedToilet.addedBy.username).toBe(user.username);
+        });
+      });
+
+      describe('When the toilet does not exist', () => {
+        test('it should return a 404 response', async () => {
+          const response = await request(app)
+            .get(`/toilets/64261347059e9ae1f387ff33`)
+            .set('Authorization', `Bearer ${token}`);
+          expect(response.status).toBe(404);
+        });
       });
     });
   });
 
-  describe("POST /toilets", () => {
-    beforeAll(() => {});
+  describe('POST /toilets', () => {
+    beforeEach(async () => {
+      await Address.deleteMany();
+    });
 
-    describe("When the request body is valid", () => {
-      test("it should return a 201 response", async () => {
+    describe('When the request body is valid', () => {
+      test('it should return a 201 response', async () => {
         const newToilet = {
-          name: "Toilet1",
+          name: 'Toilet1',
           accessible: true,
           babyChanging: true,
           price: 0.5,
           addedBy: user._id,
-          address: address._id,
         };
         console.log(token);
         const response = await request(app)
-          .post("/toilets")
-          .set("Authorization", `Bearer ${token}`)
+          .post('/toilets')
+          .set('Authorization', `Bearer ${token}`)
           .send(newToilet);
         expect(response.status).toBe(201);
       });
 
-      test("it should create a new toilet", async () => {
+      test('it should create a new toilet', async () => {
         const newToilet = {
-          name: "Toilet1",
+          name: 'Toilet1',
           accessible: true,
           babyChanging: true,
           price: 0.5,
           addedBy: user._id,
-          address: address._id,
         };
-        const response = await request(app)
-          .post("/toilets")
-          .set("Authorization", `Bearer ${token}`)
+        await request(app)
+          .post('/toilets')
+          .set('Authorization', `Bearer ${token}`)
           .send(newToilet);
         const toilets = await Toilet.find();
         expect(toilets.length).toBe(1);

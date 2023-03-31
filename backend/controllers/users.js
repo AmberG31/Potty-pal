@@ -1,18 +1,18 @@
-const bcrypt = require("bcryptjs");
-const User = require("../models/user");
-const generateToken = require("../models/tokenGenerator");
+const bcrypt = require('bcryptjs');
+const User = require('../models/user');
+const generateToken = require('../models/tokenGenerator');
 
 const createUser = async (req, res) => {
   try {
     // Destructure the request body
-    let { username, email, password } = req.body;
+    const { username, email, password } = req.body;
     // hash the password
-    hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync());
+    const hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync());
 
     // Check if the username or email already exists
     const existingUser = await User.findOne({ $or: [{ email }, { username }] });
     if (existingUser) {
-      throw new Error("Email or username already exists");
+      throw new Error('Email or username already exists');
     }
 
     let user = await User.create({
