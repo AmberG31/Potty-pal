@@ -8,6 +8,7 @@ import ToiletPage from '../../pages/ToiletPage';
 import ModalList from '../modalList/ModalList';
 
 import { AuthContext } from '../../context/AuthContext';
+import MapPage from '../../pages/MapPage';
 import ErrorPage from '../../pages/ErrorPage';
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
           path="/signup"
           element={token ? <Navigate to="/" /> : <SignupPage />}
         />
+        <Route path="/map" element={<MapPage />} />
         <Route path="/toilets/:id" element={<ToiletPage />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
