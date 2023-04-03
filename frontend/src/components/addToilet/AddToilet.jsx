@@ -14,6 +14,7 @@ function AddToilet() {
   const cityInputRef = useRef(null);
   const postcodeInputRef = useRef(null);
   const { token, tokenHandler } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -42,18 +43,17 @@ function AddToilet() {
 
     if (response.status !== 201) {
       throw new Error('Failed to add toilet');
-    } else {
-      tokenHandler(response.data.token);
-      nameInputRef.current.value = '';
-      babyChangingRef.current.value = '';
-      accessibleRef.current.value = '';
-      priceInputRef.current.value = '';
-      streetAddressInputRef.current.value = '';
-      cityInputRef.current.value = '';
-      postcodeInputRef.current.value = '';
-      setImages([]);
-      useNavigate('/');
     }
+    tokenHandler(response.data.token);
+    nameInputRef.current.value = '';
+    babyChangingRef.current.value = '';
+    accessibleRef.current.value = '';
+    priceInputRef.current.value = '';
+    streetAddressInputRef.current.value = '';
+    cityInputRef.current.value = '';
+    postcodeInputRef.current.value = '';
+    setImages([]);
+    navigate('/');
   };
 
   const fileSizeCalculator = () => {
