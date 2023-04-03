@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
-// import Toilet from 'backend/models/toilet';
-// import Address from 'backend/models/toilet';
+import PropTypes from 'prop-types';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import { Icon } from 'leaflet';
 import { AuthContext } from '../context/AuthContext';
@@ -11,14 +10,39 @@ const toiletIcon = new Icon({
   iconSize: [40, 40],
 });
 
-function PopupContainer() {
+function PopupContainer({ toiletName, accessible, babyChanging }) {
   return (
     <div className="h-52 w-52">
-      <h2 className="text-xl font-bold">Toilet A</h2>
-      <p>Content</p>
+      <h2 className="text-xl font-bold">{toiletName}</h2>
+      <p>
+        Accessible:
+        {' '}
+        {accessible}
+      </p>
+      <p>
+        Baby Changing:
+        {' '}
+        {babyChanging}
+      </p>
+      {/* <p>
+        Price:
+        {' '}
+        {price}
+      </p> */}
     </div>
   );
 }
+
+PopupContainer.propTypes = {
+  toiletName: PropTypes.string.isRequired,
+  accessible: PropTypes.bool.isRequired,
+  babyChanging: PropTypes.bool.isRequired,
+  // price: PropTypes.oneOfType([
+  //   PropTypes.shape({
+  //     $numberDecimal: PropTypes.string.isRequired,
+  //   }),
+  // ])
+};
 
 function MapPage() {
   const { token } = useContext(AuthContext);
@@ -64,7 +88,7 @@ function MapPage() {
           icon={toiletIcon}
         >
           <Popup>
-            <PopupContainer toiletName={toilet.name} />
+            <PopupContainer toiletName={toilet.name} accessible={toilet.accessible ? 'Yes' : 'No'} babyChanging={toilet.babyChanging ? 'Yes' : 'No'} />
           </Popup>
         </Marker>
       ))}
