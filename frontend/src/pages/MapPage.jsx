@@ -48,7 +48,7 @@ function MapPage() {
   const { token } = useContext(AuthContext);
   const [toiletData, setToiletData] = useState([]);
 
-  const [center] = useState(['51.505', '-0.09']);
+  const [center] = useState(['51.52351', '-0.0839073']);
   const [refresh] = useState(false);
   const fetchData = async () => {
     try {
@@ -60,11 +60,12 @@ function MapPage() {
       });
       // assign state
       setToiletData(response.data.toilets);
-      // console.log(response.data.toilets);
     } catch (error) {
       console.log(error);
     }
   };
+
+  // console.log(response.data.toilets);
 
   useEffect(() => {
     fetchData();
