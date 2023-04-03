@@ -41,7 +41,7 @@ function ToiletInfo({ toiletData }) {
         <div className="my-2 flex items-center gap-x-2 text-xl">
           <span className="font-semibold">Price: </span>
           <span>
-            <span>£</span>
+            <span className="x-1">£</span>
             {toiletData?.price?.$numberDecimal ?? 'Free'}
           </span>
         </div>
@@ -55,7 +55,9 @@ ToiletInfo.propTypes = {
     name: PropTypes.string,
     babyChanging: PropTypes.bool,
     accessible: PropTypes.bool,
-    price: PropTypes.number,
+    price: PropTypes.shape({
+      $numberDecimal: PropTypes.string,
+    }),
     address: PropTypes.string,
     city: PropTypes.string,
     postcode: PropTypes.string,
