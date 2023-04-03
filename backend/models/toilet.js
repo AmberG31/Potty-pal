@@ -18,6 +18,7 @@ const ToiletSchema = new mongoose.Schema(
       ref: 'Address',
     },
     reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }],
+    photos: [{ type: String }],
   },
   { timestamps: true }
 );

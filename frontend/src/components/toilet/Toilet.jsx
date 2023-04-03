@@ -9,21 +9,21 @@ import { Link } from 'react-router-dom';
 
 function Toilet({ toilet }) {
   return (
-    <>
+    <div data-cy="toilet">
       {/* All of the toilet information should be rendered here */}
-      <div className="flex gap-x-4 rounded-md bg-gray-50 p-6 shadow-md">
+      <div className="flex gap-x-4 rounded-md bg-gray-50 shadow-md">
         <div id="toilet-photo" className="flex items-center">
           <img
             src="https://picsum.photos/500/500"
             alt="toilet"
-            className="h-20 w-20 rounded-md"
+            className="h-full max-h-32 w-auto rounded-md rounded-r-none object-cover object-center"
           />
         </div>
-        <div id="toilet-info">
+        <div id="toilet-info" className="p-2">
           <p className="gap-y-2 text-2xl font-bold capitalize">{toilet.name}</p>
           <div className="flex gap-x-2">
             <p className=" font-semibold">Accessible</p>
-            <p className="">
+            <p id="accessible-info">
               {toilet.accessible ? (
                 <CheckCircleIcon className="h-6 w-6 text-green-500" />
               ) : (
@@ -56,7 +56,7 @@ function Toilet({ toilet }) {
           </Link>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
@@ -72,7 +72,6 @@ export const toiletPropTypes = PropTypes.shape({
     _id: PropTypes.string,
     username: PropTypes.string,
   }),
-  address: PropTypes.string,
   reviews: PropTypes.arrayOf(PropTypes.string),
   createdAt: PropTypes.string,
   updatedAt: PropTypes.string,

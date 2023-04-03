@@ -1,8 +1,8 @@
 import React, { useContext, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { ModalContext } from '../context/ModalContext';
-import { AuthContext } from '../context/AuthContext';
+import { ModalContext } from '../../context/ModalContext';
+import { AuthContext } from '../../context/AuthContext';
 
 function AddReviewModal({ setIsModal, refresh, setRefresh, toiletId }) {
   const contentRef = useRef();
