@@ -14,7 +14,7 @@ function Home() {
   const navigate = useNavigate();
 
   const getToilets = useCallback(async () => {
-    if (token === 'undefined' || token === null) {
+    if (token === undefined || token === null) {
       navigate('/login');
       return;
     }
@@ -40,13 +40,7 @@ function Home() {
     getToilets();
   }, [getToilets, refresh]);
 
-  return (
-    <>
-      <h1>Home page</h1>
-      <ToiletList toilets={toilets} />
-      <AddToilet setRefresh={setRefresh} />
-    </>
-  );
+  return <ToiletList toilets={toilets} />;
 }
 
 export default Home;
