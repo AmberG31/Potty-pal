@@ -34,7 +34,7 @@ function AddToilet() {
         city: cityInputRef.current.value,
         postcode: postcodeInputRef.current.value,
       },
-      photos: images.map(({ image }) => image)
+      photos: images.map(({ image }) => image),
     };
 
     const response = await axios.post('/toilets', data, config);
@@ -56,7 +56,9 @@ function AddToilet() {
 
   const fileSizeCalculator = () => {
     let total = 0;
-    images.forEach((file) => { total += ((file.size / 1024) / 1024); });
+    images.forEach((file) => {
+      total += file.size / 1024 / 1024;
+    });
     return total;
   };
 
@@ -64,7 +66,7 @@ function AddToilet() {
 
   return (
     <div className="items-center justify-center py-4">
-      <div className="rounded-md bg-gray-100 px-4 py-6 shadow-md">
+      <div className="rounded-md px-4 py-6 shadow-md">
         <p className="mb-4 text-2xl font-bold">Add New Toilet</p>
         <form onSubmit={handleSubmit} data-cy="form">
           <div className="grid grid-cols-1 gap-4">
@@ -76,7 +78,7 @@ function AddToilet() {
                   id="name"
                   ref={nameInputRef}
                   required
-                  className="mt-1 w-full rounded-md border-gray-300 px-3 py-2 shadow-sm focus:border-blue-300 focus:text-gray-900 focus:ring focus:ring-blue-200 focus:ring-opacity-50 sm:w-1/2"
+                  className="form-input form-width"
                 />
               </label>
             </div>
@@ -92,7 +94,7 @@ function AddToilet() {
                   className="peer sr-only"
                   ref={babyChangingRef}
                 />
-                <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800" />
+                <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800" />
                 <span className="text-md ml-3 font-semibold text-gray-900 dark:text-gray-300">
                   Baby Changing Facilities Available
                 </span>
@@ -110,7 +112,7 @@ function AddToilet() {
                   className="peer sr-only"
                   ref={accessibleRef}
                 />
-                <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800" />
+                <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800" />
                 <span className="text-md ml-3 font-semibold text-gray-900 dark:text-gray-300">
                   Accessible Facilities
                 </span>
@@ -132,7 +134,7 @@ function AddToilet() {
                     id="price"
                     ref={priceInputRef}
                     placeholder="0.00"
-                    className="rounded-md border-gray-300 py-2 pl-8 pr-2 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                    className="form-input py-2 pl-8 pr-2"
                   />
                 </div>
               </label>
@@ -148,7 +150,7 @@ function AddToilet() {
                   id="streetAddress"
                   ref={streetAddressInputRef}
                   required
-                  className="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 sm:w-1/2"
+                  className="form-input form-width"
                 />
               </label>
             </div>
@@ -160,7 +162,7 @@ function AddToilet() {
                   id="city"
                   ref={cityInputRef}
                   required
-                  className="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 sm:w-1/2"
+                  className="form-input form-width"
                 />
               </label>
             </div>
@@ -172,7 +174,7 @@ function AddToilet() {
                   id="postcode"
                   ref={postcodeInputRef}
                   required
-                  className="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 sm:w-1/2"
+                  className="form-input form-width"
                 />
               </label>
             </div>
@@ -183,7 +185,7 @@ function AddToilet() {
             />
           </div>
           <button
-            className="mt-4 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 disabled:bg-gray-300"
+            className="btn mt-4 min-w-[200px]"
             type="submit"
             value="Submit"
             disabled={fileSizeCalculator() > 5}

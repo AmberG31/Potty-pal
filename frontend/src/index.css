@@ -20,4 +20,12 @@
   .btn-outline {
     @apply rounded-md border-2 border-primary p-2 font-semibold text-white;
   }
+
+  .form-input {
+    @apply mt-1 rounded-md border-gray-400 px-3 py-2 shadow-sm focus:border-primary focus:text-gray-900 focus:ring-2 focus:ring-orange-300 focus:ring-opacity-50;
+  }
+
+  .form-width {
+    @apply w-full sm:w-1/2;
+  }
 }
