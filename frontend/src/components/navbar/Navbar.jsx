@@ -103,7 +103,7 @@ function Navbar() {
                           <Menu.Item>
                             {({ active }) => (
                               <a
-                                href="/toilets/new"
+                                href="/toilets/add"
                                 className={`${
                                   active
                                     ? 'bg-gray-100 text-gray-900'
