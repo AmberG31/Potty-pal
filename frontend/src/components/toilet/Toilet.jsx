@@ -44,7 +44,9 @@ function Toilet({ toilet }) {
           <div className="flex gap-x-2">
             <p className="font-semibold">Price: </p>
             <p className="">
-              {toilet.price?.$numberDecimal ? `£ ${toilet.price.$numberDecimal}` : 'Free'}
+              {toilet.price?.$numberDecimal
+                ? `£ ${toilet.price.$numberDecimal}`
+                : 'Free'}
             </p>
           </div>
         </div>

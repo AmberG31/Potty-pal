@@ -34,16 +34,12 @@ function AddReviewModal({ setIsModal, refresh, setRefresh, toiletId }) {
       return;
     }
     try {
-      const response = await axios.post(
-        `/toilets/${toiletId}/review`,
-        body,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.post(`/toilets/${toiletId}/review`, body, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setRefresh(!refresh);
       pushModal({
         message: response.data.message,

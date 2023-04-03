@@ -26,7 +26,7 @@ function ReviewList({ reviews, setIsModal }) {
 
 ReviewList.propTypes = {
   reviews: PropTypes.arrayOf(PropTypes.shape(reviewPropTypes)).isRequired,
-  setIsModal: PropTypes.func.isRequired
+  setIsModal: PropTypes.func.isRequired,
 };
 
 export default ReviewList;

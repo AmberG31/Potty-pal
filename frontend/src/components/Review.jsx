@@ -3,9 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import timeCalculator from '../utils/timeCalculator';
 
-function Review({
-  clean, content, author, createdAt,
-}) {
+function Review({ clean, content, author, createdAt }) {
   return (
     <div
       className="flex items-center justify-between gap-6 rounded-md border p-4 px-8"
