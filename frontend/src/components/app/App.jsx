@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
-import SignupPage from '../../pages/SignUpPage';
-import LoginPage from '../../pages/LoginPage';
 import Home from '../../pages/Home';
+import LoginPage from '../../pages/LoginPage';
+import SignupPage from '../../pages/SignUpPage';
 import ToiletPage from '../../pages/ToiletPage';
 import ModalList from '../modalList/ModalList';
 
