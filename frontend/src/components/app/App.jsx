@@ -6,19 +6,26 @@ import LoginPage from '../../pages/LoginPage';
 import SignupPage from '../../pages/SignUpPage';
 import ToiletPage from '../../pages/ToiletPage';
 import ModalList from '../modalList/ModalList';
+import Navbar from '../navbar/Navbar';
 
 import { AuthContext } from '../../context/AuthContext';
 import MapPage from '../../pages/MapPage';
 import ErrorPage from '../../pages/ErrorPage';
 import MapLayoutPage from '../../pages/MapLayoutPage';
+import AddToilet from '../addToilet/AddToilet';
 
 function App() {
   const { token } = useContext(AuthContext);
   return (
     <main className="mx-auto">
       <ModalList />
+      <Navbar />
       <Routes>
         <Route path="/" element={token ? <Home /> : <Navigate to="/login" />} />
+        <Route
+          path="/toilets/add"
+          element={token ? <AddToilet /> : <Navigate to="/login" />}
+        />
         <Route
           path="/login"
           element={token ? <Navigate to="/" /> : <LoginPage />}
