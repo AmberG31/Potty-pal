@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useRef, useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import ImageUploader from '../imageUploader/ImageUploader';
 
@@ -51,6 +52,7 @@ function AddToilet() {
       cityInputRef.current.value = '';
       postcodeInputRef.current.value = '';
       setImages([]);
+      useNavigate('/');
     }
   };
 
