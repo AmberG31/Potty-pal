@@ -42,10 +42,7 @@ function Navbar() {
         <button type="button" className="btn min-w-[200px]">
           Add Toilet
         </button>
-        <button
-          type="button"
-          className="btn-outline min-w-[200px] text-primary"
-        >
+        <button type="button" className="btn-outline min-w-[200px]">
           Log Out
         </button>
       </div>

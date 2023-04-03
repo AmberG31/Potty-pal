@@ -18,6 +18,6 @@
   }
 
   .btn-outline {
-    @apply rounded-md border-2 border-primary p-2 font-semibold text-white;
+    @apply rounded-md border-2 border-primary p-2 font-semibold text-primary;
   }
 }
