@@ -15,7 +15,7 @@ import MapLayoutPage from '../../pages/MapLayoutPage';
 function App() {
   const { token } = useContext(AuthContext);
   return (
-    <main className="mx-auto max-w-6xl">
+    <main className="mx-auto">
       <ModalList />
       <Routes>
         <Route path="/" element={token ? <Home /> : <Navigate to="/login" />} />
