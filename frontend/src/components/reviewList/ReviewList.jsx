@@ -1,8 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Review, { reviewPropTypes } from '../review/Review';
 
-function ReviewList({ reviews, setIsModal }) {
+function ReviewList({ reviews, setIsModal, setRatings }) {
+  const calculateRating = () => {
+    if (reviews.length === 0) {
+      return;
+    }
+    let cleanlinessTotal = 0;
+    reviews.forEach((review) => {
+      cleanlinessTotal += review.clean;
+    });
+    setRatings((prev) => ({
+      ...prev,
+      cleanliness: cleanlinessTotal / reviews.length,
+    }));
+  };
+
+  useEffect(() => {
+    calculateRating();
+  }, [reviews]);
+
   return (
     <>
       <div className="my-6 flex items-center justify-between">
@@ -27,6 +45,7 @@ function ReviewList({ reviews, setIsModal }) {
 ReviewList.propTypes = {
   reviews: PropTypes.arrayOf(PropTypes.shape(reviewPropTypes)).isRequired,
   setIsModal: PropTypes.func.isRequired,
+  setRatings: PropTypes.func.isRequired,
 };
 
 export default ReviewList;
