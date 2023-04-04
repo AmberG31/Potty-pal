@@ -5,12 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
 import ToiletList from '../components/toiletList/ToiletList';
-import AddToilet from '../components/addToilet/AddToilet';
 
 function Home() {
   const [toilets, setToilets] = useState([]);
   const { token, tokenHandler } = useContext(AuthContext);
-  const [refresh, setRefresh] = useState(false);
   const navigate = useNavigate();
 
   const getToilets = useCallback(async () => {
@@ -38,15 +36,9 @@ function Home() {
 
   useEffect(() => {
     getToilets();
-  }, [getToilets, refresh]);
+  }, [getToilets]);
 
-  return (
-    <>
-      <h1>Home page</h1>
-      <ToiletList toilets={toilets} />
-      <AddToilet setRefresh={setRefresh} />
-    </>
-  );
+  return <ToiletList toilets={toilets} />;
 }
 
 export default Home;

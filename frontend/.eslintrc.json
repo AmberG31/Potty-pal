@@ -15,7 +15,8 @@
     "react/jsx-props-no-spreading": "off",
     "object-curly-newline": "off",
     "comma-dangle": "off",
-    "implicit-arrow-linebreak": "off",
-    "no-console": "off"
+    "no-console": "off",
+    "operator-linebreak": ["off", { "overrides": { "&&": "after" } }],
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
   }
 }

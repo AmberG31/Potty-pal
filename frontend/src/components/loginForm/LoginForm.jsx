@@ -51,6 +51,7 @@ function LoginForm() {
         <button
           className="w-full rounded-lg bg-blue-600 p-2 text-sm font-bold text-white transition-all hover:bg-blue-500 disabled:bg-gray-500"
           type="submit"
+          id="submit-login"
         >
           Login
         </button>

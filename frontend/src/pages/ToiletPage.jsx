@@ -2,8 +2,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 
-import ReviewList from '../components/ReviewList';
-import AddReviewModal from '../components/AddReviewModal';
+import { ArrowLeftCircleIcon } from '@heroicons/react/24/outline';
+import ReviewList from '../components/reviewList/ReviewList';
+import AddReviewModal from '../components/addReview/AddReviewModal';
+import ToiletInfo from '../components/toiletInfo/ToiletInfo';
 import { AuthContext } from '../context/AuthContext';
 
 function ToiletPage() {
@@ -43,11 +45,14 @@ function ToiletPage() {
         />
       )}
       <div>
-        <h1 className="my-6 text-3xl font-bold">Toilet Page</h1>
-        <Link to="/">
-          <div className="my-3 border p-2 text-center">Home page</div>
+        <Link
+          to="/"
+          className="flex items-center font-semibold hover:text-gray-700"
+        >
+          <ArrowLeftCircleIcon className="h-14 w-14 text-blue-500 hover:text-blue-700" />
+          <p className="text-xl">Back</p>
         </Link>
-        <hr />
+        <ToiletInfo toiletData={toiletData} />
         <ReviewList
           reviews={toiletData?.reviews || []}
           setIsModal={setIsModal}

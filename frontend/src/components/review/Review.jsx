@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unused-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
-import timeCalculator from '../utils/timeCalculator';
+import timeCalculator from '../../utils/timeCalculator';
 
 function Review({ clean, content, author, createdAt }) {
   return (
