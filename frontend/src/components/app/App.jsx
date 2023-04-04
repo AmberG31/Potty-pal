@@ -21,7 +21,7 @@ function App() {
       <ModalList />
       <Navbar />
       <Routes>
-        <Route path="/" element={token ? <Home /> : <Navigate to="/login" />} />
+        <Route path="/" element={<Home />} />
         <Route
           path="/toilets/add"
           element={token ? <AddToilet /> : <Navigate to="/login" />}
