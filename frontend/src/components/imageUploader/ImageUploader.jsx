@@ -4,7 +4,6 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import {
-  ArrowUpOnSquareIcon,
   PlusCircleIcon,
   XCircleIcon,
   XMarkIcon,
@@ -54,22 +53,11 @@ function ImageUploader({ images, setImages, fileSizeCalculator }) {
   };
 
   return (
-    <>
-      <h2 className="text-md font-semibold">
-        Photos{' '}
-        <span className="text-sm font-light">
-          {'(File size in total must be < 5MB)'}
-        </span>
-      </h2>
-      <div className="border-2 p-6">
+    <div className="my-3">
+      <h2 className="text-md font-semibold">Photos</h2>
+      <div className="mt-3 flex flex-col justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
         {images.length === 0 ? (
-          <button
-            type="button"
-            onClick={onClickHandler}
-            className=" flex w-full items-center justify-center gap-2 rounded-md bg-blue-600 p-3 text-white"
-          >
-            <ArrowUpOnSquareIcon className="w-6" /> Upload Photos
-          </button>
+          <UploadFrame handler={onClickHandler} />
         ) : (
           <div className="mb-6 flex flex-col items-center gap-4 md:flex-row">
             <button
@@ -136,7 +124,43 @@ function ImageUploader({ images, setImages, fileSizeCalculator }) {
           </div>
         </div>
       </div>
-    </>
+    </div>
+  );
+}
+
+function UploadFrame({ handler }) {
+  return (
+    <div className="col-span-full">
+      <div className="mt-2 flex justify-center rounded-lg border-gray-900/25 px-6 py-10">
+        <div className="text-center">
+          <svg
+            className="mx-auto h-12 w-12 text-gray-300"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              fillRule="evenodd"
+              d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
+              clipRule="evenodd"
+            />
+          </svg>
+          <div className="mt-4 flex text-sm leading-6 text-gray-600">
+            <button
+              type="button"
+              onClick={handler}
+              className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+            >
+              Upload a file
+            </button>
+            <p className="pl-1">or multiple files</p>
+          </div>
+          <p className="text-xs leading-5 text-gray-600">
+            PNG, JPG, JPEG, SVG up to 5MB
+          </p>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -154,6 +178,10 @@ ImageUploader.propTypes = {
 ImageUploader.defaultProps = {
   images: [],
   setImages: () => {},
+};
+
+UploadFrame.propTypes = {
+  handler: PropTypes.func.isRequired,
 };
 
 export default ImageUploader;
