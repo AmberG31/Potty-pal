@@ -75,7 +75,6 @@ function AddReviewModal({ setIsModal, refresh, setRefresh, toiletId }) {
             htmlFor="content"
             className="block text-sm font-medium leading-6 text-gray-900"
           >
-            Content
             <div className="mt-2">
               <textarea
                 id="content"
@@ -87,7 +86,7 @@ function AddReviewModal({ setIsModal, refresh, setRefresh, toiletId }) {
               />
             </div>
             <p className="mt-3 text-sm leading-6 text-gray-600">
-              Write a few sentences about yourself.
+              Write a few sentences about your experience.
             </p>
           </label>
         </div>
