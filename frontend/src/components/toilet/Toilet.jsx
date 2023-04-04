@@ -1,62 +1,79 @@
-import React from 'react';
+/* eslint-disable no-undef */
+/* eslint-disable react/jsx-one-expression-per-line */
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import {
-  ArrowRightCircleIcon,
-  CheckCircleIcon,
-  XCircleIcon,
-} from '@heroicons/react/24/solid';
 import { Link } from 'react-router-dom';
+import RatingStars from '../ratingStars/RatingStars';
+import { reviewPropTypes } from '../review/Review';
 
 function Toilet({ toilet }) {
+  const [ratings, setRatings] = useState({ cleanliness: 0 });
+
+  const imageUrl =
+    toilet.photos.length === 0 ? '/no-image-uploaded.jpg' : toilet.photos[0];
+
+  const { reviews } = toilet;
+
+  const calculateRating = () => {
+    if (toilet.reviews.length === 0) {
+      return;
+    }
+    let cleanlinessTotal = 0;
+    toilet.reviews.forEach((review) => {
+      cleanlinessTotal += review.clean;
+    });
+    setRatings((prev) => ({
+      ...prev,
+      cleanliness: cleanlinessTotal / toilet.reviews.length,
+    }));
+  };
+
+  useEffect(() => {
+    calculateRating();
+  }, []);
+
   return (
-    <div data-cy="toilet">
-      {/* All of the toilet information should be rendered here */}
-      <div className="flex gap-x-4 rounded-md bg-gray-50 shadow-md">
-        <div id="toilet-photo" className="flex items-center">
-          <img
-            src="https://picsum.photos/500/500"
-            alt="toilet"
-            className="h-full max-h-32 w-auto rounded-md rounded-r-none object-cover object-center"
-          />
-        </div>
-        <div id="toilet-info" className="p-2">
-          <p className="gap-y-2 text-2xl font-bold capitalize">{toilet.name}</p>
-          <div className="flex gap-x-2">
-            <p className=" font-semibold">Accessible</p>
-            <p id="accessible-info">
-              {toilet.accessible ? (
-                <CheckCircleIcon className="h-6 w-6 text-green-500" />
-              ) : (
-                <XCircleIcon className="h-6 w-6 text-red-500" />
-              )}
-            </p>
+    <Link to={`/toilets/${toilet._id}`} className="cursor-pointer">
+      <div data-cy="toilet">
+        <div className="mt-4 flex flex-col gap-4">
+          <div
+            className="flex cursor-pointer overflow-hidden rounded-lg border hover:border-primary hover:bg-[#FFF8F0]"
+            key={toilet._id}
+          >
+            <div id="toilet-photo" className="flex-0 relative h-32 w-32">
+              <img
+                src={imageUrl}
+                alt="toilet"
+                className="h-full w-full object-cover"
+              />
+            </div>
+            <div
+              id="toilet-info"
+              className="flex flex-1 flex-col justify-center gap-1 p-8 py-6"
+            >
+              <div>
+                <h4 className="text-xl font-bold">{toilet.name}</h4>
+                <div className="mt-1 flex items-center gap-2 text-lg font-bold">
+                  {reviews.length === 0 ? (
+                    <div className="mt-2 text-lg font-medium text-gray-400">
+                      No reviews
+                    </div>
+                  ) : (
+                    <div className="mt-2 flex items-center gap-3 text-lg font-semibold text-primary">
+                      {ratings.cleanliness.toFixed(1)}
+                      <RatingStars rating={ratings.cleanliness} />
+                      <p className="text-sm font-light text-gray-400">
+                        {toilet.reviews.length} reviews
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="flex gap-x-2">
-            <p className="font-semibold">Baby Changing</p>
-            <p className="">
-              {toilet.babyChanging ? (
-                <CheckCircleIcon className="h-6 w-6 text-green-500" />
-              ) : (
-                <XCircleIcon className="h-6 w-6 text-red-500" />
-              )}
-            </p>
-          </div>
-          <div className="flex gap-x-2">
-            <p className="font-semibold">Price: </p>
-            <p className="">
-              {toilet.price?.$numberDecimal
-                ? `£ ${toilet.price.$numberDecimal}`
-                : 'Free'}
-            </p>
-          </div>
-        </div>
-        <div className="ml-auto flex items-center" id="more-info-button">
-          <Link to={`/toilets/${toilet._id}`} className="cursor-pointer">
-            <ArrowRightCircleIcon className="h-14 w-14 justify-center text-blue-500 hover:text-blue-600" />
-          </Link>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
@@ -72,10 +89,11 @@ export const toiletPropTypes = PropTypes.shape({
     _id: PropTypes.string,
     username: PropTypes.string,
   }),
-  reviews: PropTypes.arrayOf(PropTypes.string),
+  reviews: PropTypes.arrayOf(PropTypes.shape(reviewPropTypes)),
   createdAt: PropTypes.string,
   updatedAt: PropTypes.string,
   __v: PropTypes.number,
+  photos: PropTypes.arrayOf(PropTypes.string),
 });
 
 Toilet.propTypes = { toilet: toiletPropTypes.isRequired };
