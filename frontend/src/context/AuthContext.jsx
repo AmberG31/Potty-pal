@@ -8,6 +8,7 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { ApiUrlContext } from './ApiUrlContext';
 
 export const AuthContext = createContext();
@@ -16,6 +17,7 @@ function AuthContextProvider({ children }) {
   const [token, setToken] = useState(window.localStorage.getItem('token'));
   const [user, setUser] = useState({});
   const { url } = useContext(ApiUrlContext);
+  const navigate = useNavigate();
 
   const tokenHandler = (tokenInput) => {
     window.localStorage.setItem('token', tokenInput);
@@ -26,10 +28,11 @@ function AuthContextProvider({ children }) {
     window.localStorage.removeItem('token');
     setToken(undefined);
     setUser(undefined);
+    navigate('/');
   };
 
   const getUser = useCallback(async () => {
-    if (token === undefined || token === null) {
+    if (token === 'undefined' || token === null) {
       window.localStorage.removeItem('token');
       return;
     }
