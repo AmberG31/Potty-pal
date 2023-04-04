@@ -52,7 +52,7 @@ function AddToilet() {
       babyChanging: babyChangingRef.current.checked,
       accessible: accessibleRef.current.checked,
       price: parseFloat(priceInputRef.current.value),
-      address: ,
+      address,
       photos: images.map(({ image }) => image),
     };
 
