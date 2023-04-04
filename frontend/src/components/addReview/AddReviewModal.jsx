@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import { ModalContext } from '../../context/ModalContext';
 import { AuthContext } from '../../context/AuthContext';
+import { ApiUrlContext } from '../../context/ApiUrlContext';
 
 function AddReviewModal({ setIsModal, refresh, setRefresh, toiletId }) {
   const contentRef = useRef();
@@ -11,6 +12,7 @@ function AddReviewModal({ setIsModal, refresh, setRefresh, toiletId }) {
   const [message, setMessage] = useState('');
   const { token } = useContext(AuthContext);
   const { pushModal } = useContext(ModalContext);
+  const { url } = useContext(ApiUrlContext);
 
   const validInputChecker = ({ content, clean }) => {
     const isValid = content !== '' && clean !== '';
@@ -33,13 +35,18 @@ function AddReviewModal({ setIsModal, refresh, setRefresh, toiletId }) {
     if (!validInputChecker(body)) {
       return;
     }
+
     try {
-      const response = await axios.post(`/toilets/${toiletId}/review`, body, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.post(
+        `${url}/toilets/${toiletId}/review`,
+        body,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setRefresh(!refresh);
       pushModal({
         message: response.data.message,
@@ -56,27 +63,50 @@ function AddReviewModal({ setIsModal, refresh, setRefresh, toiletId }) {
   return (
     <div
       data-cy="reviewModal"
-      className="fixed left-0 top-0 z-10 flex h-[100vh] w-full items-center  justify-center bg-black bg-opacity-50"
+      className="fixed left-0 top-0 z-30 flex h-[100vh] w-full items-center  justify-center bg-black bg-opacity-50"
     >
       <form
         onSubmit={submitHandler}
         className="mx-2 flex w-full flex-col justify-between gap-6 border-2 bg-white p-8 lg:min-h-[40vh] xl:w-[40vw]"
       >
-        <h2 className="my-2 text-3xl font-bold">Add a review</h2>
-        <textarea
-          ref={contentRef}
-          className="flex-1 border p-2"
-          placeholder="leave a review"
-        />
+        <div className="col-span-full">
+          <h2 className="my-2 text-3xl font-bold">Add a review</h2>
+          <label
+            htmlFor="content"
+            className="block text-sm font-medium leading-6 text-gray-900"
+          >
+            Content
+            <div className="mt-2">
+              <textarea
+                id="content"
+                name="content"
+                ref={contentRef}
+                placeholder="leave a review"
+                rows="5"
+                className="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:py-1.5 sm:text-sm sm:leading-6"
+              />
+            </div>
+            <p className="mt-3 text-sm leading-6 text-gray-600">
+              Write a few sentences about yourself.
+            </p>
+          </label>
+        </div>
         <div>
           <h3 className="my-2 text-2xl font-bold">Rating</h3>
-          <label htmlFor="cleanliness">
-            Cleanliness :
+          <p className="mb-3 text-sm leading-6 text-gray-600">
+            Description of ratings: 1 - Terrible, 2 - Poor, 3 - Average, 4 -
+            Very good, 5 - Exellent
+          </p>
+          <label
+            htmlFor="cleanliness"
+            className="block text-sm font-medium leading-6 text-gray-900"
+          >
+            Cleanliness
             <select
               id="cleanliness"
               ref={cleanlinessRef}
               defaultValue=""
-              className="border p-1"
+              className="ml-6 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
             >
               <option value="" disabled>
                 Select rate
@@ -88,10 +118,6 @@ function AddReviewModal({ setIsModal, refresh, setRefresh, toiletId }) {
               <option value="5">5</option>
             </select>
           </label>
-          <p className="mt-4 text-gray-400">
-            Description of ratings: 1-Terrible, 2- Poor, 3-Average, 4-Very good,
-            5-Exellent
-          </p>
         </div>
         {isInvalid && (
           <p className="rounded-lg border border-red-300 bg-red-100 p-4 text-red-600">

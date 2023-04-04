@@ -4,15 +4,18 @@ import React, {
   createContext,
   useMemo,
   useCallback,
+  useContext,
 } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import { ApiUrlContext } from './ApiUrlContext';
 
 export const AuthContext = createContext();
 
 function AuthContextProvider({ children }) {
   const [token, setToken] = useState(window.localStorage.getItem('token'));
   const [user, setUser] = useState({});
+  const { url } = useContext(ApiUrlContext);
 
   const tokenHandler = (tokenInput) => {
     window.localStorage.setItem('token', tokenInput);
@@ -30,8 +33,9 @@ function AuthContextProvider({ children }) {
       window.localStorage.removeItem('token');
       return;
     }
+
     try {
-      const response = await axios.get('/users', {
+      const response = await axios.get(`${url}/users`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -2,17 +2,20 @@ import React, { useContext, useRef } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
+import { ApiUrlContext } from '../../context/ApiUrlContext';
 
 function LoginForm() {
   const usernameRef = useRef();
   const passwordRef = useRef();
   const { tokenHandler } = useContext(AuthContext);
+  const { url } = useContext(ApiUrlContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      const response = await axios.post('/tokens', {
+      const response = await axios.post(`${url}/tokens`, {
         username: usernameRef.current.value,
         password: passwordRef.current.value,
       });

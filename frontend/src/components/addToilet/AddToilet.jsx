@@ -3,6 +3,7 @@ import React, { useRef, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import ImageUploader from '../imageUploader/ImageUploader';
+import { ApiUrlContext } from '../../context/ApiUrlContext';
 
 function AddToilet() {
   const [images, setImages] = useState([]);
@@ -14,6 +15,7 @@ function AddToilet() {
   const cityInputRef = useRef(null);
   const postcodeInputRef = useRef(null);
   const { token, tokenHandler } = useContext(AuthContext);
+  const { url } = useContext(ApiUrlContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -39,7 +41,7 @@ function AddToilet() {
       photos: images.map(({ image }) => image),
     };
 
-    const response = await axios.post('/toilets', data, config);
+    const response = await axios.post(`${url}/toilets`, data, config);
 
     if (response.status !== 201) {
       throw new Error('Failed to add toilet');
@@ -80,7 +82,7 @@ function AddToilet() {
                   id="name"
                   ref={nameInputRef}
                   required
-                  className="form-input form-width"
+                  className="form-width form-input"
                 />
               </label>
             </div>
@@ -152,7 +154,7 @@ function AddToilet() {
                   id="streetAddress"
                   ref={streetAddressInputRef}
                   required
-                  className="form-input form-width"
+                  className="form-width form-input"
                 />
               </label>
             </div>
@@ -164,7 +166,7 @@ function AddToilet() {
                   id="city"
                   ref={cityInputRef}
                   required
-                  className="form-input form-width"
+                  className="form-width form-input"
                 />
               </label>
             </div>
@@ -176,7 +178,7 @@ function AddToilet() {
                   id="postcode"
                   ref={postcodeInputRef}
                   required
-                  className="form-input form-width"
+                  className="form-width form-input"
                 />
               </label>
             </div>
