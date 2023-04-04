@@ -19,9 +19,15 @@ function AuthContextProvider({ children }) {
     setToken(tokenInput);
   };
 
+  const logout = () => {
+    window.localStorage.removeItem('token');
+    setToken(undefined);
+    setUser(undefined);
+  };
+
   const getUser = useCallback(async () => {
     if (token === undefined || token === null) {
-      window.localStorage.clear('token');
+      window.localStorage.removeItem('token');
       return;
     }
     try {
@@ -43,7 +49,10 @@ function AuthContextProvider({ children }) {
     getUser();
   }, [getUser]);
 
-  const context = useMemo(() => ({ token, user, tokenHandler }), [token, user]);
+  const context = useMemo(
+    () => ({ token, user, tokenHandler, logout }),
+    [token, user]
+  );
 
   return (
     <AuthContext.Provider value={context}>{children}</AuthContext.Provider>
