@@ -67,7 +67,7 @@ function LoginForm() {
               </label>
             </div>
             <button
-              className="w-full rounded-lg bg-primary px-4 py-2 text-sm font-bold text-white  disabled:bg-gray-500"
+              className="w-full rounded-lg bg-primary px-4 py-2 text-sm font-bold text-white transition-all hover:bg-orange-500  disabled:bg-gray-500"
               type="submit"
               id="submit-login"
             >
