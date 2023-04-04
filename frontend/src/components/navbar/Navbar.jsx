@@ -19,7 +19,7 @@ function Navbar() {
   };
 
   return (
-    <div className="z-0 flex w-full border border-b p-6">
+    <div className="z-0 flex w-full border border-b bg-white p-6">
       <div className="grid w-full grid-cols-4 items-center justify-between gap-4 sm:grid-cols-3 sm:justify-between md:gap-10">
         {/* Logo */}
         <div id="branding" className="max-w-fit shrink">
@@ -55,7 +55,7 @@ function Navbar() {
         </div>
         <div
           id="menu-buttons"
-          className="col-span-4 flex justify-center gap-3 sm:col-span-1"
+          className="col-span-4 flex justify-center gap-3 sm:col-span-1 lg:justify-end"
         >
           <div className="flex gap-3">
             <Menu as="div" className="relative inline-block text-left">
@@ -80,10 +80,7 @@ function Navbar() {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items
-                      static
-                      className="absolute mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                    >
+                    <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <div className="py-1">
                         <Menu.Item>
                           {({ active }) => (
@@ -152,10 +149,7 @@ function Navbar() {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items
-                      static
-                      className="absolute mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                    >
+                    <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <div className="py-1">
                         {token ? (
                           <>
