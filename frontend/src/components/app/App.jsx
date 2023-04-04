@@ -10,7 +10,6 @@ import ModalList from '../modalList/ModalList';
 import { AuthContext } from '../../context/AuthContext';
 import MapPage from '../../pages/MapPage';
 import ErrorPage from '../../pages/ErrorPage';
-import MapLayoutPage from '../../pages/MapLayoutPage';
 import AddToilet from '../addToilet/AddToilet';
 import MainLayout from '../../layouts/MainLayout';
 import UserProfile from '../../pages/UserProfile';
@@ -36,7 +35,6 @@ function App() {
             element={token ? <AddToilet /> : <Navigate to="/login" />}
           />
           <Route path="/map" element={<MapPage />} />
-          <Route path="/layout" element={<MapLayoutPage />} />
           <Route path="/user/profile" element={<UserProfile />} />
           <Route path="/toilets/:id" element={<ToiletPage />} />
         </Route>
