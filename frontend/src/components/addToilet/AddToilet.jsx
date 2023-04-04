@@ -9,14 +9,14 @@ import { ModalContext } from '../../context/ModalContext';
 
 function AddToilet() {
   const [images, setImages] = useState([]);
-  const nameInputRef = useRef(null);
-  const babyChangingRef = useRef(null);
-  const accessibleRef = useRef(null);
-  const priceInputRef = useRef(null);
-  const streetAddressInputRef = useRef(null);
-  const genderNeutralRef = useRef(null);
-  const cityInputRef = useRef(null);
-  const postcodeInputRef = useRef(null);
+  const nameInputRef = useRef();
+  const babyChangingRef = useRef();
+  const accessibleRef = useRef();
+  const priceInputRef = useRef();
+  const streetAddressInputRef = useRef();
+  const genderNeutralRef = useRef();
+  const cityInputRef = useRef();
+  const postcodeInputRef = useRef();
   const { token, tokenHandler } = useContext(AuthContext);
   const { url } = useContext(ApiUrlContext);
   const { pushModal } = useContext(ModalContext);
@@ -45,6 +45,8 @@ function AddToilet() {
       },
       photos: images.map(({ image }) => image),
     };
+
+    console.log(data);
 
     try {
       const response = await axios.post(`${url}/toilets`, data, config);
@@ -110,9 +112,15 @@ function AddToilet() {
               <div className="my-3">
                 <p className="font-bold text-gray-900">Features</p>
                 <div className="mt-3 grid gap-y-4 lg:grid-cols-3">
-                  <ToggleInput name="baby changing" ref={babyChangingRef} />
-                  <ToggleInput name="accessible" ref={accessibleRef} />
-                  <ToggleInput name="gender neutral" ref={genderNeutralRef} />
+                  <ToggleInput
+                    name="baby changing"
+                    reference={babyChangingRef}
+                  />
+                  <ToggleInput name="accessible" reference={accessibleRef} />
+                  <ToggleInput
+                    name="gender neutral"
+                    reference={genderNeutralRef}
+                  />
                 </div>
               </div>
               {/* Price */}
@@ -140,10 +148,10 @@ function AddToilet() {
               {/* Address */}
               <div className="flex flex-col gap-y-2">
                 <p className="mb-2 font-bold text-gray-900">Address</p>
-                <AddressInput name="street" ref={streetAddressInputRef} />
+                <AddressInput name="street" reference={streetAddressInputRef} />
                 <div className="grid grid-cols-2 gap-4">
-                  <AddressInput name="city" ref={cityInputRef} />
-                  <AddressInput name="postcode" ref={postcodeInputRef} />
+                  <AddressInput name="city" reference={cityInputRef} />
+                  <AddressInput name="postcode" reference={postcodeInputRef} />
                 </div>
               </div>
               {/* Image Uploader */}
@@ -168,7 +176,7 @@ function AddToilet() {
   );
 }
 
-function ToggleInput({ name, ref }) {
+function ToggleInput({ name, reference }) {
   const tag = name.split(' ').join('-');
 
   return (
@@ -181,7 +189,7 @@ function ToggleInput({ name, ref }) {
         value=""
         id={tag}
         className="peer sr-only"
-        ref={ref}
+        ref={reference}
       />
       <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800" />
       <span className="text-md ml-3 capitalize text-gray-900 dark:text-gray-300">
@@ -191,7 +199,7 @@ function ToggleInput({ name, ref }) {
   );
 }
 
-function AddressInput({ name, ref }) {
+function AddressInput({ name, reference }) {
   const tag = name.split(' ').join('-');
 
   return (
@@ -200,7 +208,7 @@ function AddressInput({ name, ref }) {
       <input
         type="text"
         id={tag}
-        ref={ref}
+        ref={reference}
         required
         className="form-input w-full"
       />
@@ -210,7 +218,7 @@ function AddressInput({ name, ref }) {
 
 ToggleInput.propTypes = {
   name: PropTypes.string.isRequired,
-  ref: PropTypes.oneOfType([
+  reference: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
   ]).isRequired,
@@ -218,7 +226,7 @@ ToggleInput.propTypes = {
 
 AddressInput.propTypes = {
   name: PropTypes.string.isRequired,
-  ref: PropTypes.oneOfType([
+  reference: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
   ]).isRequired,
