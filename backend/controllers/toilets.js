@@ -6,7 +6,8 @@ const getAllToilets = async (req, res) => {
   try {
     const toilets = await Toilet.find()
       .sort({ createdAt: -1 })
-      .populate([{ path: 'addedBy', model: 'User', select: 'username' }]);
+      .populate([{ path: 'addedBy', model: 'User', select: 'username' }])
+      .populate([{ path: 'reviews', model: 'Review' }]);
     const newToken = await generateToken(req.userId);
 
     res.status(200).json({ toilets, token: newToken });
