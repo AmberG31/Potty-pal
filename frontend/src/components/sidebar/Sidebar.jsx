@@ -7,40 +7,10 @@ import {
 } from '@heroicons/react/24/solid';
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import PropTypes from 'prop-types';
-import RatingStars from '../ratingStars/RatingStars';
+import ToiletList from '../toiletList/ToiletList';
+import { toiletPropTypes } from '../toilet/Toilet';
 
-const toilets = [
-  {
-    id: 1,
-    name: 'Bloomsbury Central Baptist Church',
-    rating: 3.4,
-    imageURL:
-      'https://www.esafety.gov.au/sites/default/files/2019-08/Remove%20images%20and%20video.jpg',
-  },
-  {
-    id: 2,
-    name: 'Toilet B',
-    rating: 4.2,
-    imageURL:
-      'https://media.istockphoto.com/id/1322277517/photo/wild-grass-in-the-mountains-at-sunset.jpg?s=612x612&w=0&k=20&c=6mItwwFFGqKNKEAzv0mv6TaxhLN3zSE43bWmFN--J5w=',
-  },
-  {
-    id: 3,
-    name: 'Toilet C',
-    rating: 1.1,
-    imageURL:
-      'https://www.esafety.gov.au/sites/default/files/2019-08/Remove%20images%20and%20video.jpg',
-  },
-  {
-    id: 4,
-    name: 'Toilet D',
-    rating: 2,
-    imageURL:
-      'https://media.istockphoto.com/id/1322277517/photo/wild-grass-in-the-mountains-at-sunset.jpg?s=612x612&w=0&k=20&c=6mItwwFFGqKNKEAzv0mv6TaxhLN3zSE43bWmFN--J5w=',
-  },
-];
-
-function Sidebar() {
+function Sidebar({ toilets, isLoading }) {
   return (
     <div className="w-full max-w-[500px] border border-r-2 p-4">
       <FilterContainer />
@@ -51,34 +21,14 @@ function Sidebar() {
             Nearby Toilets <span>{`(${toilets.length})`}</span>
           </h3>
         </div>
-        <ToiletList />
+        {isLoading ? (
+          <p className="mt-10 animate-pulse text-center text-lg font-medium text-gray-500">
+            Loading...
+          </p>
+        ) : (
+          <ToiletList toilets={toilets} />
+        )}
       </div>
-    </div>
-  );
-}
-
-function ToiletList() {
-  return (
-    <div className="mt-4 flex flex-col gap-4">
-      {toilets.map(({ id, name, rating, imageURL }) => (
-        <div
-          className="flex cursor-pointer overflow-hidden rounded-lg border hover:border-primary hover:bg-[#FFF8F0]"
-          key={id}
-        >
-          <div className="flex-0 relative h-32 w-32">
-            <img src={imageURL} alt="" className="h-full w-full object-cover" />
-          </div>
-          <div className="flex flex-1 flex-col justify-center gap-1 p-8 py-6">
-            <div>
-              <h4 className="text-xl font-bold">{name}</h4>
-              <div className="mt-1 flex items-center gap-2 text-lg font-bold text-primary">
-                {rating}
-                <RatingStars rating={rating} />
-              </div>
-            </div>
-          </div>
-        </div>
-      ))}
     </div>
   );
 }
@@ -141,6 +91,10 @@ function CheckBoxComponent({ name }) {
 
 CheckBoxComponent.propTypes = {
   name: PropTypes.string.isRequired,
+};
+Sidebar.propTypes = {
+  toilets: PropTypes.arrayOf(toiletPropTypes).isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 export default Sidebar;
