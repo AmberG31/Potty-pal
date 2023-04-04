@@ -4,10 +4,10 @@ import {
   AdjustmentsVerticalIcon,
   ChevronRightIcon,
   ChevronDownIcon,
-  StarIcon,
 } from '@heroicons/react/24/solid';
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import PropTypes from 'prop-types';
+import RatingStars from '../ratingStars/RatingStars';
 
 const toilets = [
   {
@@ -73,14 +73,7 @@ function ToiletList() {
               <h4 className="text-xl font-bold">{name}</h4>
               <div className="mt-1 flex items-center gap-2 text-lg font-bold text-primary">
                 {rating}
-                <div className="flex">
-                  {Array.from({ length: rating }, () => (
-                    <StarIcon className="w-5" />
-                  ))}
-                  {Array.from({ length: 5 - Math.floor(rating) }, () => (
-                    <StarIcon className="w-5 text-gray-100" />
-                  ))}
-                </div>
+                <RatingStars rating={rating} />
               </div>
             </div>
           </div>
