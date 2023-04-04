@@ -6,10 +6,10 @@ function RatingStars({ rating }) {
   return (
     <div className="flex text-primary">
       {Array.from({ length: rating }, () => (
-        <StarIcon className="w-5" />
+        <StarIcon key={crypto.randomUUID()} className="w-5" />
       ))}
       {Array.from({ length: 5 - Math.floor(rating) }, () => (
-        <StarIcon className="w-5 text-gray-100" />
+        <StarIcon key={crypto.randomUUID()} className="w-5 text-gray-100" />
       ))}
     </div>
   );
