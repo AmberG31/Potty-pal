@@ -11,7 +11,7 @@ function ToiletList({ toilets }) {
           <p className="text-gray-500">Please try again later</p>
         </div>
       ) : (
-        <div id="toilet-list" className="flex flex-col gap-y-6">
+        <div id="toilet-list" className="flex flex-col gap-y-1">
           {toilets.map((toilet) => (
             <Toilet key={toilet._id} toilet={toilet} />
           ))}
