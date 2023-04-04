@@ -5,6 +5,7 @@ import Home from '../../pages/Home';
 import LoginPage from '../../pages/LoginPage';
 import SignupPage from '../../pages/SignUpPage';
 import ToiletPage from '../../pages/ToiletPage';
+import ModalList from '../modalList/ModalList';
 
 import { AuthContext } from '../../context/AuthContext';
 import MapPage from '../../pages/MapPage';
@@ -17,28 +18,31 @@ import UserProfile from '../../pages/UserProfile';
 function App() {
   const { token } = useContext(AuthContext);
   return (
-    <Routes>
-      <Route
-        path="/login"
-        element={token ? <Navigate to="/" /> : <LoginPage />}
-      />
-      <Route
-        path="/signup"
-        element={token ? <Navigate to="/" /> : <SignupPage />}
-      />
-      <Route element={<MainLayout />}>
-        <Route path="/" element={<Home />} />
+    <>
+      <ModalList />
+      <Routes>
         <Route
-          path="/toilets/add"
-          element={token ? <AddToilet /> : <Navigate to="/login" />}
+          path="/login"
+          element={token ? <Navigate to="/" /> : <LoginPage />}
         />
-        <Route path="/map" element={<MapPage />} />
-        <Route path="/layout" element={<MapLayoutPage />} />
-        <Route path="/user/profile" element={<UserProfile />} />
-        <Route path="/toilets/:id" element={<ToiletPage />} />
-      </Route>
-      <Route path="*" element={<ErrorPage />} />
-    </Routes>
+        <Route
+          path="/signup"
+          element={token ? <Navigate to="/" /> : <SignupPage />}
+        />
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route
+            path="/toilets/add"
+            element={token ? <AddToilet /> : <Navigate to="/login" />}
+          />
+          <Route path="/map" element={<MapPage />} />
+          <Route path="/layout" element={<MapLayoutPage />} />
+          <Route path="/user/profile" element={<UserProfile />} />
+          <Route path="/toilets/:id" element={<ToiletPage />} />
+        </Route>
+        <Route path="*" element={<ErrorPage />} />
+      </Routes>
+    </>
   );
 }
 

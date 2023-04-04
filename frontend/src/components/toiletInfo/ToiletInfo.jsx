@@ -24,7 +24,7 @@ function ToiletInfo({ toiletData, ratings }) {
       : toiletData.photos[0];
 
   return (
-    <div>
+    <>
       <div className="my-10">
         <h1 className="text-3xl font-bold">{toiletData.name}</h1>
         <p className="mt-2 text-lg text-gray-400">{`${address}, ${city}, ${postcode}`}</p>
@@ -96,7 +96,7 @@ function ToiletInfo({ toiletData, ratings }) {
           <FacilityIcon name="Accessible" isChecked={accessible} />
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

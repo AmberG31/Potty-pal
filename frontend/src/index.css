@@ -12,7 +12,10 @@
   font-family: 'Righteous', cursive;
 }
 
-.leaflet-pane {
+.leaflet-pane,
+.leaflet-control,
+.leaflet-top,
+.leaflet-bottom {
   z-index: 10 !important;
 }
 

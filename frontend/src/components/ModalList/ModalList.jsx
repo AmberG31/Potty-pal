@@ -6,7 +6,7 @@ function ModalList() {
   const { modals, removeModal } = useContext(ModalContext);
 
   return (
-    <div className="fixed left-0 top-8 flex w-full flex-col gap-2 px-4">
+    <div className="pointer-events-none fixed left-0 top-10 z-30 flex w-full flex-col gap-2 px-4">
       {modals.map(({ message, type, id }) => (
         <Modal
           message={message}

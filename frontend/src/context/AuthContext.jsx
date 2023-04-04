@@ -10,12 +10,14 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ApiUrlContext } from './ApiUrlContext';
+import { ModalContext } from './ModalContext';
 
 export const AuthContext = createContext();
 
 function AuthContextProvider({ children }) {
   const [token, setToken] = useState(window.localStorage.getItem('token'));
   const [user, setUser] = useState({});
+  const { pushModal } = useContext(ModalContext);
   const { url } = useContext(ApiUrlContext);
   const navigate = useNavigate();
 
@@ -26,8 +28,12 @@ function AuthContextProvider({ children }) {
 
   const logout = () => {
     window.localStorage.removeItem('token');
-    setToken(undefined);
-    setUser(undefined);
+    setToken(null);
+    setUser(null);
+    pushModal({
+      type: 'success',
+      message: "You've been logged out.",
+    });
     navigate('/');
   };
 

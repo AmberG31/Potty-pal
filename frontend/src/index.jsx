@@ -11,12 +11,12 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <Router>
-    <ApiUrlContextProvider>
-      <AuthContextProvider>
-        <ModalContextProvider>
+    <ModalContextProvider>
+      <ApiUrlContextProvider>
+        <AuthContextProvider>
           <App />
-        </ModalContextProvider>
-      </AuthContextProvider>
-    </ApiUrlContextProvider>
+        </AuthContextProvider>
+      </ApiUrlContextProvider>
+    </ModalContextProvider>
   </Router>
 );

@@ -2,7 +2,6 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 
 import Navbar from '../components/navbar/Navbar';
-import ModalList from '../components/modalList/ModalList';
 
 function MainLayout() {
   return (
@@ -11,7 +10,6 @@ function MainLayout() {
         <Navbar />
       </header>
       <div className="flex-1">
-        <ModalList />
         <Outlet />
       </div>
     </div>

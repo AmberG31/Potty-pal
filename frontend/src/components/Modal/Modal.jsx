@@ -25,7 +25,7 @@ function Modal({ message, type, remove }) {
             : 'border-red-400 bg-red-50 text-red-600'
         } 
         ${isFadingOut ? 'animate-fade-out' : 'animate-fade-in'} 
-        z-50 mx-auto w-full rounded-lg border bg-opacity-95 p-4 text-sm lg:max-w-[40vw]
+        mx-auto w-full rounded-lg border bg-opacity-95 p-4 text-sm lg:max-w-[20vw]
       `}
       data-cy="modal"
     >

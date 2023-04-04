@@ -19,7 +19,7 @@ function Navbar() {
   };
 
   return (
-    <div className="flex w-full border border-b p-6">
+    <div className="z-0 flex w-full border border-b p-6">
       <div className="grid w-full grid-cols-4 items-center justify-between gap-4 sm:grid-cols-3 sm:justify-between md:gap-10">
         {/* Logo */}
         <div id="branding" className="max-w-fit shrink">
@@ -39,7 +39,7 @@ function Navbar() {
             </div>
           </Link>
         </div>
-        <div id="search-bar" className="col-span-3 sm:col-span-1">
+        <div id="search-bar" className="z-0 col-span-3 sm:col-span-1">
           <form
             onSubmit={submitHandler}
             className="flex rounded-lg border px-4 py-1"
