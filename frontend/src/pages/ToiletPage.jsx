@@ -10,7 +10,12 @@ import { AuthContext } from '../context/AuthContext';
 import { ApiUrlContext } from '../context/ApiUrlContext';
 
 function ToiletPage() {
+  const initialRatings = {
+    cleanliness: 0,
+  };
+
   const [toiletData, setToiletData] = useState();
+  const [ratings, setRatings] = useState(initialRatings);
   const [isModal, setIsModal] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const { token } = useContext(AuthContext);
@@ -57,12 +62,15 @@ function ToiletPage() {
             <p className="text-xl">Back</p>
           </Link>
         </div>
-        <div className="mx-auto max-w-7xl px-2">
-          {toiletData && <ToiletInfo toiletData={toiletData} />}
+        <div className="mx-auto mb-20 max-w-7xl px-2">
+          {toiletData && (
+            <ToiletInfo toiletData={toiletData} ratings={ratings} />
+          )}
 
           <ReviewList
             reviews={toiletData?.reviews || []}
             setIsModal={setIsModal}
+            setRatings={setRatings}
           />
         </div>
       </div>
