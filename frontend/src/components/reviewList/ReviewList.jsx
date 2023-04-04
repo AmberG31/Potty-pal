@@ -5,11 +5,11 @@ import Review, { reviewPropTypes } from '../review/Review';
 function ReviewList({ reviews, setIsModal }) {
   return (
     <>
-      <div className="my-6 flex justify-between">
-        <h2 className="text-3xl font-bold">Reviews</h2>
+      <div className="my-6 flex items-center justify-between">
+        <h2 className="text-2xl font-bold">Reviews</h2>
         <button
           type="button"
-          className="border border-slate-500 p-2"
+          className="btn px-10"
           onClick={() => setIsModal(true)}
         >
           Add review

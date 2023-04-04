@@ -48,7 +48,7 @@ function Navbar() {
             <input
               type="text"
               ref={searchRef}
-              className="h-full p-3 font-thin focus:outline-none lg:min-w-[300px]"
+              className="h-full border-none p-3 font-thin focus:border-none focus:outline-none lg:min-w-[300px]"
               placeholder="Search location"
             />
           </form>
@@ -87,8 +87,8 @@ function Navbar() {
                       <div className="py-1">
                         <Menu.Item>
                           {({ active }) => (
-                            <a
-                              href="/"
+                            <Link
+                              to="/"
                               className={`${
                                 active
                                   ? 'bg-gray-100 text-gray-900'
@@ -96,14 +96,14 @@ function Navbar() {
                               } block px-4 py-2 text-sm`}
                             >
                               View Toilets
-                            </a>
+                            </Link>
                           )}
                         </Menu.Item>
                         {token && (
                           <Menu.Item>
                             {({ active }) => (
-                              <a
-                                href="/toilets/add"
+                              <Link
+                                to="/toilets/add"
                                 className={`${
                                   active
                                     ? 'bg-gray-100 text-gray-900'
@@ -111,7 +111,7 @@ function Navbar() {
                                 } block px-4 py-2 text-sm`}
                               >
                                 Add New Toilet
-                              </a>
+                              </Link>
                             )}
                           </Menu.Item>
                         )}
@@ -161,8 +161,8 @@ function Navbar() {
                           <>
                             <Menu.Item>
                               {({ active }) => (
-                                <a
-                                  href="/user/profile"
+                                <Link
+                                  to="/user/profile"
                                   className={`${
                                     active
                                       ? 'bg-gray-100 text-gray-900'
@@ -170,7 +170,7 @@ function Navbar() {
                                   } block px-4 py-2 text-sm`}
                                 >
                                   Profile
-                                </a>
+                                </Link>
                               )}
                             </Menu.Item>
                             <Menu.Item>
@@ -192,8 +192,8 @@ function Navbar() {
                         ) : (
                           <Menu.Item>
                             {({ active }) => (
-                              <a
-                                href="/login"
+                              <Link
+                                to="/login"
                                 className={`${
                                   active
                                     ? 'bg-gray-100 text-gray-900'
@@ -201,7 +201,7 @@ function Navbar() {
                                 } block px-4 py-2 text-sm`}
                               >
                                 Login
-                              </a>
+                              </Link>
                             )}
                           </Menu.Item>
                         )}
