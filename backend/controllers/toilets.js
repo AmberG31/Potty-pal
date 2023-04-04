@@ -3,15 +3,21 @@ const Address = require('../models/address');
 const generateToken = require('../models/tokenGenerator');
 
 const getAllToilets = async (req, res) => {
+  const { userId } = req;
   try {
     const toilets = await Toilet.find()
       .sort({ createdAt: -1 })
       .populate([{ path: 'addedBy', model: 'User', select: 'username' }]);
-    const newToken = await generateToken(req.userId);
 
-    res.status(200).json({ toilets, token: newToken });
+    // Doesn't generate token if userId not found
+    if (userId === undefined) {
+      return res.status(200).json({ toilets });
+    }
+    const newToken = await generateToken(userId);
+
+    return res.status(200).json({ toilets, token: newToken });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 
@@ -41,6 +47,7 @@ const addNewToilet = async (req, res) => {
 };
 
 const getToiletById = async (req, res) => {
+  const { userId } = req;
   try {
     const toilet = await Toilet.findById(req.params.id)
       .populate([
@@ -60,14 +67,19 @@ const getToiletById = async (req, res) => {
     if (!toilet || toilet.length === 0) {
       throw new Error('Toilet not found');
     }
+
+    // Doesn't generate token if userId not found
+    if (userId === undefined) {
+      return res.status(200).json({ toilet });
+    }
+
     const newToken = await generateToken(req.userId);
-    res.status(200).json({ toilet, token: newToken });
+    return res.status(200).json({ toilet, token: newToken });
   } catch (error) {
     if (error.message === 'Toilet not found') {
-      res.status(404).json({ message: error.message });
-      return;
+      return res.status(404).json({ message: error.message });
     }
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 
