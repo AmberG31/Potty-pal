@@ -7,6 +7,7 @@ const ToiletSchema = new mongoose.Schema(
     name: { type: String, unique: true },
     accessible: { type: Boolean },
     babyChanging: { type: Boolean },
+    unisex: { type: Boolean },
     price: { type: mongoose.Decimal128 },
     addedBy: {
       type: mongoose.Schema.Types.ObjectId,

@@ -19,7 +19,7 @@ function Navbar() {
   };
 
   return (
-    <div className="flex w-full border border-b p-6">
+    <div className="z-0 flex w-full border border-b bg-white p-6">
       <div className="grid w-full grid-cols-4 items-center justify-between gap-4 sm:grid-cols-3 sm:justify-between md:gap-10">
         {/* Logo */}
         <div id="branding" className="max-w-fit shrink">
@@ -39,7 +39,7 @@ function Navbar() {
             </div>
           </Link>
         </div>
-        <div id="search-bar" className="col-span-3 sm:col-span-1">
+        <div id="search-bar" className="z-0 col-span-3 sm:col-span-1">
           <form
             onSubmit={submitHandler}
             className="flex rounded-lg border px-4 py-1"
@@ -48,14 +48,14 @@ function Navbar() {
             <input
               type="text"
               ref={searchRef}
-              className="h-full p-3 font-thin focus:outline-none lg:min-w-[300px]"
+              className="h-full border-none p-3 font-thin focus:border-none focus:outline-none lg:min-w-[300px]"
               placeholder="Search location"
             />
           </form>
         </div>
         <div
           id="menu-buttons"
-          className="col-span-4 flex justify-center gap-3 sm:col-span-1"
+          className="col-span-4 flex justify-center gap-3 sm:col-span-1 lg:justify-end"
         >
           <div className="flex gap-3">
             <Menu as="div" className="relative inline-block text-left">
@@ -80,15 +80,12 @@ function Navbar() {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items
-                      static
-                      className="absolute mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                    >
+                    <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <div className="py-1">
                         <Menu.Item>
                           {({ active }) => (
-                            <a
-                              href="/"
+                            <Link
+                              to="/"
                               className={`${
                                 active
                                   ? 'bg-gray-100 text-gray-900'
@@ -96,14 +93,14 @@ function Navbar() {
                               } block px-4 py-2 text-sm`}
                             >
                               View Toilets
-                            </a>
+                            </Link>
                           )}
                         </Menu.Item>
                         {token && (
                           <Menu.Item>
                             {({ active }) => (
-                              <a
-                                href="/toilets/add"
+                              <Link
+                                to="/toilets/add"
                                 className={`${
                                   active
                                     ? 'bg-gray-100 text-gray-900'
@@ -111,7 +108,7 @@ function Navbar() {
                                 } block px-4 py-2 text-sm`}
                               >
                                 Add New Toilet
-                              </a>
+                              </Link>
                             )}
                           </Menu.Item>
                         )}
@@ -152,17 +149,14 @@ function Navbar() {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items
-                      static
-                      className="absolute mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                    >
+                    <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <div className="py-1">
                         {token ? (
                           <>
                             <Menu.Item>
                               {({ active }) => (
-                                <a
-                                  href="/user/profile"
+                                <Link
+                                  to="/user/profile"
                                   className={`${
                                     active
                                       ? 'bg-gray-100 text-gray-900'
@@ -170,7 +164,7 @@ function Navbar() {
                                   } block px-4 py-2 text-sm`}
                                 >
                                   Profile
-                                </a>
+                                </Link>
                               )}
                             </Menu.Item>
                             <Menu.Item>
@@ -192,8 +186,8 @@ function Navbar() {
                         ) : (
                           <Menu.Item>
                             {({ active }) => (
-                              <a
-                                href="/login"
+                              <Link
+                                to="/login"
                                 className={`${
                                   active
                                     ? 'bg-gray-100 text-gray-900'
@@ -201,7 +195,7 @@ function Navbar() {
                                 } block px-4 py-2 text-sm`}
                               >
                                 Login
-                              </a>
+                              </Link>
                             )}
                           </Menu.Item>
                         )}

@@ -6,7 +6,10 @@ module.exports = {
       colors: {
         primary: '#F7942C',
       },
+      backgroundImage: {
+        'form-bg': "url('../public/bg.jpeg')",
+      },
     },
   },
-  plugins: ['@tailwindcss/forms'],
+  plugins: [require('@tailwindcss/forms')],
 };
