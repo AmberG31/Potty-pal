@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React, { Fragment } from 'react';
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/solid';
 import { Menu, Transition } from '@headlessui/react';
@@ -5,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 
 function Navbar() {
-  const { logout, token } = React.useContext(AuthContext);
+  const { logout, token, user } = React.useContext(AuthContext);
 
   return (
     <div className="z-0 flex w-full border border-b bg-white p-6">
@@ -67,7 +68,7 @@ function Navbar() {
                                   : 'text-gray-700'
                               } block px-4 py-2 text-sm`}
                             >
-                              View Toilets
+                              View Map
                             </Link>
                           )}
                         </Menu.Item>
@@ -129,17 +130,20 @@ function Navbar() {
                         {token ? (
                           <>
                             <Menu.Item>
-                              {({ active }) => (
-                                <Link
-                                  to="/user/profile"
-                                  className={`${
-                                    active
-                                      ? 'bg-gray-100 text-gray-900'
-                                      : 'text-gray-700'
-                                  } block px-4 py-2 text-sm`}
-                                >
-                                  Profile
-                                </Link>
+                              {() => (
+                                <div className="flex items-center gap-x-2 border-b px-4 py-3">
+                                  <img
+                                    src={`https://robohash.org/${user._id}`}
+                                    alt="profile-pic"
+                                    className="w-10 rounded-full border"
+                                  />
+                                  <p className="text-sm">
+                                    Log in as{' '}
+                                    <span className="ml-1 text-base font-bold capitalize">
+                                      {user.username}
+                                    </span>
+                                  </p>
+                                </div>
                               )}
                             </Menu.Item>
                             <Menu.Item>
@@ -148,7 +152,7 @@ function Navbar() {
                                   type="button"
                                   className={`${
                                     active
-                                      ? 'bg-gray-100 text-gray-900'
+                                      ? 'bg-red-100 text-red-900'
                                       : 'text-gray-700'
                                   } block w-full px-4 py-2 text-left text-sm`}
                                   onClick={logout}

@@ -11,7 +11,6 @@ import { AuthContext } from '../../context/AuthContext';
 import ErrorPage from '../../pages/ErrorPage';
 import AddToilet from '../addToilet/AddToilet';
 import MainLayout from '../../layouts/MainLayout';
-import UserProfile from '../../pages/UserProfile';
 
 function App() {
   const { token } = useContext(AuthContext);
@@ -33,7 +32,6 @@ function App() {
             path="/toilets/add"
             element={token ? <AddToilet /> : <Navigate to="/login" />}
           />
-          <Route path="/user/profile" element={<UserProfile />} />
           <Route path="/toilets/:id" element={<ToiletPage />} />
         </Route>
         <Route path="*" element={<ErrorPage />} />
