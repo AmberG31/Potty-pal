@@ -11,13 +11,21 @@ function ReviewList({ reviews, setIsModal, setRatings }) {
       return;
     }
     let cleanlinessTotal = 0;
+    let availabilitylinessTotal = 0;
+    let aestheticsTotal = 0;
+    let comfortTotal = 0;
     reviews.forEach((review) => {
       cleanlinessTotal += review.clean;
+      availabilitylinessTotal += review.availability;
+      aestheticsTotal += review.aesthetics;
+      comfortTotal += review.comfort;
     });
-    setRatings((prev) => ({
-      ...prev,
+    setRatings({
       cleanliness: cleanlinessTotal / reviews.length,
-    }));
+      availability: availabilitylinessTotal / reviews.length,
+      aesthetics: aestheticsTotal / reviews.length,
+      comfort: comfortTotal / reviews.length,
+    });
   };
 
   useEffect(() => {

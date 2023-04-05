@@ -12,6 +12,9 @@ import { ApiUrlContext } from '../context/ApiUrlContext';
 function ToiletPage() {
   const initialRatings = {
     cleanliness: 0,
+    availability: 0,
+    comfort: 0,
+    aesthetics: 0,
   };
 
   const [toiletData, setToiletData] = useState();

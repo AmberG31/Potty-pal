@@ -1,3 +1,4 @@
+/* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable react/jsx-one-expression-per-line */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
@@ -11,13 +12,16 @@ function ToiletInfo({ toiletData, ratings }) {
   const [photoCount, setPhotoCount] = useState(0);
   const { address, city, postcode } = toiletData.address;
   const { babyChanging, accessible, reviews, unisex } = toiletData;
-  const { cleanliness } = ratings;
+  const { cleanliness, availability, aesthetics, comfort } = ratings;
 
   const [center] = useState([51.505, -0.09]);
   const toilet = new Icon({
     iconUrl: '/toilet.svg',
     iconSize: [60, 60],
   });
+
+  const calculateOverallRating = () =>
+    (cleanliness + availability + aesthetics + comfort) / 4;
 
   const imageUrl =
     toiletData.photos.length === 0
@@ -50,8 +54,8 @@ function ToiletInfo({ toiletData, ratings }) {
           </div>
         ) : (
           <div className="mt-2 flex items-center gap-3 text-lg font-semibold text-primary">
-            {cleanliness.toFixed(1)}
-            <RatingStars rating={cleanliness} />
+            {calculateOverallRating().toFixed(1)}
+            <RatingStars rating={calculateOverallRating()} />
             <p className="text-base font-light text-gray-400">
               based on {toiletData.reviews.length} reviews
             </p>
@@ -99,14 +103,15 @@ function ToiletInfo({ toiletData, ratings }) {
           {/* Overall Ratings */}
           <div className="flex h-full flex-col">
             <h2 className="text-2xl font-bold">Overall Ratings</h2>
-            <div className="mt-4 flex h-full flex-col items-center justify-center gap-3 rounded-lg border p-6">
+            <div className="mt-4 flex flex-col items-center justify-center gap-3 rounded-lg border p-10">
               {reviews.length === 0 ? (
                 'No reviews'
               ) : (
                 <>
                   <Rating name="Cleanliness" rating={cleanliness} />
-                  <Rating name="Cleanliness" rating={cleanliness} />
-                  <Rating name="Cleanliness" rating={cleanliness} />
+                  <Rating name="Availability" rating={availability} />
+                  <Rating name="Aesthetics" rating={aesthetics} />
+                  <Rating name="Comfort" rating={comfort} />
                 </>
               )}
             </div>

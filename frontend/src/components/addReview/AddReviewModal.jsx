@@ -1,6 +1,8 @@
 import React, { useContext, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import { Disclosure } from '@headlessui/react';
+import { ChevronUpIcon } from '@heroicons/react/24/outline';
 import { ModalContext } from '../../context/ModalContext';
 import { AuthContext } from '../../context/AuthContext';
 import { ApiUrlContext } from '../../context/ApiUrlContext';
@@ -8,6 +10,9 @@ import { ApiUrlContext } from '../../context/ApiUrlContext';
 function AddReviewModal({ setIsModal, refresh, setRefresh, toiletId }) {
   const contentRef = useRef();
   const cleanlinessRef = useRef();
+  const availabilityRef = useRef();
+  const aestheticsRef = useRef();
+  const comfortRef = useRef();
   const [isInvalid, setIsInvalid] = useState(false);
   const [message, setMessage] = useState('');
   const { token } = useContext(AuthContext);
@@ -31,6 +36,9 @@ function AddReviewModal({ setIsModal, refresh, setRefresh, toiletId }) {
     const body = {
       content: contentRef.current.value,
       clean: cleanlinessRef.current.value,
+      comfort: comfortRef.current.value,
+      availability: availabilityRef.current.value,
+      aesthetics: aestheticsRef.current.value,
     };
     if (!validInputChecker(body)) {
       return;
@@ -54,9 +62,15 @@ function AddReviewModal({ setIsModal, refresh, setRefresh, toiletId }) {
       });
       contentRef.current.value = '';
       cleanlinessRef.current.value = '';
+      comfortRef.current.value = '';
+      availabilityRef.current.value = '';
+      aestheticsRef.current.value = '';
       setIsModal(false);
     } catch (error) {
-      console.log(error.message);
+      pushModal({
+        message: error.response.data.message,
+        type: 'error',
+      });
     }
   };
 
@@ -67,10 +81,10 @@ function AddReviewModal({ setIsModal, refresh, setRefresh, toiletId }) {
     >
       <form
         onSubmit={submitHandler}
-        className="mx-2 flex w-full flex-col justify-between gap-6 border-2 bg-white p-8 lg:min-h-[40vh] xl:w-[40vw]"
+        className="mx-2 flex w-full flex-col justify-between gap-6 rounded-lg border-2 bg-white p-4 lg:p-10 xl:w-[1000px]"
       >
         <div className="col-span-full">
-          <h2 className="my-2 text-3xl font-bold">Add a review</h2>
+          <h2 className="my-2 mb-8 text-3xl font-bold">Add a review</h2>
           <label
             htmlFor="content"
             className="block text-sm font-medium leading-6 text-gray-900"
@@ -92,31 +106,64 @@ function AddReviewModal({ setIsModal, refresh, setRefresh, toiletId }) {
         </div>
         <div>
           <h3 className="my-2 text-2xl font-bold">Rating</h3>
-          <p className="mb-3 text-sm leading-6 text-gray-600">
+          <p className="text-sm leading-6 text-gray-600">
             Description of ratings: 1 - Terrible, 2 - Poor, 3 - Average, 4 -
             Very good, 5 - Exellent
           </p>
-          <label
-            htmlFor="cleanliness"
-            className="block text-sm font-medium leading-6 text-gray-900"
-          >
-            Cleanliness
-            <select
-              id="cleanliness"
-              ref={cleanlinessRef}
-              defaultValue=""
-              className="ml-6 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-            >
-              <option value="" disabled>
-                Select rate
-              </option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select>
-          </label>
+          <div className="mb-4 mt-4 grid grid-cols-1 gap-4 rounded-lg border p-4 md:grid-cols-2">
+            <SelectInput name="cleanliness" reference={cleanlinessRef} />
+            <SelectInput name="availability" reference={availabilityRef} />
+            <SelectInput name="aesthetics" reference={aestheticsRef} />
+            <SelectInput name="comfort" reference={comfortRef} />
+          </div>
+
+          <Disclosure>
+            {({ open }) => (
+              <>
+                <Disclosure.Button className="flex w-full justify-between rounded-lg bg-gray-100 p-4 text-left text-sm font-medium text-gray-900 hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-gray-500 focus-visible:ring-opacity-75">
+                  <span>Explanation</span>
+                  <ChevronUpIcon
+                    className={`${
+                      open ? 'rotate-180 transform' : ''
+                    } h-5 w-5 text-gray-500`}
+                  />
+                </Disclosure.Button>
+                <Disclosure.Panel className="grid grid-cols-2 gap-4 px-4 pb-2 pt-4 text-sm text-gray-500">
+                  <div className="flex flex-col gap-2">
+                    <h4 className="font-bold">Cleanliness</h4>
+                    <p>
+                      This category would take into account the overall
+                      cleanliness of the toilet, including the bowl, seat, and
+                      surrounding areas.
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <h4 className="font-bold">Availability</h4>
+                    <p>
+                      This category would consider the availability of toilets
+                      in a public space, including the number of available
+                      toilets and their proximity to users.
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <h4 className="font-bold">Aesthetics</h4>
+                    <p>
+                      This category would evaluate the aesthetics of the toilet,
+                      including its color, shape, and style.
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <h4 className="font-bold">Comfort</h4>
+                    <p>
+                      This category would consider how comfortable the toilet is
+                      to sit on, including factors such as seat shape, size, and
+                      padding.
+                    </p>
+                  </div>
+                </Disclosure.Panel>
+              </>
+            )}
+          </Disclosure>
         </div>
         {isInvalid && (
           <p className="rounded-lg border border-red-300 bg-red-100 p-4 text-red-600">
@@ -124,12 +171,12 @@ function AddReviewModal({ setIsModal, refresh, setRefresh, toiletId }) {
           </p>
         )}
         <div className="flex flex-col gap-2">
-          <button type="submit" className="border border-slate-500 p-2">
+          <button type="submit" className="btn p-3">
             Submit
           </button>
           <button
             type="button"
-            className="border border-slate-500 p-2"
+            className="btn-outline mt-2 p-3"
             onClick={() => setIsModal(false)}
           >
             Close
@@ -139,6 +186,41 @@ function AddReviewModal({ setIsModal, refresh, setRefresh, toiletId }) {
     </div>
   );
 }
+
+function SelectInput({ name, reference }) {
+  const tag = name.split(' ').join('-');
+  return (
+    <label
+      htmlFor={tag}
+      className="block text-sm font-medium capitalize leading-6 text-gray-900"
+    >
+      {name}
+      <select
+        id={tag}
+        ref={reference}
+        defaultValue=""
+        className="w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6 md:ml-6"
+      >
+        <option value="" disabled>
+          Select rate
+        </option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+    </label>
+  );
+}
+
+SelectInput.propTypes = {
+  name: PropTypes.string.isRequired,
+  reference: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+  ]).isRequired,
+};
 
 AddReviewModal.propTypes = {
   setIsModal: PropTypes.func.isRequired,

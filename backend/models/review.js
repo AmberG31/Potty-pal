@@ -5,6 +5,9 @@ const mongoose = require('mongoose');
 const ReviewSchema = new mongoose.Schema(
   {
     clean: { type: Number },
+    comfort: { type: Number },
+    availability: { type: Number },
+    aesthetics: { type: Number },
     content: { type: String },
     toiletId: {
       type: mongoose.Schema.Types.ObjectId,

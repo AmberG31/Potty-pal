@@ -18,7 +18,7 @@ function Sidebar({ toilets, isLoading }) {
         <div className="flex gap-2">
           <InformationCircleIcon className="w-7" />
           <h3 className="text-xl font-bold">
-            Nearby Toilets <span>{`(${toilets.length})`}</span>
+            Toilets <span>{`(${toilets.length})`}</span>
           </h3>
         </div>
         {isLoading ? (
