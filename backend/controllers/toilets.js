@@ -1,3 +1,4 @@
+/* eslint-disable operator-linebreak */
 const Toilet = require('../models/toilet');
 const Address = require('../models/address');
 const generateToken = require('../models/tokenGenerator');
@@ -9,7 +10,6 @@ const getAllToilets = async (req, res) => {
       .sort({ createdAt: -1 })
       .populate([{ path: 'addedBy', model: 'User', select: 'username' }])
       .populate([{ path: 'reviews', model: 'Review' }]);
-
     // Doesn't generate token if userId not found
     if (userId === undefined) {
       return res.status(200).json({ toilets });
@@ -24,7 +24,8 @@ const getAllToilets = async (req, res) => {
 
 const addNewToilet = async (req, res) => {
   try {
-    const { name, accessible, babyChanging, price, address, photos } = req.body;
+    const { name, accessible, babyChanging, price, address, photos, unisex } =
+      req.body;
     const addressRecord = await Address.create(address);
     const { userId } = req;
     const toilet = await new Toilet({
@@ -32,6 +33,7 @@ const addNewToilet = async (req, res) => {
       accessible,
       babyChanging,
       price,
+      unisex,
       address: addressRecord.id,
       addedBy: userId,
       photos,
