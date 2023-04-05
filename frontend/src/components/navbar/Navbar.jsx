@@ -1,26 +1,15 @@
-import React, { useRef, Fragment } from 'react';
-import {
-  MagnifyingGlassIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-} from '@heroicons/react/24/solid';
+import React, { Fragment } from 'react';
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/solid';
 import { Menu, Transition } from '@headlessui/react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 
 function Navbar() {
   const { logout, token } = React.useContext(AuthContext);
-  const searchRef = useRef();
-
-  const submitHandler = (event) => {
-    event.preventDefault();
-    console.log(searchRef.current.value);
-    searchRef.current.value = '';
-  };
 
   return (
     <div className="z-0 flex w-full border border-b bg-white p-6">
-      <div className="grid w-full grid-cols-4 items-center justify-between gap-4 sm:grid-cols-3 sm:justify-between md:gap-10">
+      <div className="flex w-full items-center justify-between gap-4 sm:justify-between md:gap-10">
         {/* Logo */}
         <div id="branding" className="max-w-fit shrink">
           <Link to="/">
@@ -38,20 +27,6 @@ function Navbar() {
               </div>
             </div>
           </Link>
-        </div>
-        <div id="search-bar" className="z-0 col-span-3 sm:col-span-1">
-          <form
-            onSubmit={submitHandler}
-            className="flex rounded-lg border px-4 py-1"
-          >
-            <MagnifyingGlassIcon className="w-5" />
-            <input
-              type="text"
-              ref={searchRef}
-              className="h-full border-none p-3 font-thin focus:border-none focus:outline-none lg:min-w-[300px]"
-              placeholder="Search location"
-            />
-          </form>
         </div>
         <div
           id="menu-buttons"
