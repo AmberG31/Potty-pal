@@ -32,17 +32,34 @@ function AddToilet() {
       },
     };
 
+    const convertAddressToGeolocation = async ({ address, city, postcode }) => {
+      const nominatimEndpoint = 'https://nominatim.openstreetmap.org/search?';
+      const fetchingURL = `${nominatimEndpoint}street=${address}&city=${city}&postcode=${postcode}&format=json`;
+      console.log(fetchingURL);
+      const response = await axios.get(fetchingURL);
+      console.log(response.body);
+      const { lat, lon } = response.data[0];
+      return [lat, lon];
+    };
+
+    const address = {
+      address: streetAddressInputRef.current.value,
+      city: cityInputRef.current.value,
+      postcode: postcodeInputRef.current.value,
+      geolocation: await convertAddressToGeolocation({
+        address: streetAddressInputRef.current.value,
+        city: cityInputRef.current.value,
+        postcode: postcodeInputRef.current.value,
+      }),
+    };
+
     const data = {
       name: nameInputRef.current.value,
       babyChanging: babyChangingRef.current.checked,
       unisex: genderNeutralRef.current.checked,
       accessible: accessibleRef.current.checked,
       price: parseFloat(priceInputRef.current.value),
-      address: {
-        address: streetAddressInputRef.current.value,
-        city: cityInputRef.current.value,
-        postcode: postcodeInputRef.current.value,
-      },
+      address,
       photos: images.map(({ image }) => image),
     };
 

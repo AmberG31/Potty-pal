@@ -6,6 +6,7 @@ const AddressSchema = new mongoose.Schema({
   address: { type: String },
   city: { type: String },
   postcode: { type: String },
+  geolocation: [{ type: String }],
 });
 
 const Address = mongoose.model('Address', AddressSchema);
