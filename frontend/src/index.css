@@ -12,13 +12,20 @@
   font-family: 'Righteous', cursive;
 }
 
+.leaflet-pane,
+.leaflet-control,
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 10 !important;
+}
+
 @layer components {
   .btn {
     @apply rounded-md bg-primary p-2 font-semibold text-white;
   }
 
   .btn-outline {
-    @apply rounded-md border-2 border-primary p-2 font-semibold text-white;
+    @apply rounded-md border-2 border-primary p-2 font-semibold text-primary;
   }
 
   .form-input {

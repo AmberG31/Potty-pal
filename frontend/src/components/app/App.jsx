@@ -6,26 +6,20 @@ import LoginPage from '../../pages/LoginPage';
 import SignupPage from '../../pages/SignUpPage';
 import ToiletPage from '../../pages/ToiletPage';
 import ModalList from '../modalList/ModalList';
-import Navbar from '../navbar/Navbar';
 
 import { AuthContext } from '../../context/AuthContext';
 import MapPage from '../../pages/MapPage';
 import ErrorPage from '../../pages/ErrorPage';
-import MapLayoutPage from '../../pages/MapLayoutPage';
 import AddToilet from '../addToilet/AddToilet';
+import MainLayout from '../../layouts/MainLayout';
+import UserProfile from '../../pages/UserProfile';
 
 function App() {
   const { token } = useContext(AuthContext);
   return (
-    <main className="mx-auto">
+    <>
       <ModalList />
-      <Navbar />
       <Routes>
-        <Route path="/" element={token ? <Home /> : <Navigate to="/login" />} />
-        <Route
-          path="/toilets/add"
-          element={token ? <AddToilet /> : <Navigate to="/login" />}
-        />
         <Route
           path="/login"
           element={token ? <Navigate to="/" /> : <LoginPage />}
@@ -34,12 +28,19 @@ function App() {
           path="/signup"
           element={token ? <Navigate to="/" /> : <SignupPage />}
         />
-        <Route path="/map" element={<MapPage />} />
-        <Route path="/layout" element={<MapLayoutPage />} />
-        <Route path="/toilets/:id" element={<ToiletPage />} />
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route
+            path="/toilets/add"
+            element={token ? <AddToilet /> : <Navigate to="/login" />}
+          />
+          <Route path="/map" element={<MapPage />} />
+          <Route path="/user/profile" element={<UserProfile />} />
+          <Route path="/toilets/:id" element={<ToiletPage />} />
+        </Route>
         <Route path="*" element={<ErrorPage />} />
       </Routes>
-    </main>
+    </>
   );
 }
 

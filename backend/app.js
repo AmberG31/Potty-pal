@@ -19,7 +19,10 @@ app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // route setup
-app.use('/toilets', tokenChecker, toiletRouter);
+// Ensures only logged in users can access the toilets POST routes
+app.post('/toilets', tokenChecker);
+
+app.use('/toilets', toiletRouter);
 app.use('/tokens', tokensRouter);
 app.use('/users', usersRouter);
 
