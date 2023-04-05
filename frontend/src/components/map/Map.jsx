@@ -1,20 +1,23 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { StarIcon, CheckCircleIcon } from '@heroicons/react/24/solid';
 
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import { Icon } from 'leaflet';
+import axios from 'axios';
+import PropTypes from 'prop-types';
+import { AuthContext } from '../../context/AuthContext';
 
-const toilet = new Icon({
+const toiletIcon = new Icon({
   iconUrl: '/toilet.svg',
   iconSize: [60, 60],
 });
 
-function PopupContainer() {
+function PopupContainer({ toiletName }) {
   const rating = 4;
 
   return (
     <div className="h-80 w-80 overflow-auto">
-      <h2 className="text-xl font-bold">My beautiful toilet</h2>
+      <h2 className="text-xl font-bold">{toiletName}</h2>
       <p className="text-gray-500">153 London High Street, Waterloo, W3 5PH</p>
       <div className="font-bold text-orange-600">
         <div className="flex items-center">
@@ -97,7 +100,31 @@ function PopupContainer() {
 }
 
 function Map() {
-  const [center] = useState([51.505, -0.09]);
+  const { token } = useContext(AuthContext);
+  const [toiletData, setToiletData] = useState([]);
+
+  const [center] = useState(['51.52351', '-0.0839073']);
+  const [refresh] = useState(false);
+  const fetchData = async () => {
+    try {
+      // fetch data from API
+      const response = await axios.get('/toilets', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      // assign state
+      setToiletData(response.data.toilets);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // console.log(response.data.toilets);
+
+  useEffect(() => {
+    fetchData();
+  }, [refresh]);
 
   return (
     <MapContainer
@@ -114,13 +141,30 @@ function Map() {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker position={center} icon={toilet}>
-        <Popup>
-          <PopupContainer />
-        </Popup>
-      </Marker>
+      {toiletData.map((toilet) => (
+        <Marker
+          key={toilet._id}
+          position={[
+            toilet.address.geolocation[0],
+            toilet.address.geolocation[1],
+          ]}
+          icon={toiletIcon}
+        >
+          <Popup>
+            <PopupContainer
+              toiletName={toilet.name}
+              accessible={toilet.accessible ? 'Yes' : 'No'}
+              babyChanging={toilet.babyChanging ? 'Yes' : 'No'}
+            />
+          </Popup>
+        </Marker>
+      ))}
     </MapContainer>
   );
 }
+
+PopupContainer.propTypes = {
+  toiletName: PropTypes.string.isRequired,
+};
 
 export default Map;
