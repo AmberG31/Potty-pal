@@ -1,10 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
-
+import React, { useState } from 'react';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import { Icon } from 'leaflet';
-import axios from 'axios';
-import { AuthContext } from '../../context/AuthContext';
+
 import PopupContainer from './PopupContainer';
+import { toiletPropTypes } from '../toilet/Toilet';
 
 const toiletIcon = new Icon({
   iconUrl: '/toilet.svg',
@@ -16,30 +15,8 @@ const makersIcon = new Icon({
   iconSize: [60, 60],
 });
 
-function Map() {
-  const { token } = useContext(AuthContext);
-  const [toiletData, setToiletData] = useState([]);
-
+function Map({ toilets }) {
   const [center] = useState(['51.52351', '-0.0839073']);
-  const [refresh] = useState(false);
-  const fetchData = async () => {
-    try {
-      // fetch data from API
-      const response = await axios.get('/toilets', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      // assign state
-      setToiletData(response.data.toilets);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, [refresh]);
 
   return (
     <MapContainer
@@ -59,7 +36,7 @@ function Map() {
       <Marker position={center} icon={makersIcon}>
         <Popup>We are now here!</Popup>
       </Marker>
-      {toiletData.map((toilet) => (
+      {toilets.map((toilet) => (
         <Marker
           key={toilet._id}
           position={[
@@ -76,5 +53,9 @@ function Map() {
     </MapContainer>
   );
 }
+
+Map.propTypes = {
+  toilets: toiletPropTypes.isRequired,
+};
 
 export default Map;
