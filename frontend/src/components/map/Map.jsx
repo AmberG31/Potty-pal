@@ -12,6 +12,11 @@ const toiletIcon = new Icon({
   iconSize: [60, 60],
 });
 
+const makersIcon = new Icon({
+  iconUrl: '/makers.svg',
+  iconSize: [60, 60],
+});
+
 function PopupContainer({ toiletName }) {
   const rating = 4;
 
@@ -131,7 +136,7 @@ function Map() {
       center={center}
       zoom={16}
       scrollWheelZoom
-      className="h-full w-full"
+      className="h-full min-h-[60vh] w-full"
     >
       {/* <TileLayer
         attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery &copy; <a href="https://www.mapbox.com/">Mapbox</a>'
@@ -141,6 +146,9 @@ function Map() {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
+      <Marker position={center} icon={makersIcon}>
+        <Popup>We are now here!</Popup>
+      </Marker>
       {toiletData.map((toilet) => (
         <Marker
           key={toilet._id}

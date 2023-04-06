@@ -16,7 +16,7 @@ function Navbar() {
           <Link to="/">
             <div className="flex gap-4">
               <div className="">
-                <img className="w-16" src="/mini-logo.svg" alt="" />
+                <img className="w-12 lg:w-16" src="/mini-logo.svg" alt="" />
               </div>
               <div className="hidden flex-col justify-center sm:block">
                 <h1 id="logo-title" className="text-3xl">

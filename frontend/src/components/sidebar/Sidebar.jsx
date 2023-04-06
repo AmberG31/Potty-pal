@@ -12,7 +12,8 @@ import { toiletPropTypes } from '../toilet/Toilet';
 
 function Sidebar({ toilets, isLoading }) {
   return (
-    <div className="w-full max-w-[500px] border border-r-2 p-4">
+    <div className="w-full p-4 lg:max-w-[500px] lg:border-r-2">
+      <div className="mx-auto h-2 w-[50%] rounded-full bg-gray-300 lg:hidden" />
       <FilterContainer />
       <div className="mt-8">
         <div className="flex gap-2">
@@ -36,7 +37,7 @@ function Sidebar({ toilets, isLoading }) {
 function FilterContainer() {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="my-2 rounded-lg border p-2 px-4">
+    <div className="my-2 mt-4 rounded-lg border p-2 px-4">
       <button
         type="button"
         className="flex w-full items-center justify-between py-2"
@@ -56,7 +57,7 @@ function FilterContainer() {
       </button>
       {isOpen && (
         <>
-          <div className="my-4 grid grid-cols-2 gap-2">
+          <div className="my-4 grid gap-2 lg:grid-cols-2">
             <CheckBoxComponent name="Baby Changing" />
             <CheckBoxComponent name="Accessible" />
             <CheckBoxComponent name="Unisex" />

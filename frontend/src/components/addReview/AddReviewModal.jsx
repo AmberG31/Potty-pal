@@ -81,7 +81,7 @@ function AddReviewModal({ setIsModal, refresh, setRefresh, toiletId }) {
     >
       <form
         onSubmit={submitHandler}
-        className="mx-2 flex w-full flex-col justify-between gap-6 rounded-lg border-2 bg-white p-4 lg:p-10 xl:w-[1000px]"
+        className="mx-2 flex max-h-[95vh] w-full flex-col justify-between gap-6 overflow-auto rounded-lg border-2 bg-white p-4 lg:p-10 xl:w-[1000px]"
       >
         <div className="col-span-full">
           <h2 className="my-2 mb-8 text-3xl font-bold">Add a review</h2>

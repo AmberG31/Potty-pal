@@ -30,7 +30,7 @@ function Home() {
   }, []);
 
   return (
-    <div className="flex h-full flex-1">
+    <div className="flex h-full flex-1 flex-col-reverse lg:flex-row">
       <Sidebar isLoading={isLoading} toilets={toilets} />
       <div className="flex-1">
         <Map />

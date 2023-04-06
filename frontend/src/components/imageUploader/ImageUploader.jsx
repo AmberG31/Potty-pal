@@ -151,9 +151,8 @@ function UploadFrame({ handler }) {
               onClick={handler}
               className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
             >
-              Upload a file
+              Upload a file or multiple files
             </button>
-            <p className="pl-1">or multiple files</p>
           </div>
           <p className="text-xs leading-5 text-gray-600">
             PNG, JPG, JPEG, SVG up to 5MB
