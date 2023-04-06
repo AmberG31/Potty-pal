@@ -10,11 +10,10 @@ import RatingStars from '../ratingStars/RatingStars';
 
 function ToiletInfo({ toiletData, ratings }) {
   const [photoCount, setPhotoCount] = useState(0);
-  const { address, city, postcode } = toiletData.address;
+  const { address, city, postcode, geolocation } = toiletData.address;
   const { babyChanging, accessible, reviews, unisex } = toiletData;
   const { cleanliness, availability, aesthetics, comfort } = ratings;
 
-  const [center] = useState([51.505, -0.09]);
   const toilet = new Icon({
     iconUrl: '/toilet.svg',
     iconSize: [60, 60],
@@ -88,8 +87,8 @@ function ToiletInfo({ toiletData, ratings }) {
           <div>
             <h2 className="text-2xl font-bold">Map</h2>
             <MapContainer
-              center={center}
-              zoom={15}
+              center={[geolocation[0], geolocation[1]]}
+              zoom={16}
               scrollWheelZoom
               className="mt-2 h-52 w-full"
             >
@@ -97,7 +96,10 @@ function ToiletInfo({ toiletData, ratings }) {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
-              <Marker position={center} icon={toilet} />
+              <Marker
+                position={[geolocation[0], geolocation[1]]}
+                icon={toilet}
+              />
             </MapContainer>
           </div>
           {/* Overall Ratings */}
@@ -177,6 +179,7 @@ ToiletInfo.propTypes = {
       address: PropTypes.string,
       city: PropTypes.string,
       postcode: PropTypes.string,
+      geolocation: PropTypes.arrayOf(PropTypes.string),
       __v: PropTypes.number,
       _id: PropTypes.string,
     }),
