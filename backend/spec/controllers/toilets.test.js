@@ -148,7 +148,7 @@ describe('/toilets', () => {
       describe('When the toilet does not exist', () => {
         test('it should return a 404 response', async () => {
           const response = await request(app)
-            .get(`/toilets/64261347059e9ae1f387ff33`)
+            .get('/toilets/64261347059e9ae1f387ff33')
             .set('Authorization', `Bearer ${token}`);
           expect(response.status).toBe(404);
         });
@@ -170,7 +170,6 @@ describe('/toilets', () => {
           price: 0.5,
           addedBy: user._id,
         };
-        console.log(token);
         const response = await request(app)
           .post('/toilets')
           .set('Authorization', `Bearer ${token}`)
