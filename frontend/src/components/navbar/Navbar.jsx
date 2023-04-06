@@ -9,7 +9,7 @@ function Navbar() {
   const { logout, token, user } = React.useContext(AuthContext);
 
   return (
-    <div className="z-0 flex w-full border border-b bg-white p-6">
+    <div className="z-0 flex h-full w-full border border-b bg-white p-6">
       <div className="flex w-full items-center justify-between gap-4 sm:justify-between md:gap-10">
         {/* Logo */}
         <div id="branding" className="max-w-fit shrink">

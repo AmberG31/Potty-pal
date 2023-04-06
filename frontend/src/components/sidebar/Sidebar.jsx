@@ -7,7 +7,7 @@ import { toiletPropTypes } from '../toilet/Toilet';
 
 function Sidebar({ toilets, isLoading, children }) {
   return (
-    <div className="w-full p-4 lg:max-w-[500px] lg:border-r-2">
+    <div className="max-h-[90vh] w-full p-4 lg:max-w-[500px] lg:overflow-auto lg:border-r-2">
       <div className="mx-auto h-2 w-[50%] rounded-full bg-gray-300 lg:hidden" />
       {children}
       <div className="mt-8">
@@ -18,9 +18,12 @@ function Sidebar({ toilets, isLoading, children }) {
           </h3>
         </div>
         {isLoading ? (
-          <p className="mt-10 animate-pulse text-center text-lg font-medium text-gray-500">
-            Loading...
-          </p>
+          <div className="mx-auto flex min-h-[50vh] max-w-6xl flex-col items-center justify-center">
+            <div className="custom-loader" />
+            <p className="mt-4 animate-pulse text-center text-lg font-light text-gray-500">
+              Loading...
+            </p>
+          </div>
         ) : (
           <ToiletList toilets={toilets} />
         )}

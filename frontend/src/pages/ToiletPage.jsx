@@ -19,6 +19,7 @@ function ToiletPage() {
 
   const [toiletData, setToiletData] = useState();
   const [ratings, setRatings] = useState(initialRatings);
+  const [isLoading, setIsLoading] = useState(false);
   const [isModal, setIsModal] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const { token } = useContext(AuthContext);
@@ -26,6 +27,7 @@ function ToiletPage() {
   const { id } = useParams();
 
   const fetchData = useCallback(async () => {
+    setIsLoading(true);
     try {
       // fetch data from API
       const response = await axios.get(`${url}/toilets/${id}`, {
@@ -38,6 +40,7 @@ function ToiletPage() {
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false);
   }, [id]);
 
   useEffect(() => {
@@ -54,29 +57,39 @@ function ToiletPage() {
           setRefresh={setRefresh}
         />
       )}
-      <div>
-        {/* Back Button */}
-        <div className="border-b py-4">
-          <Link
-            to="/"
-            className="mx-auto flex max-w-7xl items-center px-2 font-semibold hover:text-gray-700"
-          >
-            <ArrowSmallLeftIcon className="mr-6 w-8" />
-            <p className="text-xl">Back</p>
-          </Link>
+      {isLoading && (
+        <div className="mx-auto my-6 flex min-h-[50vh] max-w-6xl flex-col items-center justify-center">
+          <div className="custom-loader" />
+          <p className="mt-4 animate-pulse text-center text-lg font-light text-gray-500">
+            Loading...
+          </p>
         </div>
-        <div className="mx-auto mb-20 max-w-7xl px-2">
-          {toiletData && (
-            <ToiletInfo toiletData={toiletData} ratings={ratings} />
-          )}
+      )}
+      {!isLoading && (
+        <div>
+          {/* Back Button */}
+          <div className="border-b py-4">
+            <Link
+              to="/"
+              className="mx-auto flex max-w-7xl items-center px-2 font-semibold hover:text-gray-700"
+            >
+              <ArrowSmallLeftIcon className="mr-6 w-8" />
+              <p className="text-xl">Back</p>
+            </Link>
+          </div>
+          <div className="mx-auto mb-20 max-w-7xl px-2">
+            {toiletData && (
+              <ToiletInfo toiletData={toiletData} ratings={ratings} />
+            )}
 
-          <ReviewList
-            reviews={toiletData?.reviews || []}
-            setIsModal={setIsModal}
-            setRatings={setRatings}
-          />
+            <ReviewList
+              reviews={toiletData?.reviews || []}
+              setIsModal={setIsModal}
+              setRatings={setRatings}
+            />
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }

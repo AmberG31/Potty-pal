@@ -6,7 +6,7 @@ import Navbar from '../components/navbar/Navbar';
 function MainLayout() {
   return (
     <div className="flex h-[100vh] flex-col">
-      <header className="z-20">
+      <header className="z-20 h-[10vh]">
         <Navbar />
       </header>
       <div className="flex-1">
