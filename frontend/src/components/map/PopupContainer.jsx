@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { CheckCircleIcon } from '@heroicons/react/24/outline';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import RatingStars from '../ratingStars/RatingStars';
 import { toiletPropTypes } from '../toilet/Toilet';
 
@@ -100,9 +101,9 @@ function PopupContainer({ toilet }) {
           </div>
         </div>
       </div>
-      <button type="button" className="btn mt-2 w-full">
-        Reviews
-      </button>
+      <Link to={`/toilets/${toilet._id}`}>
+        <div className="btn mt-2 w-full text-center">Reviews</div>
+      </Link>
     </>
   );
 }
