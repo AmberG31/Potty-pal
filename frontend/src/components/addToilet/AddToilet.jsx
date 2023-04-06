@@ -35,9 +35,7 @@ function AddToilet() {
     const convertAddressToGeolocation = async ({ address, city, postcode }) => {
       const nominatimEndpoint = 'https://nominatim.openstreetmap.org/search?';
       const fetchingURL = `${nominatimEndpoint}street=${address}&city=${city}&postcode=${postcode}&format=json`;
-      console.log(fetchingURL);
       const response = await axios.get(fetchingURL);
-      console.log(response.body);
       const { lat, lon } = response.data[0];
       return [lat, lon];
     };
@@ -62,8 +60,6 @@ function AddToilet() {
       address,
       photos: images.map(({ image }) => image),
     };
-
-    console.log(data);
 
     try {
       const response = await axios.post(`${url}/toilets`, data, config);
