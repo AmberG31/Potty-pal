@@ -1,32 +1,22 @@
-import React, { useRef, Fragment } from 'react';
-import {
-  MagnifyingGlassIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-} from '@heroicons/react/24/solid';
+/* eslint-disable react/jsx-one-expression-per-line */
+import React, { Fragment } from 'react';
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/solid';
 import { Menu, Transition } from '@headlessui/react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 
 function Navbar() {
-  const { logout, token } = React.useContext(AuthContext);
-  const searchRef = useRef();
-
-  const submitHandler = (event) => {
-    event.preventDefault();
-    console.log(searchRef.current.value);
-    searchRef.current.value = '';
-  };
+  const { logout, token, user } = React.useContext(AuthContext);
 
   return (
     <div className="z-0 flex w-full border border-b bg-white p-6">
-      <div className="grid w-full grid-cols-4 items-center justify-between gap-4 sm:grid-cols-3 sm:justify-between md:gap-10">
+      <div className="flex w-full items-center justify-between gap-4 sm:justify-between md:gap-10">
         {/* Logo */}
         <div id="branding" className="max-w-fit shrink">
           <Link to="/">
             <div className="flex gap-4">
               <div className="">
-                <img className="w-16" src="/mini-logo.svg" alt="" />
+                <img className="w-12 lg:w-16" src="/mini-logo.svg" alt="" />
               </div>
               <div className="hidden flex-col justify-center sm:block">
                 <h1 id="logo-title" className="text-3xl">
@@ -38,20 +28,6 @@ function Navbar() {
               </div>
             </div>
           </Link>
-        </div>
-        <div id="search-bar" className="z-0 col-span-3 sm:col-span-1">
-          <form
-            onSubmit={submitHandler}
-            className="flex rounded-lg border px-4 py-1"
-          >
-            <MagnifyingGlassIcon className="w-5" />
-            <input
-              type="text"
-              ref={searchRef}
-              className="h-full border-none p-3 font-thin focus:border-none focus:outline-none lg:min-w-[300px]"
-              placeholder="Search location"
-            />
-          </form>
         </div>
         <div
           id="menu-buttons"
@@ -92,7 +68,7 @@ function Navbar() {
                                   : 'text-gray-700'
                               } block px-4 py-2 text-sm`}
                             >
-                              View Toilets
+                              View Map
                             </Link>
                           )}
                         </Menu.Item>
@@ -154,17 +130,20 @@ function Navbar() {
                         {token ? (
                           <>
                             <Menu.Item>
-                              {({ active }) => (
-                                <Link
-                                  to="/user/profile"
-                                  className={`${
-                                    active
-                                      ? 'bg-gray-100 text-gray-900'
-                                      : 'text-gray-700'
-                                  } block px-4 py-2 text-sm`}
-                                >
-                                  Profile
-                                </Link>
+                              {() => (
+                                <div className="flex items-center gap-x-2 border-b px-4 py-3">
+                                  <img
+                                    src={`https://robohash.org/${user._id}`}
+                                    alt="profile-pic"
+                                    className="w-10 rounded-full border"
+                                  />
+                                  <p className="text-sm">
+                                    Log in as{' '}
+                                    <span className="ml-1 text-base font-bold capitalize">
+                                      {user.username}
+                                    </span>
+                                  </p>
+                                </div>
                               )}
                             </Menu.Item>
                             <Menu.Item>
@@ -173,7 +152,7 @@ function Navbar() {
                                   type="button"
                                   className={`${
                                     active
-                                      ? 'bg-gray-100 text-gray-900'
+                                      ? 'bg-red-100 text-red-900'
                                       : 'text-gray-700'
                                   } block w-full px-4 py-2 text-left text-sm`}
                                   onClick={logout}

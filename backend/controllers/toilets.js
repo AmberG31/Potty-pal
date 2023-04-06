@@ -9,7 +9,7 @@ const getAllToilets = async (req, res) => {
     const toilets = await Toilet.find()
       .sort({ createdAt: -1 })
       .populate([{ path: 'addedBy', model: 'User', select: 'username' }])
-      .populate([{ path: 'address', model: 'Address', select: 'geolocation' }])
+      .populate([{ path: 'address', model: 'Address' }])
       .populate([{ path: 'reviews', model: 'Review' }]);
     // Doesn't generate token if userId not found
     if (userId === undefined) {

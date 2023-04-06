@@ -58,10 +58,10 @@ function Toilet({ toilet }) {
       <div data-cy="toilet">
         <div className="mt-4 flex flex-col gap-4">
           <div
-            className="flex cursor-pointer overflow-hidden rounded-lg border hover:border-primary hover:bg-[#FFF8F0]"
+            className="flex max-h-32 cursor-pointer overflow-hidden rounded-lg border hover:border-primary hover:bg-[#FFF8F0]"
             key={toilet._id}
           >
-            <div id="toilet-photo" className="flex-0 relative h-32 w-32">
+            <div id="toilet-photo" className="flex-0 relative w-32">
               <img
                 src={imageUrl}
                 alt="toilet"
